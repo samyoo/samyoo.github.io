@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.4" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.0.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  
+  <meta name="keywords" content="java," />
+
+
+<meta name="description" content="这个包主要提供元素的streams函数操作，比如对collections的map,reduce.例如：1234int sum = widgets.stream()                      .filter(b -&amp;gt; b.getColor() == RED)                      .mapToInt(b -&amp;gt; b.getWeight())">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java8新特性之Stream">
+<meta property="og:url" content="http://samhome.cn/2018/02/27/java/Java8新特性之Stream/index.html">
+<meta property="og:site_name" content="Sam Home">
+<meta property="og:description" content="这个包主要提供元素的streams函数操作，比如对collections的map,reduce.例如：1234int sum = widgets.stream()                      .filter(b -&amp;gt; b.getColor() == RED)                      .mapToInt(b -&amp;gt; b.getWeight())">
+<meta property="og:locale" content="zh">
+<meta property="og:updated_time" content="2018-02-27T02:29:13.798Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java8新特性之Stream">
+<meta name="twitter:description" content="这个包主要提供元素的streams函数操作，比如对collections的map,reduce.例如：1234int sum = widgets.stream()                      .filter(b -&amp;gt; b.getColor() == RED)                      .mapToInt(b -&amp;gt; b.getWeight())">
+
+
+
+
+
+
+  <link rel="canonical" href="http://samhome.cn/2018/02/27/java/Java8新特性之Stream/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+  <title>Java8新特性之Stream | Sam Home</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sam Home</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">开发日记，技术记录</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/27/java/Java8新特性之Stream/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Java8新特性之Stream</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-27T11:29:44+08:00">2018-02-27</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这个包主要提供元素的streams函数操作，比如对collections的map,reduce.<br>例如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> sum = widgets.stream()</span><br><span class="line">                      .filter(b -&gt; b.getColor() == RED)</span><br><span class="line">                      .mapToInt(b -&gt; b.getWeight())</span><br><span class="line">                      .sum();</span><br></pre></td></tr></table></figure></p>
+<p>本例中的widgets是Stream的源，类型为Collection，通过filter-&gt;map-&gt;reduce操作获取red widget的sum weight.<br>除了基本的Stream,JAVA8还专门为基础类型int,long,double提供了<code>IntStream</code>,<code>LongStream</code>,<code>DoubleStream</code>.</p>
+<h3 id="Streams和collections的不同之处"><a href="#Streams和collections的不同之处" class="headerlink" title="Streams和collections的不同之处"></a>Streams和collections的不同之处</h3><ol>
+<li>Stream没有存储。即不是一个存储结构，而是通过管道操作从Array,IO channel等转换而来。</li>
+<li>Stream本质上是泛函。Streams上的操作不会修改源数据，比如filter操作只是将符合要求的数据放在一个新的Stream,而不是真的删除源数据。</li>
+<li>Laziness-seeking，懒查询。</li>
+<li>大小不受限制，collections 有大小限制，streams没有。比如，limit或者findfirst等Short-circuiting操作会在有限的时间内完成无限的大小的streams操作。</li>
+<li>不可逆的，streams中的元素只能被操作一次。就像流水一样，一去不复返。如果你希望在源数据中获取一个新的Stream,必须在源数据上重新开始。</li>
+</ol>
+<h3 id="Stream创建"><a href="#Stream创建" class="headerlink" title="Stream创建"></a>Stream创建</h3><p>怎样创建一个Stream呢，有下面几种方法：</p>
+<ul>
+<li>Collection的Stream()和paralleStream()方法。</li>
+<li>Arrays.stream(Object[])</li>
+<li>Stream 类的静态方法，比如:  </li>
+</ul>
+<blockquote>
+<p><code>Stream.of(Object[]),IntStream.range(int, int)</code><br><code>Stream.iterate(Object, UnaryOperator)</code></p>
+</blockquote>
+<ul>
+<li>File的lines操作， BufferedReader.lines();</li>
+<li>Files中的一些方法获取file path的stream.例如:</li>
+</ul>
+<blockquote>
+<p><code>static Stream&lt;Path&gt; list(Path dir)</code><br><code>static Stream&lt;Path&gt;  walk(Path start, FileVisitOption... options)</code></p>
+</blockquote>
+<ul>
+<li>Random.ints()返回IntStream </li>
+<li>JDK中也有很多方法产生Stream,比如</li>
+</ul>
+<blockquote>
+<p><code>BitSet.stream()</code><br><code>Pattern.splitAsStream(java.lang.CharSequence)</code><br><code>JarFile.stream()</code>   </p>
+</blockquote>
+<h5 id="1-接口"><a href="#1-接口" class="headerlink" title="1.接口"></a>1.接口</h5><blockquote>
+<p><code>BaseStream&lt;T,S extends BaseStream&lt;T,S&gt;&gt;</code>  </p>
+</blockquote>
+<p>Streams的Base interface,支持各种并行和线性聚合操作。<br><code>Collector&lt;T,A,R&gt;</code>，可以将元素聚集在一个容器中，容器类型可变，比如List,Map. 是一个Stream处理完毕之后的结束操作。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">DoubleStream ，处理double类型的stream </span><br><span class="line">DoubleStream.Builder, 可变的builder。 </span><br><span class="line">IntStream，处理int类型的stream. </span><br><span class="line">IntStream.Builder, 可变的builder </span><br><span class="line">LongStream,处理Long类型的Stream. </span><br><span class="line">LongStream.Builder,可变的builder</span><br><span class="line"></span><br><span class="line">Stream&lt;T&gt; -–数据流，支持并行和线性聚合操作。 </span><br><span class="line">Stream.Builder&lt;T&gt;—-Stream的可变builder.</span><br></pre></td></tr></table></figure></p>
+<h5 id="2-类"><a href="#2-类" class="headerlink" title="2.类"></a>2.类</h5><p>执行Collector reduce操作的类，比如将元素聚合为collection,list等。<br>StreamSupport，创建和处理Stream的低级工具。</p>
+<h5 id="3-Enum"><a href="#3-Enum" class="headerlink" title="3.Enum"></a>3.Enum</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Collector.Characteristics—Collector的属性，可以用于优化reduce 操作。 </span><br><span class="line">Collector.Characteristics CONCURRENT：表示collector的result container可以被多个线程同时处理。 </span><br><span class="line">Collector.Characteristics UNORDERED：collection操作不保证操作元素的原有顺序 </span><br><span class="line">Collector.Characteristics IDENTITY_FINISH：类型转换时不会检查</span><br></pre></td></tr></table></figure>
+<h3 id="Stream的操作和管道"><a href="#Stream的操作和管道" class="headerlink" title="Stream的操作和管道"></a>Stream的操作和管道</h3><p>Stream操作是管道操作，操作分为中间操作和结束操作两种。整个管道操作的流程为数据源-&gt;中间操作-&gt;结束操作。<br><strong>中间操作</strong>比如：<code>Stream.filter</code>、<code>Stream.map</code>,可以有0个或者多个中间操作。<br><strong>结束操作</strong>比如：<code>Sream.foreach</code>、<code>Stream.reduce</code>，<code>Stream.collect</code>,结束操作是必须的。<br>中间操作返回的仍然是stream,这些操作经常是“懒惰的”。比如filter操作，并非真的对源数据进行过滤，而是重新创建一个Stream。而且当多个中间操作时，不是真的每次都去遍历源数据，而是在结束操作时，才会去遍历源数据，从而执行这些中间操作。在遍历中，操作的懒惰性表现在，并不是每次都是遍历所有的数据，比如“找出长度大于1000的第一个String”,找到之后就会返回。</p>
+<p>结束操作的目的是将Stream转换为想要的结果或者结构。当结束操作之后，<strong>当前管道结束，不可以再重复使用。如果你仍然想操作源数据，那你必须创建一个新的Stream。</strong></p>
+<p>中间操作又分为<strong>无状态</strong>和<strong>有状态</strong>两种。比如map和filter是无状态操作，也就是各元素间的操作是无关的，可单独进行。而distinct和sorted 是有状态操作，在操作时需要用到前元素，也就是元素之间的处理是相关的。<br>有状态的操作必须全部执行完毕的时候才能装入结果中。</p>
+<h5 id="1-并行操作"><a href="#1-并行操作" class="headerlink" title="1.并行操作"></a>1.并行操作</h5><p>JDK的默认操作都是线性的，或者说单线程的。并行操作可以通过Collection.parallelStream()和BaseStream.parallel()实现。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> sumOfWeights = widgets.parallelStream()</span><br><span class="line">                               .filter(b -&gt; b.getColor() == RED)</span><br><span class="line">                               .mapToInt(b -&gt; b.getWeight())</span><br><span class="line">                               .sum();</span><br></pre></td></tr></table></figure></p>
+<p>检查一个Stream的执行方式可以调用 isParallel() 方法。</p>
+<p>但并不是所有的数据都是可以使用并行操作的。要执行的操作必须是可以并行执行的，也就是多个线程操作之后，和顺序执行的结果是一致的，即线程安全。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>[] wordLength = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">12</span>];</span><br><span class="line"></span><br><span class="line">Stream.of(<span class="string">"It"</span>, <span class="string">"is"</span>, <span class="string">"your"</span>, <span class="string">"responsibility"</span>).parallel().forEach(s -&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (s.length() &lt; <span class="number">12</span>) wordLength[s.length()]++;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>比如上面的wordlength操作就是非线程安全的。</p>
+<h5 id="2-非干扰性"><a href="#2-非干扰性" class="headerlink" title="2.非干扰性"></a>2.非干扰性</h5><p>通常在结束操作之前，源数据都是可以修改的。除了一些Concurrent数据，还有iterator,spliterator操作。<br>下面的例子就是正确的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; l = <span class="keyword">new</span> ArrayList(Arrays.asList(<span class="string">"one"</span>, <span class="string">"two"</span>));</span><br><span class="line">     Stream&lt;String&gt; sl = l.stream();</span><br><span class="line">     l.add(<span class="string">"three"</span>);</span><br><span class="line">     String s = sl.collect(joining(<span class="string">" "</span>));</span><br></pre></td></tr></table></figure>
+<h5 id="3-无状态的行为"><a href="#3-无状态的行为" class="headerlink" title="3.无状态的行为"></a>3.无状态的行为</h5><p>在streams操作中使用无状态的行为，即操作的结果不受其他状态的影响，就比如上面提高的parallel操作要考虑多线程的行为，是否有线程安全问题。</p>
+<h5 id="4-collect-reduce操作通常是线程安全的"><a href="#4-collect-reduce操作通常是线程安全的" class="headerlink" title="4.collect,reduce操作通常是线程安全的."></a>4.collect,reduce操作通常是线程安全的.</h5><h5 id="5-顺序"><a href="#5-顺序" class="headerlink" title="5.顺序"></a>5.顺序</h5><p>对于有顺序的源数据，比如list,set,Stream操作之后仍然会按照顺序排（线性操作）。<br>如果是非固定顺序的数据源，则不保证其最后处理的顺序。<br>对于线性Streams,源的固定顺序对性能没有特别影响。<br>对于并行Streams,不强调顺序的话显然性能会更好。比如filter,distinct,groupingBy操作，非顺序操作的效率就更好.<br>另外，如果数据本身是固定顺序的，但是开发者本身不在意是否按顺序处理，那么可以通过unordered()处理之后再操作，会提高某些有状态的并行操作和结束操作的效率。</p>
+<p>下面穿插一些线程安全的操作例子：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; datalist=<span class="keyword">new</span> ArrayList&lt;&gt;(<span class="number">1000</span>);</span><br><span class="line">List&lt;Integer&gt; datalist_collect=<span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"><span class="comment">//无状态的并行操作，即元素的操作和其他元素状态无关，线程安全</span></span><br><span class="line">        <span class="keyword">long</span> sum = IntStream.range(<span class="number">0</span>,<span class="number">1000</span>).parallel().filter(s-&gt;s%<span class="number">2</span>==<span class="number">0</span>).count();</span><br><span class="line">        System.out.println(<span class="string">"并行:"</span>+sum);</span><br><span class="line"><span class="comment">//datalist为非线程安全的，因此属于有状态并行操作，非线程安全     IntStream.range(0,1000).parallel().forEach(data-&gt;datalist.add(data));</span></span><br><span class="line">        System.out.println(<span class="string">"并行foreach:"</span>+datalist.size());</span><br><span class="line"></span><br><span class="line"><span class="comment">//collect操作线程安全</span></span><br><span class="line">datalist_collect=IntStream.range(<span class="number">0</span>,<span class="number">1000</span>).parallel().collect(ArrayList::<span class="keyword">new</span>, (c,e)-&gt;c.add(e), (c1,c2)-&gt;c1.addAll(c2));</span><br><span class="line">        System.out.println(<span class="string">"并行collect:"</span>+datalist_collect.size());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> sum2 = IntStream.range(<span class="number">0</span>,<span class="number">1000</span>).filter(s-&gt;s%<span class="number">2</span>==<span class="number">0</span>).count();</span><br><span class="line">            System.out.println(<span class="string">"串行:"</span>+sum2);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        List&lt;Integer&gt; intlist=IntStream.range(<span class="number">0</span>,<span class="number">10</span>).collect(ArrayList::<span class="keyword">new</span>, (c,e)-&gt;c.add(e), (c1,c2)-&gt;c1.addAll(c2));</span><br><span class="line">        System.out.println(<span class="string">"并行数据开始："</span>);</span><br><span class="line">  <span class="comment">//并行操作时无顺序    intlist.parallelStream().map(e-&gt;e+1).forEach(System.out::println);</span></span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"串行数据开始："</span>);</span><br><span class="line"><span class="comment">//串行操作保证顺序</span></span><br><span class="line">        intlist.stream().forEach(System.out::println);</span><br><span class="line">        System.out.println(<span class="string">"串行数据结束："</span>);</span><br></pre></td></tr></table></figure></p>
+<p>运行结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">并行:500</span><br><span class="line">并行foreach:980</span><br><span class="line">并行collect:1000</span><br><span class="line">串行:500</span><br><span class="line">并行数据开始：</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">10</span><br><span class="line">6</span><br><span class="line">5</span><br><span class="line">4</span><br><span class="line">1</span><br><span class="line">9</span><br><span class="line">3</span><br><span class="line">2</span><br><span class="line">串行数据开始：</span><br><span class="line">0</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">串行数据结束</span><br></pre></td></tr></table></figure>
+<h5 id="6-Reduction-操作"><a href="#6-Reduction-操作" class="headerlink" title="6.Reduction 操作"></a>6.Reduction 操作</h5><p>Reduction操作将元素通过合并操作还原为一个result,比如总数，最大值，元素存入list等。<br>Reduction操作的函数有很多，比如 reduce(),collect(),sum(),max(),count()等。<br>Reduction操作不仅看起来简洁，而且可以使用并行来实现，效率高，不存在效率安全问题，比如<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> x : numbers) &#123;</span><br><span class="line">       sum += x;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//改写为</span></span><br><span class="line"><span class="keyword">int</span> sum = numbers.parallelStream().reduce(<span class="number">0</span>, Integer::sum);</span><br></pre></td></tr></table></figure></p>
+<p>Reduce()定义1：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">T <span class="title">reduce</span><span class="params">(T identity,</span></span></span><br><span class="line"><span class="function"><span class="params">         BinaryOperator&lt;T&gt; accumulator)</span></span></span><br></pre></td></tr></table></figure></p>
+<p>该方法使用提供的identity和accumulator来获取result.等同于下面的写法，其实identity就是计算的初始值：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">T result = identity;</span><br><span class="line">     <span class="keyword">for</span> (T element : <span class="keyword">this</span> stream)</span><br><span class="line">         result = accumulator.apply(result, element)</span><br><span class="line">     <span class="keyword">return</span> result;</span><br></pre></td></tr></table></figure></p>
+<p>但于for循环不同的是，reduce操作不局限于线性运行。但对于同一个对象T,其accumulator的运算结果必须相同。</p>
+<p>Reduce()定义2：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Optional&lt;T&gt; <span class="title">reduce</span><span class="params">(BinaryOperator&lt;T&gt; accumulator)</span></span></span><br><span class="line"><span class="function"><span class="comment">//这个操作等同于：</span></span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> foundAny </span>= <span class="keyword">false</span>;</span><br><span class="line">     T result = <span class="keyword">null</span>;</span><br><span class="line">     <span class="keyword">for</span> (T element : <span class="keyword">this</span> stream) &#123;</span><br><span class="line">         <span class="keyword">if</span> (!foundAny) &#123;</span><br><span class="line">             foundAny = <span class="keyword">true</span>;</span><br><span class="line">             result = element;</span><br><span class="line">         &#125;</span><br><span class="line">         <span class="keyword">else</span></span><br><span class="line">             result = accumulator.apply(result, element);</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span> foundAny ? Optional.of(result) : Optional.empty();</span><br></pre></td></tr></table></figure></p>
+<p>Reduce()定义3：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;U&gt; <span class="function">U <span class="title">reduce</span><span class="params">(U identity,</span></span></span><br><span class="line"><span class="function"><span class="params">             BiFunction&lt;U,? <span class="keyword">super</span> T,U&gt; accumulator,</span></span></span><br><span class="line"><span class="function"><span class="params">             BinaryOperator&lt;U&gt; combiner)</span></span></span><br><span class="line"><span class="function"><span class="comment">//这个操作等同于：</span></span></span><br><span class="line"><span class="function"> U result </span>= identity;</span><br><span class="line">     <span class="keyword">for</span> (T element : <span class="keyword">this</span> stream)</span><br><span class="line">         result = accumulator.apply(result, element)</span><br><span class="line">     <span class="keyword">return</span> result;</span><br></pre></td></tr></table></figure>
+<p>此方法通常用于将map和reduce操作的结合来使用。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/27/java/Java8的lambda表达式/" rel="next" title="Java8的lambda表达式">
+                <i class="fa fa-chevron-left"></i> Java8的lambda表达式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/02/27/sql/mysql/mysql命令语句/" rel="prev" title="mysql生成数据字典">
+                mysql生成数据字典 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Sam guo</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Streams和collections的不同之处"><span class="nav-number">1.</span> <span class="nav-text">Streams和collections的不同之处</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Stream创建"><span class="nav-number">2.</span> <span class="nav-text">Stream创建</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-接口"><span class="nav-number">2.0.1.</span> <span class="nav-text">1.接口</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-类"><span class="nav-number">2.0.2.</span> <span class="nav-text">2.类</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-Enum"><span class="nav-number">2.0.3.</span> <span class="nav-text">3.Enum</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Stream的操作和管道"><span class="nav-number">3.</span> <span class="nav-text">Stream的操作和管道</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-并行操作"><span class="nav-number">3.0.1.</span> <span class="nav-text">1.并行操作</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-非干扰性"><span class="nav-number">3.0.2.</span> <span class="nav-text">2.非干扰性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-无状态的行为"><span class="nav-number">3.0.3.</span> <span class="nav-text">3.无状态的行为</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-collect-reduce操作通常是线程安全的"><span class="nav-number">3.0.4.</span> <span class="nav-text">4.collect,reduce操作通常是线程安全的.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-顺序"><span class="nav-number">3.0.5.</span> <span class="nav-text">5.顺序</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-Reduction-操作"><span class="nav-number">3.0.6.</span> <span class="nav-text">6.Reduction 操作</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sam guo</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Muse</a> v6.0.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.4"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
