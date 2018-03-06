@@ -279,6 +279,588 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/03/06/git/git合并多个commit/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/06/git/git合并多个commit/" itemprop="url">git合并多个commit</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-06T16:14:39+08:00">2018-03-06</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/git/" itemprop="url" rel="index"><span itemprop="name">git</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>在使用 Git 作为版本控制的时候，我们可能会由于各种各样的原因提交了许多临时的 commit，而这些 commit 拼接起来才是完整的任务。那么我们为了避免太多的 commit 而造成版本控制的混乱，通常我们推荐将这些 commit 合并成一个。</p>
+</blockquote>
+<p>首先假设我们有3个 commit<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">commit 3a78357cc04084a650922453c467d6da9fc77eb2</span><br><span class="line">Author: sam </span><br><span class="line">Date:   Tue Mar 6 10:38:00 2018 +0800</span><br><span class="line"></span><br><span class="line">    commit1</span><br><span class="line"></span><br><span class="line">commit 3265065072c9c3f760b260c75b4a99187ea7a244</span><br><span class="line">Author: sam </span><br><span class="line">Date:   Mon Mar 5 18:19:04 2018 +0800</span><br><span class="line"></span><br><span class="line">    commit2</span><br><span class="line"></span><br><span class="line">commit 0d2ff3ac759d10b7fad87f09fdd2bb938eadf190</span><br><span class="line">Author: sam </span><br><span class="line">Date:   Fri Mar 2 17:57:07 2018 +0800</span><br><span class="line"></span><br><span class="line">    commit3</span><br></pre></td></tr></table></figure></p>
+<p>运行<code>git rebase -i 0d2ff3ac</code>其中，-i 的参数是不需要合并的 commit 的 hash 值，这里指的是第一条 commit， 接着我们就进入到 vi 的编辑模式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">pick 3a78357c commit1 </span><br><span class="line">pick 32650650 commit2 </span><br><span class="line"> </span><br><span class="line"># Rebase 3a78357c..32650650 onto 0d2ff3ac (3 commands) </span><br><span class="line"># </span><br><span class="line"># Commands: </span><br><span class="line"># p, pick = use commit </span><br><span class="line"># r, reword = use commit, but edit the commit message </span><br><span class="line"># e, edit = use commit, but stop for amending </span><br><span class="line"># s, squash = use commit, but meld into previous commit </span><br><span class="line"># f, fixup = like &quot;squash&quot;, but discard this commit&apos;s log message </span><br><span class="line"># x, exec = run command (the rest of the line) using shell </span><br><span class="line"># d, drop = remove commit </span><br><span class="line"># </span><br><span class="line"># These lines can be re-ordered; they are executed from top to bottom. </span><br><span class="line"># </span><br><span class="line"># If you remove a line here THAT COMMIT WILL BE LOST. </span><br><span class="line"># </span><br><span class="line"># However, if you remove everything, the rebase will be aborted. </span><br><span class="line"># </span><br><span class="line"># Note that empty commits are commented out</span><br></pre></td></tr></table></figure>
+<p>我们只要知道 pick 和 squash 这两个参数即可。</p>
+<ul>
+<li>pick 的意思是要会执行这个 commit</li>
+<li>squash 的意思是这个 commit 会被合并到前一个commit</li>
+</ul>
+<p>我们将 hash1 这个 commit 前方的命令改成 squash 或 s，然后输入:wq以保存并退出</p>
+<p><strong><em>注意事项：</em></strong> 如果这个过程中有操作错误，可以使用 <code>git rebase --abort</code>来撤销修改，回到没有开始操作合并之前的状态</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/03/06/java/maven配置nexus本地仓库/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/06/java/maven配置nexus本地仓库/" itemprop="url">maven配置nexus本地仓库</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-06T11:29:44+08:00">2018-03-06</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="配置文件如下："><a href="#配置文件如下：" class="headerlink" title="配置文件如下："></a>配置文件如下：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;settings xmlns=&quot;http://maven.apache.org/SETTINGS/1.0.0&quot;</span><br><span class="line">          xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">          xsi:schemaLocation=&quot;http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd&quot;&gt;</span><br><span class="line">    &lt;!-- localRepository</span><br><span class="line">     | The path to the local repository maven will use to store artifacts.</span><br><span class="line">     |</span><br><span class="line">     | Default: $&#123;user.home&#125;/.m2/repository</span><br><span class="line">    &lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;</span><br><span class="line">    --&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- interactiveMode</span><br><span class="line">     | This will determine whether maven prompts you when it needs input. If set to false,</span><br><span class="line">     | maven will use a sensible default value, perhaps based on some other setting, for</span><br><span class="line">     | the parameter in question.</span><br><span class="line">     |</span><br><span class="line">     | Default: true</span><br><span class="line">    &lt;interactiveMode&gt;true&lt;/interactiveMode&gt;</span><br><span class="line">    --&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- offline</span><br><span class="line">     | Determines whether maven should attempt to connect to the network when executing a build.</span><br><span class="line">     | This will have an effect on artifact downloads, artifact deployment, and others.</span><br><span class="line">     |</span><br><span class="line">     | Default: false</span><br><span class="line">    &lt;offline&gt;false&lt;/offline&gt;</span><br><span class="line">    --&gt;</span><br><span class="line"></span><br><span class="line">    &lt;pluginGroups&gt;</span><br><span class="line">    &lt;/pluginGroups&gt;</span><br><span class="line"></span><br><span class="line">    &lt;proxies&gt;</span><br><span class="line">    &lt;/proxies&gt;</span><br><span class="line"></span><br><span class="line">    &lt;servers&gt;</span><br><span class="line">        &lt;server&gt;</span><br><span class="line">            &lt;id&gt;releases&lt;/id&gt;</span><br><span class="line">            &lt;username&gt;deployment&lt;/username&gt;</span><br><span class="line">            &lt;password&gt;12345678&lt;/password&gt;</span><br><span class="line">        &lt;/server&gt;</span><br><span class="line">        &lt;server&gt;</span><br><span class="line">            &lt;id&gt;snapshots&lt;/id&gt;</span><br><span class="line">            &lt;username&gt;deployment&lt;/username&gt;</span><br><span class="line">            &lt;password&gt;12345678&lt;/password&gt;</span><br><span class="line">        &lt;/server&gt;</span><br><span class="line">    &lt;/servers&gt;</span><br><span class="line"></span><br><span class="line">    &lt;mirrors&gt;</span><br><span class="line">        &lt;mirror&gt;</span><br><span class="line">            &lt;id&gt;public-nexus&lt;/id&gt;</span><br><span class="line">            &lt;name&gt;Human Readable Name for this Mirror.&lt;/name&gt;</span><br><span class="line">            &lt;url&gt;http://192.168.60.30:8081/nexus/content/groups/public/&lt;/url&gt;</span><br><span class="line">            &lt;mirrorOf&gt;*&lt;/mirrorOf&gt;</span><br><span class="line">        &lt;/mirror&gt;</span><br><span class="line">    &lt;/mirrors&gt;</span><br><span class="line"></span><br><span class="line">    &lt;profiles&gt;</span><br><span class="line">        &lt;profile&gt;</span><br><span class="line">            &lt;id&gt;jdk18&lt;/id&gt;</span><br><span class="line">            &lt;activation&gt;</span><br><span class="line">                &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;</span><br><span class="line">                &lt;jdk&gt;1.8&lt;/jdk&gt;</span><br><span class="line">            &lt;/activation&gt;</span><br><span class="line">            &lt;properties&gt;</span><br><span class="line">                &lt;maven.compiler.source&gt;1.8&lt;/maven.compiler.source&gt;</span><br><span class="line">                &lt;maven.compiler.target&gt;1.8&lt;/maven.compiler.target&gt;</span><br><span class="line">                &lt;maven.compiler.compilerVersion&gt;1.8&lt;/maven.compiler.compilerVersion&gt;</span><br><span class="line">            &lt;/properties&gt;</span><br><span class="line">        &lt;/profile&gt;</span><br><span class="line">        &lt;profile&gt;</span><br><span class="line">            &lt;id&gt;nexus-profile-iss&lt;/id&gt;</span><br><span class="line">            &lt;repositories&gt;</span><br><span class="line">                &lt;repository&gt;</span><br><span class="line">                    &lt;id&gt;nexus-iss&lt;/id&gt;</span><br><span class="line">                    &lt;url&gt;http://192.168.60.30:8081/nexus/content/groups/public/&lt;/url&gt;</span><br><span class="line">                    &lt;releases&gt;</span><br><span class="line">                        &lt;enabled&gt;true&lt;/enabled&gt;</span><br><span class="line">                    &lt;/releases&gt;</span><br><span class="line">                    &lt;snapshots&gt;</span><br><span class="line">                        &lt;enabled&gt;true&lt;/enabled&gt;</span><br><span class="line">                    &lt;/snapshots&gt;</span><br><span class="line">                &lt;/repository&gt;</span><br><span class="line">            &lt;/repositories&gt;</span><br><span class="line">            &lt;pluginRepositories&gt;</span><br><span class="line">                &lt;pluginRepository&gt;</span><br><span class="line">                    &lt;id&gt;nexus-iss&lt;/id&gt;</span><br><span class="line">                    &lt;url&gt;http://192.168.60.30:8081/nexus/content/groups/public/&lt;/url&gt;</span><br><span class="line">                    &lt;releases&gt;</span><br><span class="line">                        &lt;enabled&gt;true&lt;/enabled&gt;</span><br><span class="line">                    &lt;/releases&gt;</span><br><span class="line">                    &lt;snapshots&gt;</span><br><span class="line">                        &lt;enabled&gt;true&lt;/enabled&gt;</span><br><span class="line">                    &lt;/snapshots&gt;</span><br><span class="line">                &lt;/pluginRepository&gt;</span><br><span class="line">            &lt;/pluginRepositories&gt;</span><br><span class="line">        &lt;/profile&gt;</span><br><span class="line">    &lt;/profiles&gt;</span><br><span class="line"></span><br><span class="line">    &lt;activeProfiles&gt;</span><br><span class="line">        &lt;activeProfile&gt;jdk18&lt;/activeProfile&gt;</span><br><span class="line">        &lt;activeProfile&gt;nexus-profile-iss&lt;/activeProfile&gt;</span><br><span class="line">    &lt;/activeProfiles&gt;</span><br><span class="line">&lt;/settings&gt;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/03/05/java/spring/hibernate validator注解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/05/java/spring/hibernate validator注解/" itemprop="url">hibernate validator注解</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-05T11:29:44+08:00">2018-03-05</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Bean Validation 中内置的 constraint         </span></span><br><span class="line"><span class="meta">@Null</span>   被注释的元素必须为 <span class="keyword">null</span>    </span><br><span class="line"><span class="meta">@NotNull</span>    被注释的元素必须不为 <span class="keyword">null</span>    </span><br><span class="line"><span class="meta">@AssertTrue</span>     被注释的元素必须为 <span class="keyword">true</span>    </span><br><span class="line"><span class="meta">@AssertFalse</span>    被注释的元素必须为 <span class="keyword">false</span>    </span><br><span class="line"><span class="meta">@Min</span>(value)     被注释的元素必须是一个数字，其值必须大于等于指定的最小值    </span><br><span class="line"><span class="meta">@Max</span>(value)     被注释的元素必须是一个数字，其值必须小于等于指定的最大值    </span><br><span class="line"><span class="meta">@DecimalMin</span>(value)  被注释的元素必须是一个数字，其值必须大于等于指定的最小值    </span><br><span class="line"><span class="meta">@DecimalMax</span>(value)  被注释的元素必须是一个数字，其值必须小于等于指定的最大值    </span><br><span class="line"><span class="meta">@Size</span>(max=, min=)   被注释的元素的大小必须在指定的范围内    </span><br><span class="line"><span class="meta">@Digits</span> (integer, fraction)     被注释的元素必须是一个数字，其值必须在可接受的范围内    </span><br><span class="line"><span class="meta">@Past</span>   被注释的元素必须是一个过去的日期    </span><br><span class="line"><span class="meta">@Future</span>     被注释的元素必须是一个将来的日期    </span><br><span class="line"><span class="meta">@Pattern</span>(regex=,flag=)  被注释的元素必须符合指定的正则表达式    </span><br><span class="line">    </span><br><span class="line"><span class="comment">//Hibernate Validator 附加的 constraint    </span></span><br><span class="line"><span class="meta">@NotBlank</span>(message =)   验证字符串非<span class="keyword">null</span>，且长度必须大于<span class="number">0</span>    </span><br><span class="line"><span class="meta">@Email</span>  被注释的元素必须是电子邮箱地址    </span><br><span class="line"><span class="meta">@Length</span>(min=,max=)  被注释的字符串的大小必须在指定的范围内    </span><br><span class="line"><span class="meta">@NotEmpty</span>   被注释的字符串的必须非空    </span><br><span class="line"><span class="meta">@Range</span>(min=,max=,message=)  被注释的元素必须在合适的范围内</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/03/01/linux/ubuntu/开机出现busybox v1.22.1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/01/linux/ubuntu/开机出现busybox v1.22.1/" itemprop="url">开机出现busybox v1.22.1(debian 1:1.22.0-19) built-in shell(ash)解决方案</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-01T09:33:44+08:00">2018-03-01</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/运维/" itemprop="url" rel="index"><span itemprop="name">运维</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>出现这个问题的根源是硬盘处错误了，再开机logo时按esc就会看到检查错误。下面记录下解决方法。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>这个是查看硬盘的命令里面会列出所有分区</span><br><span class="line">blkid</span><br><span class="line"><span class="meta">#</span>运行fsck命令，注意sdaX，X代表的就是你的分区号，可以在列表中找到</span><br><span class="line">fsck -y /dev/sdaX</span><br><span class="line"><span class="meta">#</span>完成后执行exit退出重启电脑就可以了</span><br><span class="line">exit</span><br></pre></td></tr></table></figure>
+<ul>
+<li><a href="http://www.jianshu.com/p/0cb89814bc08" target="_blank" rel="noopener"><code>几种引导异常导致无法正常开机的解决办法</code></a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/28/java/java8的一些使用示例/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -372,6 +954,308 @@
 <h4 id="List-To-Map"><a href="#List-To-Map" class="headerlink" title="List To Map"></a>List To Map</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// key = name, value - id</span></span><br><span class="line">Map&lt;String, Long&gt; result2 = list.stream().collect(</span><br><span class="line">        Collectors.toMap(Bean::getName, Bean::getId));</span><br><span class="line"></span><br><span class="line"><span class="comment">// Same with result1, just different syntax</span></span><br><span class="line"><span class="comment">// key = id, value = name</span></span><br><span class="line">Map&lt;Integer, String&gt; result3 = list.stream().collect(</span><br><span class="line">         Collectors.toMap(x -&gt; x.getId(), x -&gt; x.getName()));</span><br></pre></td></tr></table></figure>
 <h4 id="返回当前日期，在一年中的第几周"><a href="#返回当前日期，在一年中的第几周" class="headerlink" title="返回当前日期，在一年中的第几周"></a>返回当前日期，在一年中的第几周</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getLocalWeek</span><span class="params">(LocalDate date)</span></span>&#123;</span><br><span class="line">    <span class="comment">// Or use a specific locale, or configure your own rules</span></span><br><span class="line">    <span class="comment">//WeekFields weekFields = WeekFields.of(Locale.CHINESE);</span></span><br><span class="line">    <span class="keyword">int</span> weekNumber = date.get(WeekFields.ISO.weekOfWeekBasedYear());</span><br><span class="line">    <span class="keyword">return</span> weekNumber;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="格式化日期时间"><a href="#格式化日期时间" class="headerlink" title="格式化日期时间"></a>格式化日期时间</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">format</span><span class="params">(LocalDateTime ldt)</span></span>&#123;</span><br><span class="line">     DateTimeFormatter dt = <span class="keyword">new</span> DateTimeFormatterBuilder()</span><br><span class="line">             .appendValue(HOUR_OF_DAY, <span class="number">2</span>)</span><br><span class="line">             .appendLiteral(<span class="string">':'</span>)</span><br><span class="line">             .appendValue(MINUTE_OF_HOUR, <span class="number">2</span>)</span><br><span class="line">             .optionalStart()</span><br><span class="line">             .appendLiteral(<span class="string">':'</span>)</span><br><span class="line">             .appendValue(SECOND_OF_MINUTE, <span class="number">2</span>).toFormatter();</span><br><span class="line"></span><br><span class="line">     DateTimeFormatter df = <span class="keyword">new</span> DateTimeFormatterBuilder()</span><br><span class="line">             .parseCaseInsensitive()</span><br><span class="line">             .append(DateTimeFormatter.ISO_LOCAL_DATE)</span><br><span class="line">             .appendLiteral(<span class="string">' '</span>)</span><br><span class="line">             .append(dt).toFormatter();</span><br><span class="line"></span><br><span class="line">     <span class="keyword">return</span> ldt.format(df);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/28/git/gitlab安装配置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/28/git/gitlab安装配置/" itemprop="url">gitlab安装配置</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-28T11:45:44+08:00">2018-02-28</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/git/" itemprop="url" rel="index"><span itemprop="name">git</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="搭建"><a href="#搭建" class="headerlink" title="搭建"></a>搭建</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>安装依赖软件</span><br><span class="line">sudo apt-get install -y curl openssh-server ca-certificates</span><br><span class="line">sudo apt-get install -y postfix</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>Add the GitLab package repository.</span><br><span class="line">curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh | sudo bash</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>install the GitLab package.</span><br><span class="line">sudo apt-get install gitlab-ce</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>Configure and start GitLab</span><br><span class="line">sudo gitlab-ctl reconfigure</span><br></pre></td></tr></table></figure>
+<h3 id="特殊配置"><a href="#特殊配置" class="headerlink" title="特殊配置"></a>特殊配置</h3><p> gitlab安装完成后会有一个默认的存储代码仓库的路径，建议自己自定义到大磁盘上，以免之后磁盘空间引起不必要的麻烦。</p>
+<h4 id="配置gitlab的项目代码存储目录为-data-GitData-git-data"><a href="#配置gitlab的项目代码存储目录为-data-GitData-git-data" class="headerlink" title="配置gitlab的项目代码存储目录为 /data/GitData/git-data/"></a>配置gitlab的项目代码存储目录为 /data/GitData/git-data/</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -pv /data/GitData/git-data/</span><br><span class="line">chown git -R  /data/GitData/git-data/</span><br></pre></td></tr></table></figure>
+<h4 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> /etc/gitlab/gitlab.rb 添加配置：</span><br><span class="line">git_data_dirs(&#123; "default" =&gt; &#123; "path" =&gt; "/data/GitData/git-data" &#125; &#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="配置访问的域名"><a href="#配置访问的域名" class="headerlink" title="配置访问的域名."></a>配置访问的域名.</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>/etc/gitlab/gitlab.rb 修改配置：</span><br><span class="line">external_url 'http://git.xxxx.com'</span><br></pre></td></tr></table></figure>
+<h4 id="配置生效"><a href="#配置生效" class="headerlink" title="配置生效"></a>配置生效</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gitlab-ctl reconfigure</span><br></pre></td></tr></table></figure>
+<h3 id="使用命令"><a href="#使用命令" class="headerlink" title="使用命令"></a>使用命令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>查看状态：</span><br><span class="line">sudo gitlab-ctl status;</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span>Start all GitLab components (启动)</span><br><span class="line">sudo gitlab-ctl start</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span>Stop all GitLab components (停止)</span><br><span class="line">sudo gitlab-ctl stop</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span>Restart all GitLab components(重启)</span><br><span class="line">sudo gitlab-ctl restart</span><br></pre></td></tr></table></figure>
+<h3 id="备份"><a href="#备份" class="headerlink" title="备份"></a>备份</h3><p> 使用一条命令即可创建完整的Gitlab备份:<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gitlab-rake gitlab:backup:create</span><br></pre></td></tr></table></figure></p>
+<p>使用以上命令会在/var/opt/gitlab/backups目录下创建一个名称类似为<code>1508136272_2017_10_16_10.0.2_gitlab_backup.tar</code>的压缩包, 这个压缩包就是Gitlab整个的完整部分, 其中开头的1508136272_2017_10_16是备份创建的日期,10.0.2是gitlab的版本号。</p>
+<h3 id="恢复"><a href="#恢复" class="headerlink" title="恢复"></a>恢复</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>停止相关数据连接服务</span><br><span class="line">gitlab-ctl stop unicorn</span><br><span class="line">gitlab-ctl stop sidekiq</span><br><span class="line">  </span><br><span class="line"><span class="meta">#</span>从1393513186编号备份中恢复</span><br><span class="line">gitlab-rake gitlab:backup:restore BACKUP=1508136272</span><br><span class="line">  </span><br><span class="line"><span class="meta">#</span>启动Gitlab</span><br><span class="line">sudo gitlab-ctl start</span><br></pre></td></tr></table></figure>
+<hr>
+<p>参考 : <a href="https://about.gitlab.com/" target="_blank" rel="noopener">官网</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/28/git/Git同步Fork代码/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/28/git/Git同步Fork代码/" itemprop="url">Git同步Fork代码</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-28T11:21:44+08:00">2018-02-28</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/git/" itemprop="url" rel="index"><span itemprop="name">git</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="给fork配置远程库"><a href="#给fork配置远程库" class="headerlink" title="给fork配置远程库"></a>给fork配置远程库</h3><p>使用<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure></p>
+<h3 id="查看远程状态"><a href="#查看远程状态" class="headerlink" title="查看远程状态"></a>查看远程状态</h3><p>确定一个将被同步给 fork 远程的上游仓库<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add upstream https://github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.git</span><br></pre></td></tr></table></figure></p>
+<p>再次查看状态确认是否配置成功。</p>
+<h3 id="同步fork"><a href="#同步fork" class="headerlink" title="同步fork"></a>同步fork</h3><p>从上游仓库 fetch 分支和提交点，提交给本地 master，并会被存储在一个本地分支 upstream/master<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git fetch upstream</span><br></pre></td></tr></table></figure></p>
+<h3 id="切换到本地主分支-如果不在的话"><a href="#切换到本地主分支-如果不在的话" class="headerlink" title="切换到本地主分支(如果不在的话)"></a>切换到本地主分支(如果不在的话)</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout master</span><br></pre></td></tr></table></figure>
+<h3 id="把-upstream-master-分支合并到本地-master-上，这样就完成了同步，并且不会丢掉本地修改的内容。"><a href="#把-upstream-master-分支合并到本地-master-上，这样就完成了同步，并且不会丢掉本地修改的内容。" class="headerlink" title="把 upstream/master 分支合并到本地 master 上，这样就完成了同步，并且不会丢掉本地修改的内容。"></a>把 upstream/master 分支合并到本地 master 上，这样就完成了同步，并且不会丢掉本地修改的内容。</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge upstream/master</span><br></pre></td></tr></table></figure>
+<h3 id="如果想更新到-GitHub-的-fork-上，直接"><a href="#如果想更新到-GitHub-的-fork-上，直接" class="headerlink" title="如果想更新到 GitHub 的 fork 上，直接"></a>如果想更新到 GitHub 的 fork 上，直接</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
+<p>就好了。</p>
 
           
         
@@ -900,904 +1784,13 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/27/java/Java8的lambda表达式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sam guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sam Home">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/27/java/Java8的lambda表达式/" itemprop="url">Java8的lambda表达式</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-27T10:29:44+08:00">2018-02-27</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="为什么使用lambda表达式？"><a href="#为什么使用lambda表达式？" class="headerlink" title="为什么使用lambda表达式？"></a>为什么使用lambda表达式？</h3><blockquote>
-<p>Lambda表达式允许将函数作为方法的参数，或者将code作为数据。使得代码简洁，可读性较高。</p>
-</blockquote>
-<h3 id="Lambda表达式的格式"><a href="#Lambda表达式的格式" class="headerlink" title="Lambda表达式的格式"></a>Lambda表达式的格式</h3><blockquote>
-<p>（attr1,attr2,…..）-&gt;函数体</p>
-</blockquote>
-<p>左边是参数，当参数为1个时，可以没有括号，比如：<code>e-&gt;e+2</code><br>当参数为0个时，用括号表示,比如:<code>()-&gt;System.out.println(&quot;表达式&quot;)</code></p>
-<p>如果函数体为一行，那么就没有必须显示的使用return语句，比如，下面的两个代码是等价的：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Arrays.asList( <span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"d"</span> ).sort( ( e1, e2 ) -&gt; e1.compareTo( e2 ) );</span><br><span class="line">Arrays.asList( <span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"d"</span> ).sort( ( e1, e2 ) -&gt; &#123;</span><br><span class="line">    <span class="keyword">int</span> result = e1.compareTo( e2 );</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125; );</span><br></pre></td></tr></table></figure></p>
-<p>如果函数体为多行，则需要将函数体用花括号”{ }”括起来，表达式用分号结尾。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Arrays.asList( <span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"d"</span> ).sort( ( e1, e2 ) -&gt; &#123;</span><br><span class="line">    <span class="keyword">int</span> result = e1.compareTo( e2 );</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125; );</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/26/sql/mysql/mysql分组取最大N条记录/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sam guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sam Home">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/26/sql/mysql/mysql分组取最大N条记录/" itemprop="url">mysql分组取最大N条记录</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-26T14:29:44+08:00">2018-02-26</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="先看原始数据"><a href="#先看原始数据" class="headerlink" title="先看原始数据"></a>先看原始数据</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> t2 (</span><br><span class="line">    <span class="keyword">id</span> <span class="built_in">int</span> primary <span class="keyword">key</span>,</span><br><span class="line">    gid    <span class="built_in">char</span>,</span><br><span class="line">    col1    <span class="built_in">int</span>,</span><br><span class="line">    col2    <span class="built_in">int</span></span><br><span class="line">) <span class="keyword">engine</span>=<span class="keyword">innodb</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> t2 <span class="keyword">values</span> (<span class="number">1</span>,<span class="string">'A'</span>,<span class="number">31</span>,<span class="number">6</span>), (<span class="number">2</span>,<span class="string">'B'</span>,<span class="number">25</span>,<span class="number">83</span>), (<span class="number">3</span>,<span class="string">'C'</span>,<span class="number">76</span>,<span class="number">21</span>), (<span class="number">4</span>,<span class="string">'D'</span>,<span class="number">63</span>,<span class="number">56</span>), (<span class="number">5</span>,<span class="string">'E'</span>,<span class="number">3</span>,<span class="number">17</span>), (<span class="number">6</span>,<span class="string">'A'</span>,<span class="number">29</span>,<span class="number">97</span>), (<span class="number">7</span>,<span class="string">'B'</span>,<span class="number">88</span>,<span class="number">63</span>), (<span class="number">8</span>,<span class="string">'C'</span>,<span class="number">16</span>,<span class="number">22</span>), (<span class="number">9</span>,<span class="string">'D'</span>,<span class="number">25</span>,<span class="number">43</span>), (<span class="number">10</span>,<span class="string">'E'</span>,<span class="number">45</span>,<span class="number">28</span>),</span><br><span class="line">(<span class="number">11</span>,<span class="string">'A'</span>,<span class="number">2</span>,<span class="number">78</span>), (<span class="number">12</span>,<span class="string">'B'</span>,<span class="number">30</span>,<span class="number">79</span>), (<span class="number">13</span>,<span class="string">'C'</span>,<span class="number">96</span>,<span class="number">73</span>), (<span class="number">14</span>,<span class="string">'D'</span>,<span class="number">37</span>,<span class="number">40</span>), (<span class="number">15</span>,<span class="string">'E'</span>,<span class="number">14</span>,<span class="number">86</span>), (<span class="number">16</span>,<span class="string">'A'</span>,<span class="number">32</span>,<span class="number">67</span>), (<span class="number">17</span>,<span class="string">'B'</span>,<span class="number">84</span>,<span class="number">38</span>), (<span class="number">18</span>,<span class="string">'C'</span>,<span class="number">27</span>,<span class="number">9</span>), (<span class="number">19</span>,<span class="string">'D'</span>,<span class="number">31</span>,<span class="number">21</span>), (<span class="number">20</span>,<span class="string">'E'</span>,<span class="number">80</span>,<span class="number">63</span>),</span><br><span class="line">(<span class="number">21</span>,<span class="string">'A'</span>,<span class="number">89</span>,<span class="number">9</span>), (<span class="number">22</span>,<span class="string">'B'</span>,<span class="number">15</span>,<span class="number">22</span>), (<span class="number">23</span>,<span class="string">'C'</span>,<span class="number">46</span>,<span class="number">84</span>), (<span class="number">24</span>,<span class="string">'D'</span>,<span class="number">54</span>,<span class="number">79</span>), (<span class="number">25</span>,<span class="string">'E'</span>,<span class="number">85</span>,<span class="number">64</span>), (<span class="number">26</span>,<span class="string">'A'</span>,<span class="number">87</span>,<span class="number">13</span>), (<span class="number">27</span>,<span class="string">'B'</span>,<span class="number">40</span>,<span class="number">45</span>), (<span class="number">28</span>,<span class="string">'C'</span>,<span class="number">34</span>,<span class="number">90</span>), (<span class="number">29</span>,<span class="string">'D'</span>,<span class="number">63</span>,<span class="number">8</span>), (<span class="number">30</span>,<span class="string">'E'</span>,<span class="number">66</span>,<span class="number">40</span>),</span><br><span class="line">(<span class="number">31</span>,<span class="string">'A'</span>,<span class="number">83</span>,<span class="number">49</span>), (<span class="number">32</span>,<span class="string">'B'</span>,<span class="number">4</span>,<span class="number">90</span>), (<span class="number">33</span>,<span class="string">'C'</span>,<span class="number">81</span>,<span class="number">7</span>), (<span class="number">34</span>,<span class="string">'D'</span>,<span class="number">11</span>,<span class="number">12</span>), (<span class="number">35</span>,<span class="string">'E'</span>,<span class="number">85</span>,<span class="number">10</span>), (<span class="number">36</span>,<span class="string">'A'</span>,<span class="number">39</span>,<span class="number">75</span>), (<span class="number">37</span>,<span class="string">'B'</span>,<span class="number">22</span>,<span class="number">39</span>), (<span class="number">38</span>,<span class="string">'C'</span>,<span class="number">76</span>,<span class="number">67</span>), (<span class="number">39</span>,<span class="string">'D'</span>,<span class="number">20</span>,<span class="number">11</span>), (<span class="number">40</span>,<span class="string">'E'</span>,<span class="number">81</span>,<span class="number">36</span>);</span><br></pre></td></tr></table></figure>
-<h3 id="期望结果"><a href="#期望结果" class="headerlink" title="期望结果"></a>期望结果</h3><h4 id="1-N-1-取GID每组-COL2最大的记录"><a href="#1-N-1-取GID每组-COL2最大的记录" class="headerlink" title="1) N=1 取GID每组 COL2最大的记录"></a>1) N=1 取GID每组 COL2最大的记录</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">+----+------+------+------+</span><br><span class="line">| id | gid  | col1 | col2 |</span><br><span class="line">+----+------+------+------+</span><br><span class="line">|  6 | A    |   29 |   97 |</span><br><span class="line">| 15 | E    |   14 |   86 |</span><br><span class="line">| 24 | D    |   54 |   79 |</span><br><span class="line">| 28 | C    |   34 |   90 |</span><br><span class="line">| 32 | B    |    4 |   90 |</span><br><span class="line">+----+------+------+------+</span><br></pre></td></tr></table></figure>
-<h4 id="2-N-3-取GID每组-COL2最大的3条记录"><a href="#2-N-3-取GID每组-COL2最大的3条记录" class="headerlink" title="2) N=3 取GID每组 COL2最大的3条记录"></a>2) N=3 取GID每组 COL2最大的3条记录</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">+----+------+------+------+</span><br><span class="line">| id | gid  | col1 | col2 |</span><br><span class="line">+----+------+------+------+</span><br><span class="line">|  6 | A    |   29 |   97 |</span><br><span class="line">| 11 | A    |    2 |   78 |</span><br><span class="line">| 36 | A    |   39 |   75 |</span><br><span class="line">| 32 | B    |    4 |   90 |</span><br><span class="line">|  2 | B    |   25 |   83 |</span><br><span class="line">| 12 | B    |   30 |   79 |</span><br><span class="line">| 28 | C    |   34 |   90 |</span><br><span class="line">| 23 | C    |   46 |   84 |</span><br><span class="line">| 13 | C    |   96 |   73 |</span><br><span class="line">| 24 | D    |   54 |   79 |</span><br><span class="line">|  4 | D    |   63 |   56 |</span><br><span class="line">|  9 | D    |   25 |   43 |</span><br><span class="line">| 15 | E    |   14 |   86 |</span><br><span class="line">| 25 | E    |   85 |   64 |</span><br><span class="line">| 20 | E    |   80 |   63 |</span><br><span class="line">+----+------+------+------+</span><br></pre></td></tr></table></figure>
-<h4 id="第一题SQL写法"><a href="#第一题SQL写法" class="headerlink" title="第一题SQL写法"></a>第一题SQL写法</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> a.* <span class="keyword">from</span> t2 a  <span class="keyword">join</span> (<span class="keyword">select</span> gid,<span class="keyword">max</span>(col2) col2 <span class="keyword">from</span> t2 <span class="keyword">group</span> <span class="keyword">by</span> gid) b</span><br><span class="line"><span class="keyword">on</span> a.gid=b.gid <span class="keyword">and</span> a.col2=b.col2;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> a.id,a.gid,a.col1,a.col2 </span><br><span class="line"><span class="keyword">FROM</span> t2 <span class="keyword">as</span> a,t2 <span class="keyword">as</span> b </span><br><span class="line"><span class="keyword">where</span> a.gid=b.gid <span class="keyword">AND</span> a.col2 &lt;=b.col2</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> a.id,a.gid,a.col1,a.col2 </span><br><span class="line"><span class="keyword">having</span> a.col2=<span class="keyword">max</span>(b.col2)</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> a.gid,a.col2 <span class="keyword">desc</span></span><br></pre></td></tr></table></figure>
-<h4 id="第二题SQL写法"><a href="#第二题SQL写法" class="headerlink" title="第二题SQL写法"></a>第二题SQL写法</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> a.id,a.gid,a.col1,a.col2 </span><br><span class="line"><span class="keyword">FROM</span> t2  a,t2 b </span><br><span class="line"><span class="keyword">where</span> a.gid=b.gid <span class="keyword">AND</span> a.col2 &lt;=b.col2</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> a.id,a.gid,a.col1,a.col2 </span><br><span class="line"><span class="keyword">HAVING</span>   <span class="keyword">COUNT</span>(b.id) &lt;=<span class="number">3</span> </span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> a.gid,a.col2 <span class="keyword">desc</span></span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/25/sql/mysql/mysql生成数据字典/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sam guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sam Home">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/25/sql/mysql/mysql生成数据字典/" itemprop="url">mysql生成数据字典</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-25T14:29:44+08:00">2018-02-25</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="首先把所有表名放进一个文件里。"><a href="#首先把所有表名放进一个文件里。" class="headerlink" title="首先把所有表名放进一个文件里。"></a>首先把所有表名放进一个文件里。</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -proot nutch -e 'show tables' &gt; ./tables.txt</span><br></pre></td></tr></table></figure>
-<p>也可以直接把要生成的表名写进<code>tables.txt</code>里，一个表名一行。</p>
-<h3 id="然后运行下面脚本"><a href="#然后运行下面脚本" class="headerlink" title="然后运行下面脚本"></a>然后运行下面脚本</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>! /bin/bash</span><br><span class="line"></span><br><span class="line">TABLES=`cat /home/sdap/tables.txt`</span><br><span class="line">DIR=/home/sdap/tmp/</span><br><span class="line">if [ ! -d $DIR  ];then</span><br><span class="line">        mkdir $DIR</span><br><span class="line">fi</span><br><span class="line">cd $DIR</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">for tab in $TABLES;do</span><br><span class="line"></span><br><span class="line">        SQL="SELECT COLUMN_NAME as '字段',COLUMN_TYPE as '类型',IS_NULLABLE as '空',IFNULL(COLUMN_DEFAULT,'') as '默认',IF(COLUMN_COMMENT='','-',COLUMN_COMMENT) as '注释'FROM information_schema.columns WHERE TABLE_SCHEMA='nutch' and table_name='$&#123;tab&#125;'";</span><br><span class="line">        #echo $SQL;</span><br><span class="line">        mysql -uroot -pesr16888.0 -t -e "$&#123;SQL&#125;"  &gt; ./$&#123;tab&#125;.txt</span><br><span class="line">        sed -i "s/+/|/g" ./$&#123;tab&#125;.txt</span><br><span class="line">        sed -i '$d' ./$&#123;tab&#125;.txt</span><br><span class="line">        sed -i "1c\ \n- 表名 $&#123;tab&#125;\n" ./$&#123;tab&#125;.txt</span><br><span class="line">        cat ./$&#123;tab&#125;.txt &gt;&gt; ./tt.txt</span><br><span class="line">        #echo $&#123;a//+/|&#125;&gt;./$&#123;tab&#125;.txt</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/24/linux/centos/Centos7编译安装nginx/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sam guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sam Home">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/24/linux/centos/Centos7编译安装nginx/" itemprop="url">Centos7 编译安装nginx</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-24T14:29:44+08:00">2018-02-24</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/运维/" itemprop="url" rel="index"><span itemprop="name">运维</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="安装依赖包"><a href="#安装依赖包" class="headerlink" title="安装依赖包"></a>安装依赖包</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>安装make</span><br><span class="line">yum -y install gcc automake autoconf libtool make</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>安装g++</span><br><span class="line">yum -y install gcc gcc-c++</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>安装网络工具</span><br><span class="line">yum -y install net-tools</span><br></pre></td></tr></table></figure>
-<h3 id="安装PCRE库"><a href="#安装PCRE库" class="headerlink" title="安装PCRE库"></a>安装PCRE库</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd /opt</span><br><span class="line">wget ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.39.tar.gz</span><br><span class="line">tar -zxvf pcre-8.39.tar.gz</span><br><span class="line">cd pcre-8.39</span><br><span class="line">./configure</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
-<h3 id="安装zlib库"><a href="#安装zlib库" class="headerlink" title="安装zlib库"></a>安装zlib库</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd /opt</span><br><span class="line">wget http://zlib.net/zlib-1.2.11.tar.gz</span><br><span class="line">tar -zxvf zlib-1.2.11.tar.gz</span><br><span class="line">cd zlib-1.2.11</span><br><span class="line">./configure</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
-<h3 id="安装nginx"><a href="#安装nginx" class="headerlink" title="安装nginx"></a>安装nginx</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /opt</span><br><span class="line">wget -c https://nginx.org/download/nginx-1.10.1.tar.gz</span><br><span class="line">tar -zxvf nginx-1.10.1.tar.gz</span><br><span class="line">cd nginx-1.10.1</span><br></pre></td></tr></table></figure>
-<h4 id="配置编译"><a href="#配置编译" class="headerlink" title="配置编译"></a>配置编译</h4><ul>
-<li>注意最后一行，配置fastdfs-nginx模块的路径（这个路径根据自己实际情况而定）</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">./configure \</span><br><span class="line">--prefix=/usr/local/nginx \</span><br><span class="line">--pid-path=/var/local/nginx/nginx.pid \</span><br><span class="line">--lock-path=/var/lock/nginx/nginx.lock \</span><br><span class="line">--error-log-path=/var/log/nginx/error.log \</span><br><span class="line">--http-log-path=/var/log/nginx/access.log \</span><br><span class="line">--with-http_gzip_static_module \</span><br><span class="line">--http-client-body-temp-path=/var/temp/nginx/client \</span><br><span class="line">--http-proxy-temp-path=/var/temp/nginx/proxy \</span><br><span class="line">--http-fastcgi-temp-path=/var/temp/nginx/fastcgi \</span><br><span class="line">--http-uwsgi-temp-path=/var/temp/nginx/uwsgi \</span><br><span class="line">--http-scgi-temp-path=/var/temp/nginx/scgi \</span><br><span class="line">--add-module=/home/fastdfs-5.11/fastdfs-nginx-module/src</span><br><span class="line"></span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
-<h4 id="启动、运行"><a href="#启动、运行" class="headerlink" title="启动、运行"></a>启动、运行</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /var/temp/nginx/client</span><br><span class="line">cp /usr/local/nginx/sbin/nginx /usr/local/bin/</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>启运</span><br><span class="line">nginx </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>重启</span><br><span class="line">nginx -s reload</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>查看运行</span><br><span class="line">netstat -anp|grep 80</span><br></pre></td></tr></table></figure>
-<h4 id="nginx编译选项"><a href="#nginx编译选项" class="headerlink" title="nginx编译选项"></a>nginx编译选项</h4><ul>
-<li>make是用来编译的，它从Makefile中读取指令，然后编译。</li>
-<li>make install是用来安装的，它也从Makefile中读取指令，安装到指定的位置。</li>
-<li>configure命令是用来检测你的安装平台的目标特征的。它定义了系统的各个方面，包括nginx的被允许使用的连接处理的方法，比如它会检测你是不是有CC或GCC，并不是需要CC或GCC，它是个shell脚本，执行结束时，它会创建一个Makefile文件。nginx的configure命令支持以下参数：</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">--prefix=path    #定义一个目录，存放服务器上的文件 ，也就是nginx的安装目录。默认使用 /usr/local/nginx。</span><br><span class="line">--sbin-path=path #设置nginx的可执行文件的路径，默认为  prefix/sbin/nginx.</span><br><span class="line">--conf-path=path  #设置在nginx.conf配置文件的路径。nginx允许使用不同的配置文件启动，通过命令行中的-c选项。默认为prefix/conf/nginx.conf.</span><br><span class="line">--pid-path=path  #设置nginx.pid文件，将存储的主进程的进程号。安装完成后，可以随时改变的文件名 ， 在nginx.conf配置文件中使用 PID指令。默认情况下，文件名 为prefix/logs/nginx.pid.</span><br><span class="line">--error-log-path=path #设置主错误，警告，和诊断文件的名称。安装完成后，可以随时改变的文件名 ，在nginx.conf配置文件中 使用 的error_log指令。默认情况下，文件名 为prefix/logs/error.log.</span><br><span class="line">--http-log-path=path  #设置主请求的HTTP服务器的日志文件的名称。安装完成后，可以随时改变的文件名 ，在nginx.conf配置文件中 使用 的access_log指令。默认情况下，文件名 为prefix/logs/access.log.</span><br><span class="line">--user=name  #设置nginx工作进程的用户。安装完成后，可以随时更改的名称在nginx.conf配置文件中 使用的 user指令。默认的用户名是nobody。</span><br><span class="line">--group=name  #设置nginx工作进程的用户组。安装完成后，可以随时更改的名称在nginx.conf配置文件中 使用的 user指令。默认的为非特权用户。</span><br><span class="line">--with-select_module --without-select_module #启用或禁用构建一个模块来允许服务器使用select()方法。该模块将自动建立，如果平台不支持的kqueue，epoll，rtsig或/dev/poll。</span><br><span class="line">--with-poll_module --without-poll_module #启用或禁用构建一个模块来允许服务器使用poll()方法。该模块将自动建立，如果平台不支持的kqueue，epoll，rtsig或/dev/poll。</span><br><span class="line">--without-http_gzip_module #不编译压缩的HTTP服务器的响应模块。编译并运行此模块需要zlib库。</span><br><span class="line">--without-http_rewrite_module  #不编译重写模块。编译并运行此模块需要PCRE库支持。</span><br><span class="line">--without-http_proxy_module #不编译http_proxy模块。</span><br><span class="line">--with-http_ssl_module #使用https协议模块。默认情况下，该模块没有被构建。建立并运行此模块的OpenSSL库是必需的。</span><br><span class="line">--with-pcre=path  #设置PCRE库的源码路径。PCRE库的源码（版本4.4 - 8.30）需要从PCRE网站下载并解压。其余的工作是Nginx的./ configure和make来完成。正则表达式使用在location指令和 ngx_http_rewrite_module 模块中。</span><br><span class="line">--with-pcre-jit #编译PCRE包含“just-in-time compilation”（1.1.12中， pcre_jit指令）。</span><br><span class="line">--with-zlib=path #设置的zlib库的源码路径。要下载从 zlib（版本1.1.3 - 1.2.5）的并解压。其余的工作是Nginx的./ configure和make完成。ngx_http_gzip_module模块需要使用zlib 。</span><br><span class="line">--with-cc-opt=parameters #设置额外的参数将被添加到CFLAGS变量。例如,当你在FreeBSD上使用PCRE库时需要使用:--with-cc-opt="-I /usr/local/include。.如需要需要增加 select()支持的文件数量:--with-cc-opt="-D FD_SETSIZE=2048".</span><br><span class="line">--with-ld-opt=parameters #设置附加的参数，将用于在链接期间。例如，当在FreeBSD下使用该系统的PCRE库,应指定:--with-ld-opt="-L /usr/local/lib".</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/23/sql/mysql/mysql递归查询/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sam guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sam Home">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/23/sql/mysql/mysql递归查询/" itemprop="url">mysql递归查询</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-23T14:29:44+08:00">2018-02-23</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="样例数据："><a href="#样例数据：" class="headerlink" title="样例数据："></a>样例数据：</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> treeNodes(</span><br><span class="line">   <span class="keyword">id</span> <span class="built_in">int</span> primary <span class="keyword">key</span>,</span><br><span class="line">   nodename <span class="built_in">varchar</span>(<span class="number">20</span>),</span><br><span class="line">   pid <span class="built_in">int</span> </span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> treeNodes;</span><br><span class="line">+<span class="comment">----+----------+------+</span></span><br><span class="line">| id | nodename | pid  |</span><br><span class="line">+<span class="comment">----+----------+------+</span></span><br><span class="line">|  1 | A        |    0 |</span><br><span class="line">|  2 | B        |    1 |</span><br><span class="line">|  3 | C        |    1 |</span><br><span class="line">|  4 | D        |    2 |</span><br><span class="line">|  5 | E        |    2 |</span><br><span class="line">|  6 | F        |    3 |</span><br><span class="line">|  7 | G        |    6 |</span><br><span class="line">|  8 | H        |    0 |</span><br><span class="line">|  9 | I        |    8 |</span><br><span class="line">| 10 | J        |    8 |</span><br><span class="line">| 11 | K        |    8 |</span><br><span class="line">| 12 | L        |    9 |</span><br><span class="line">| 13 | M        |    9 |</span><br><span class="line">| 14 | N        |   12 |</span><br><span class="line">| 15 | O        |   12 |</span><br><span class="line">| 16 | P        |   15 |</span><br><span class="line">| 17 | Q        |   15 |</span><br><span class="line">+<span class="comment">----+----------+------+</span></span><br><span class="line">17 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
-<h3 id="树形图如下"><a href="#树形图如下" class="headerlink" title="树形图如下"></a>树形图如下</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">1:A</span><br><span class="line"> +-- 2:B</span><br><span class="line"> |    +-- 4:D</span><br><span class="line"> |    +-- 5:E</span><br><span class="line"> +-- 3:C</span><br><span class="line">      +-- 6:F</span><br><span class="line">           +-- 7:G</span><br><span class="line">8:H</span><br><span class="line"> +-- 9:I</span><br><span class="line"> |    +-- 12:L</span><br><span class="line"> |    |    +--14:N</span><br><span class="line"> |    |    +--15:O</span><br><span class="line"> |    |        +--16:P</span><br><span class="line"> |    |        +--17:Q</span><br><span class="line"> |    +-- 13:M</span><br><span class="line"> +-- 10:J</span><br><span class="line"> +-- 11:K</span><br></pre></td></tr></table></figure>
-<p>创建一个function getChildLst, 得到一个由所有子节点号组成的字符串. </p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">delimiter //</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">FUNCTION</span> <span class="string">`getChildLst`</span>(rootId <span class="built_in">INT</span>)</span><br><span class="line">    <span class="keyword">RETURNS</span> <span class="built_in">varchar</span>(<span class="number">1000</span>)</span><br><span class="line">    <span class="keyword">BEGIN</span></span><br><span class="line">      <span class="keyword">DECLARE</span> sTemp <span class="built_in">VARCHAR</span>(<span class="number">1000</span>);</span><br><span class="line">      <span class="keyword">DECLARE</span> sTempChd <span class="built_in">VARCHAR</span>(<span class="number">1000</span>);</span><br><span class="line">   </span><br><span class="line">      <span class="keyword">SET</span> sTemp = <span class="string">'$'</span>;</span><br><span class="line">      <span class="keyword">SET</span> sTempChd =<span class="keyword">cast</span>(rootId <span class="keyword">as</span> <span class="built_in">CHAR</span>);</span><br><span class="line">   </span><br><span class="line">      WHILE sTempChd is not null <span class="keyword">DO</span></span><br><span class="line">        <span class="keyword">SET</span> sTemp = <span class="keyword">concat</span>(sTemp,<span class="string">','</span>,sTempChd);</span><br><span class="line">        <span class="keyword">SELECT</span> <span class="keyword">group_concat</span>(<span class="keyword">id</span>) <span class="keyword">INTO</span> sTempChd <span class="keyword">FROM</span> treeNodes <span class="keyword">where</span> FIND_IN_SET(pid,sTempChd)&gt;<span class="number">0</span>;</span><br><span class="line">      <span class="keyword">END</span> <span class="keyword">WHILE</span>;</span><br><span class="line">      RETURN sTemp;</span><br><span class="line">    <span class="keyword">END</span></span><br><span class="line">    //</span><br><span class="line">delimiter ;</span><br></pre></td></tr></table></figure>
-<p>使用我们直接利用find_in_set函数配合这个getChildlst来查找</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">select getChildLst(1);</span><br><span class="line">+-----------------+</span><br><span class="line">| getChildLst(1)  |</span><br><span class="line">+-----------------+</span><br><span class="line">| $,1,2,3,4,5,6,7 |</span><br><span class="line">+-----------------+</span><br><span class="line"></span><br><span class="line">select * from treeNodes where FIND_IN_SET(id, getChildLst(1));</span><br><span class="line">+----+----------+------+</span><br><span class="line">| id | nodename | pid  |</span><br><span class="line">+----+----------+------+</span><br><span class="line">|  1 | A        |    0 |</span><br><span class="line">|  2 | B        |    1 |</span><br><span class="line">|  3 | C        |    1 |</span><br><span class="line">|  4 | D        |    2 |</span><br><span class="line">|  5 | E        |    2 |</span><br><span class="line">|  6 | F        |    3 |</span><br><span class="line">|  7 | G        |    6 |</span><br><span class="line">+----+----------+------+</span><br><span class="line"></span><br><span class="line">select * from treeNodes where FIND_IN_SET(id, getChildLst(3));</span><br><span class="line">+----+----------+------+</span><br><span class="line">| id | nodename | pid  |</span><br><span class="line">+----+----------+------+</span><br><span class="line">|  3 | C        |    1 |</span><br><span class="line">|  6 | F        |    3 |</span><br><span class="line">|  7 | G        |    6 |</span><br><span class="line">+----+----------+------+</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>优点：简单，方便，没有递归调用层次深度的限制 (max_sp_recursion_depth,最大255);</p>
-</blockquote>
-<blockquote>
-<p>缺点：长度受限，虽然可以扩大 RETURNS varchar(1000)，但总是有最大限制的。</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/22/linux/ubuntu/systemd配置tomcat开机自启动/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sam guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sam Home">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/22/linux/ubuntu/systemd配置tomcat开机自启动/" itemprop="url">systemd配置tomcat开机自启动</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-22T14:29:44+08:00">2018-02-22</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/运维/" itemprop="url" rel="index"><span itemprop="name">运维</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="添加Tomcat启动参数配置"><a href="#添加Tomcat启动参数配置" class="headerlink" title="添加Tomcat启动参数配置"></a>添加Tomcat启动参数配置</h3><p><code>catalina.sh</code>在执行的时候会调用同级路径下的<code>setenv.sh</code>来设置额外的环境变量，因此需要在<code>/opt/tomcat/bin</code>路径下创建<code>setenv.sh</code>文件。<br><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=/opt/jdk</span><br><span class="line">export JRE_HOME=$JAVA_HOME/jre</span><br><span class="line"></span><br><span class="line">export CATALINA_HOME=/opt/tomcat</span><br><span class="line">export CATALINA_BASE=/opt/tomcat</span><br><span class="line"><span class="comment">#设置Tomcat的PID文件</span></span><br><span class="line"><span class="attr">CATALINA_PID</span>=<span class="string">"$CATALINA_BASE/tomcat.pid"</span></span><br><span class="line"><span class="comment">#添加JVM选项</span></span><br><span class="line"><span class="attr">JAVA_OPTS</span>=<span class="string">"-server -XX:PermSize=256M -XX:MaxPermSize=1024m -Xms512M -Xmx1024M -XX:MaxNewSize=256m -Duser.timezone=GMT+08"</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="编写tomcat-service文件"><a href="#编写tomcat-service文件" class="headerlink" title="编写tomcat.service文件"></a>编写tomcat.service文件</h3><p>在<code>/usr/lib/systemd/system</code>路径下添加<code>tomcat.service</code>文件。<br><strong>注意：文件中目录路径必须是绝对路径</strong></p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="attr">Description</span>=Tomcat8</span><br><span class="line"><span class="attr">After</span>=syslog.target network.target remote-fs.target nss-lookup.target</span><br><span class="line"></span><br><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">Type</span>=forking</span><br><span class="line"><span class="attr">PIDFile</span>=/opt/tomcat/tomcat.pid</span><br><span class="line"><span class="attr">ExecStart</span>=/opt/tomcat/bin/startup.sh</span><br><span class="line"><span class="attr">ExecReload</span>=/opt/tomcat/bin/shutdown.sh</span><br><span class="line"><span class="attr">ExecStop</span>=/opt/tomcat/bin/shutdown.sh</span><br><span class="line"><span class="attr">PrivateTmp</span>=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="section">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span>=multi-user.target</span><br></pre></td></tr></table></figure>
-<ul>
-<li><code>[unit]</code>配置了服务的描述，规定了在network启动之后执行， </li>
-<li><code>[service]</code>配置服务的pid，服务的启动，停止，重启 </li>
-<li><code>[install]</code>配置了使用用户</li>
-</ul>
-<h3 id="测试脚本"><a href="#测试脚本" class="headerlink" title="测试脚本"></a>测试脚本</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">systemctl enable tomcat  # 设置开机自启动</span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/tomcat.service   </span><br><span class="line">to /usr/lib/systemd/system/tomcat.service.       # 自动创建软连接</span><br><span class="line"></span><br><span class="line">systemctl disable tomcat # 禁用开机启动</span><br><span class="line">systemctl daemon-reload # 刷新配置</span><br><span class="line"></span><br><span class="line">systemctl start tomcat  # 启动tomcat服务</span><br><span class="line">systemctl status tomcat # 查看tomcat服务状态</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1838,7 +1831,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-count">17</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -1859,7 +1852,7 @@
                     
                       
                     
-                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>
@@ -1884,7 +1877,21 @@
                     
                       
                     
-                    <span class="site-state-item-count">6</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">13</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
