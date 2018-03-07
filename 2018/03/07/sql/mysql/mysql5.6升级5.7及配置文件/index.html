@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.4" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.0.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  
+  <meta name="keywords" content="mysql," />
+
+
+<meta name="description" content="参数说明max connections参数修改不生效，限制在214的问题。 修改文件/lib/systemd/system/mysql.service，在最下面添加  12LimitNOFILE=4096LimitMEMLOCK=4096   然后运行 12systemctl daemon-reloadsystemctl restart mysql.service 去掉mysql5.7严格区分表名">
+<meta name="keywords" content="mysql">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql5.7配置文件">
+<meta property="og:url" content="http://samhome.cn/2018/03/07/sql/mysql/mysql5.6升级5.7及配置文件/index.html">
+<meta property="og:site_name" content="Sam Home">
+<meta property="og:description" content="参数说明max connections参数修改不生效，限制在214的问题。 修改文件/lib/systemd/system/mysql.service，在最下面添加  12LimitNOFILE=4096LimitMEMLOCK=4096   然后运行 12systemctl daemon-reloadsystemctl restart mysql.service 去掉mysql5.7严格区分表名">
+<meta property="og:locale" content="zh">
+<meta property="og:updated_time" content="2018-03-07T10:09:18.400Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mysql5.7配置文件">
+<meta name="twitter:description" content="参数说明max connections参数修改不生效，限制在214的问题。 修改文件/lib/systemd/system/mysql.service，在最下面添加  12LimitNOFILE=4096LimitMEMLOCK=4096   然后运行 12systemctl daemon-reloadsystemctl restart mysql.service 去掉mysql5.7严格区分表名">
+
+
+
+
+
+
+  <link rel="canonical" href="http://samhome.cn/2018/03/07/sql/mysql/mysql5.6升级5.7及配置文件/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+  <title>mysql5.7配置文件 | Sam Home</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sam Home</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">开发日记，技术记录</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/03/07/sql/mysql/mysql5.6升级5.7及配置文件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">mysql5.7配置文件</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-07T14:29:44+08:00">2018-03-07</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h3><h4 id="max-connections参数修改不生效，限制在214的问题。"><a href="#max-connections参数修改不生效，限制在214的问题。" class="headerlink" title="max connections参数修改不生效，限制在214的问题。"></a>max connections参数修改不生效，限制在214的问题。</h4><ul>
+<li>修改文件<code>/lib/systemd/system/mysql.service</code>，在最下面添加</li>
+</ul>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">LimitNOFILE</span>=<span class="number">4096</span></span><br><span class="line"><span class="attr">LimitMEMLOCK</span>=<span class="number">4096</span></span><br></pre></td></tr></table></figure>
+<p>  然后运行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl restart mysql.service</span><br></pre></td></tr></table></figure>
+<h4 id="去掉mysql5-7严格区分表名大小写问题"><a href="#去掉mysql5-7严格区分表名大小写问题" class="headerlink" title="去掉mysql5.7严格区分表名大小写问题"></a>去掉mysql5.7严格区分表名大小写问题</h4><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">lower_case_table_names</span> = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h4 id="sql-mode-的修改"><a href="#sql-mode-的修改" class="headerlink" title="sql_mode 的修改"></a>sql_mode 的修改</h4><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#ONLY_FULL_GRUOP_BY 可以兼容底版本的分组SQL</span></span><br><span class="line"><span class="comment">#NO_ZERO_IN_DATE 日期字段可以默认插入0值</span></span><br><span class="line"><span class="comment">#ERROR_FOR_DIVISION_BY_ZERO 可以把0做除数</span></span><br><span class="line"><span class="attr">sql_mode</span> = <span class="string">''</span></span><br></pre></td></tr></table></figure>
+<h4 id="修改utf编码"><a href="#修改utf编码" class="headerlink" title="修改utf编码"></a>修改utf编码</h4><p>网上很多资源都是在[mysqld]下添加<code>default-character-set=utf8</code><br>如果这样改会导致5.7版本mysql无法打开所以要改为<code>character-set-server=utf8</code></p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[client]</span></span><br><span class="line"><span class="attr">default-character-set</span>=utf8</span><br><span class="line"> </span><br><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="attr">character-set-server</span>=utf8</span><br></pre></td></tr></table></figure>
+<h4 id="缓存的设置"><a href="#缓存的设置" class="headerlink" title="缓存的设置"></a>缓存的设置</h4><p>会话 的缓存大小，是针对每一个connection的，这个值也不会越大越好，默认大小是256kb，过大的配置会消耗更多的内存。</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">read_buffer_size</span>        = <span class="number">16</span>M</span><br><span class="line"><span class="attr">read_rnd_buffer_size</span>    = <span class="number">16</span>M</span><br><span class="line"><span class="attr">sort_buffer_size</span>        = <span class="number">16</span>M</span><br><span class="line"><span class="attr">join_buffer_size</span>        = <span class="number">16</span>M</span><br></pre></td></tr></table></figure>
+<h4 id="innodb-buffer-pool-size-参数"><a href="#innodb-buffer-pool-size-参数" class="headerlink" title="innodb_buffer_pool_size 参数"></a>innodb_buffer_pool_size 参数</h4><p>这个参数主要作用是缓存innodb表的索引，数据，插入数据时的缓冲,默认值：<code>128M</code><br>专用mysql服务器设置的大小:<strong>操作系统内存的70%-80%最佳。</strong><br>此外，这个参数是非动态的，要修改这个值，需要重启mysqld服务。所以设置的时候要非常谨慎。<br>并不是设置的越大越好。设置的过大，会导致system的swap空间被占用，导致操作系统变慢，从而减低sql查询的效率。</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">innodb_buffer_pool_size</span> = <span class="number">16</span>G</span><br></pre></td></tr></table></figure>
+<h4 id="innodb-flush-log-at-trx-commi-参数"><a href="#innodb-flush-log-at-trx-commi-参数" class="headerlink" title="innodb_flush_log_at_trx_commi 参数"></a>innodb_flush_log_at_trx_commi 参数</h4><pre><code>- 设置为1 代表`InnoDB`会在每次提交后刷新(fsync)事务日志到磁盘上,这提供了完整的 ACID 行为.
+</code></pre><p>如果你愿意对事务安全折衷, 并且你正在运行一个小的事物, 你可以设置此值到0或者2来减少由事务日志引起的磁盘I/O   </p>
+<pre><code>- 设置为0 代表日志只大约每秒写入日志文件并且日志文件刷新到磁盘.   
+- 设置为2 代表日志写入日志文件在每次提交后,但是日志文件只有大约每秒才会刷新到磁盘上.    
+</code></pre><blockquote>
+<p>说明：如果是游戏服务器，建议此值设置为2；如果是对数据安全要求极高的应用，建议设置为1；<br>设置为0性能最高，但如果发生故障，数据可能会有丢失的危险！<br>默认值1的意思是每一次事务提交或事务外的指令都需要把日志写入（flush）硬盘，这是很费时的。<br>特别是使用电池供电缓存（Battery backed up cache）时。<br>设成2对于很多运用，特别是从MyISAM表转过来的是可以的，它的意思是不写入硬盘而是写入系统缓存。<br>日志仍然会每秒flush到硬盘，所以你一般不会丢失超过1-2秒的更新。<br>设成0会更快一点，但安全方面比较差，即使MySQL挂了也可能会丢失事务的数据。而值2只会在整个操作系统挂了时才可能丢数据。）</p>
+</blockquote>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">innodb_flush_log_at_trx_commit</span> = <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<h4 id="innodb-thread-concurrency-参数"><a href="#innodb-thread-concurrency-参数" class="headerlink" title="innodb_thread_concurrency 参数"></a>innodb_thread_concurrency 参数</h4><p>在<code>InnoDb</code>核心内的允许线程数量.最优值依赖于应用程序,硬件以及操作系统的调度方式.过高的值可能导致线程的互斥颠簸.</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">innodb_thread_concurrency</span> = <span class="number">12</span></span><br></pre></td></tr></table></figure>
+<h4 id="query-cache-limit-与-query-cache-size"><a href="#query-cache-limit-与-query-cache-size" class="headerlink" title="query_cache_limit 与 query_cache_size"></a>query_cache_limit 与 query_cache_size</h4><pre><code>- query_cache_size : 查询缓冲常被用来缓冲`SELECT`的结果并且在下一次同样查询的时候不再执行直接返回结果.打开查询缓冲可以极大的提高服务器速度, 如果你有大量的相同的查询并且很少修改表.
+</code></pre><p>查看<code>Qcache_lowmem_prunes</code>状态变量来检查是否当前值对于你的负载来说是否足够高.</p>
+<pre><code>- query_cache_limit : 只有小于此设定值的结果才会被缓冲此设置用来保护查询缓冲,防止一个极大的结果集将其他所有的查询结果都覆盖.
+</code></pre><blockquote>
+<p><strong><em>注意:</em></strong> 在你表经常变化的情况下或者如果你的查询原文每次都不同,<br>查询缓冲也许引起性能下降而不是性能提升.</p>
+</blockquote>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># * Query Cache Configuration</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="attr">query_cache_limit</span>       = <span class="number">2</span>M</span><br><span class="line"><span class="attr">query_cache_size</span>        = <span class="number">32</span>M</span><br></pre></td></tr></table></figure>
+<h3 id="最后附上配置文件"><a href="#最后附上配置文件" class="headerlink" title="最后附上配置文件"></a>最后附上配置文件</h3><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># The MySQL database server configuration file.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># You can copy this to one of:</span></span><br><span class="line"><span class="comment"># - "/etc/mysql/my.cnf" to set global options,</span></span><br><span class="line"><span class="comment"># - "~/.my.cnf" to set user-specific options.</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># One can use all long options that the program supports.</span></span><br><span class="line"><span class="comment"># Run program with --help to get a list of available options and with</span></span><br><span class="line"><span class="comment"># --print-defaults to see which it would actually understand and use.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># For explanations see</span></span><br><span class="line"><span class="comment"># http://dev.mysql.com/doc/mysql/en/server-system-variables.html</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># This will be passed to all mysql clients</span></span><br><span class="line"><span class="comment"># It has been reported that passwords should be enclosed with ticks/quotes</span></span><br><span class="line"><span class="comment"># escpecially if they contain "#" chars...</span></span><br><span class="line"><span class="comment"># Remember to edit /etc/mysql/debian.cnf when changing the socket location.</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Here is entries for some specific programs</span></span><br><span class="line"><span class="comment"># The following values assume you have at least 32M ram</span></span><br><span class="line"><span class="section">[client]</span></span><br><span class="line"><span class="attr">default-character-set</span>=utf8</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="section">[mysqld_safe]</span></span><br><span class="line"><span class="attr">socket</span>		= /var/run/mysqld/mysqld.sock</span><br><span class="line"><span class="attr">nice</span>		= <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># * Basic Settings</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="attr">user</span>		= mysql</span><br><span class="line"><span class="attr">pid-file</span>	= /var/run/mysqld/mysqld.pid</span><br><span class="line"><span class="attr">socket</span>		= /var/run/mysqld/mysqld.sock</span><br><span class="line"><span class="attr">port</span>		= <span class="number">3306</span></span><br><span class="line"><span class="attr">basedir</span>		= /usr</span><br><span class="line"><span class="attr">datadir</span>		= /var/lib/mysql</span><br><span class="line"><span class="attr">tmpdir</span>		= /tmp</span><br><span class="line"><span class="attr">lc-messages-dir</span>	= /usr/share/mysql</span><br><span class="line">skip-external-locking</span><br><span class="line"></span><br><span class="line"><span class="attr">open_files_limit</span> 	= <span class="number">8192</span></span><br><span class="line"><span class="attr">max_connections</span> 	= <span class="number">3000</span></span><br><span class="line"><span class="attr">max_connect_errors</span>	= <span class="number">500</span></span><br><span class="line"><span class="attr">tmp_table_size</span> 		= <span class="number">128</span>M</span><br><span class="line"><span class="attr">max_allowed_packet</span>	= <span class="number">64</span>M</span><br><span class="line"><span class="attr">interactive_timeout</span> 	= <span class="number">1800</span></span><br><span class="line"><span class="attr">wait_timeout</span> 		= <span class="number">1800</span></span><br><span class="line"><span class="attr">read_buffer_size</span> 	= <span class="number">16</span>M</span><br><span class="line"><span class="attr">read_rnd_buffer_size</span>	= <span class="number">16</span>M</span><br><span class="line"><span class="attr">sort_buffer_size</span> 	= <span class="number">16</span>M</span><br><span class="line"><span class="attr">join_buffer_size</span> 	= <span class="number">16</span>M</span><br><span class="line"><span class="comment">#sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'</span></span><br><span class="line"><span class="attr">sql_mode</span>                = <span class="string">''</span></span><br><span class="line"></span><br><span class="line"><span class="attr">lower_case_table_names</span>  = <span class="number">1</span></span><br><span class="line"><span class="attr">group_concat_max_len</span>    = <span class="number">102400</span></span><br><span class="line"><span class="attr">character-set-server</span>    = utf8</span><br><span class="line"></span><br><span class="line"><span class="attr">innodb_write_io_threads</span> = <span class="number">12</span></span><br><span class="line"><span class="attr">innodb_read_io_threads</span>  = <span class="number">12</span></span><br><span class="line"><span class="attr">innodb_buffer_pool_size</span> = <span class="number">12</span>G</span><br><span class="line"><span class="attr">innodb_thread_concurrency</span> = <span class="number">12</span></span><br><span class="line"><span class="attr">innodb_flush_log_at_trx_commit</span> = <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Instead of skip-networking the default is now to listen only on</span></span><br><span class="line"><span class="comment"># localhost which is more compatible and is not less secure.</span></span><br><span class="line"><span class="comment">#bind-address		= 127.0.0.1</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># * Fine Tuning</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="attr">key_buffer_size</span>		= <span class="number">64</span>M</span><br><span class="line"><span class="attr">thread_stack</span>		= <span class="number">1</span>M</span><br><span class="line"><span class="attr">thread_cache_size</span>       = <span class="number">32</span></span><br><span class="line"><span class="comment"># This replaces the startup script and checks MyISAM tables if needed</span></span><br><span class="line"><span class="comment"># the first time they are touched</span></span><br><span class="line"><span class="attr">myisam-recover-options</span>  = BACKUP</span><br><span class="line"><span class="comment">#max_connections        = 100</span></span><br><span class="line"><span class="comment">#table_cache            = 64</span></span><br><span class="line"><span class="comment">#thread_concurrency     = 10</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># * Query Cache Configuration</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="attr">query_cache_limit</span>	= <span class="number">2</span>M</span><br><span class="line"><span class="attr">query_cache_size</span>        = <span class="number">32</span>M</span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># * Logging and Replication</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Both location gets rotated by the cronjob.</span></span><br><span class="line"><span class="comment"># Be aware that this log type is a performance killer.</span></span><br><span class="line"><span class="comment"># As of 5.1 you can enable the log at runtime!</span></span><br><span class="line"><span class="comment">#general_log_file        = /var/log/mysql/mysql.log</span></span><br><span class="line"><span class="comment">#general_log             = 1</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Error log - should be very few entries.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="attr">log_error</span> = /var/log/mysql/error.log</span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Here you can see queries with especially long duration</span></span><br><span class="line"><span class="comment">#log_slow_queries	= /var/log/mysql/mysql-slow.log</span></span><br><span class="line"><span class="comment">#long_query_time = 2</span></span><br><span class="line"><span class="comment">#log-queries-not-using-indexes</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># The following can be used as easy to replay backup logs or for replication.</span></span><br><span class="line"><span class="comment"># <span class="doctag">note:</span> if you are setting up a replication slave, see README.Debian about</span></span><br><span class="line"><span class="comment">#       other settings you may need to change.</span></span><br><span class="line"><span class="comment">#server-id		= 1</span></span><br><span class="line"><span class="comment">#log_bin			= /var/log/mysql/mysql-bin.log</span></span><br><span class="line"><span class="attr">expire_logs_days</span>	= <span class="number">10</span></span><br><span class="line"><span class="attr">max_binlog_size</span>   = <span class="number">300</span>M</span><br><span class="line"><span class="comment">#binlog_do_db		= include_database_name</span></span><br><span class="line"><span class="comment">#binlog_ignore_db	= include_database_name</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># * InnoDB</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># InnoDB is enabled by default with a 10MB datafile in /var/lib/mysql/.</span></span><br><span class="line"><span class="comment"># Read the manual for more InnoDB related options. There are many!</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># * Security Features</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Read the manual, too, if you want chroot!</span></span><br><span class="line"><span class="comment"># chroot = /var/lib/mysql/</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># For generating SSL certificates I recommend the OpenSSL GUI "tinyca".</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># ssl-ca=/etc/mysql/cacert.pem</span></span><br><span class="line"><span class="comment"># ssl-cert=/etc/mysql/server-cert.pem</span></span><br><span class="line"><span class="comment"># ssl-key=/etc/mysql/server-key.pem</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mysql/" rel="tag"># mysql</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/06/git/git合并多个commit/" rel="next" title="git合并多个commit">
+                <i class="fa fa-chevron-left"></i> git合并多个commit
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/07/sql/mysql/mysql的week函数模式说明/" rel="prev" title="mysql的week函数模式说明">
+                mysql的week函数模式说明 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Sam guo</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">26</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#参数说明"><span class="nav-number">1.</span> <span class="nav-text">参数说明</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#max-connections参数修改不生效，限制在214的问题。"><span class="nav-number">1.1.</span> <span class="nav-text">max connections参数修改不生效，限制在214的问题。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#去掉mysql5-7严格区分表名大小写问题"><span class="nav-number">1.2.</span> <span class="nav-text">去掉mysql5.7严格区分表名大小写问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sql-mode-的修改"><span class="nav-number">1.3.</span> <span class="nav-text">sql_mode 的修改</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改utf编码"><span class="nav-number">1.4.</span> <span class="nav-text">修改utf编码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#缓存的设置"><span class="nav-number">1.5.</span> <span class="nav-text">缓存的设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#innodb-buffer-pool-size-参数"><span class="nav-number">1.6.</span> <span class="nav-text">innodb_buffer_pool_size 参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#innodb-flush-log-at-trx-commi-参数"><span class="nav-number">1.7.</span> <span class="nav-text">innodb_flush_log_at_trx_commi 参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#innodb-thread-concurrency-参数"><span class="nav-number">1.8.</span> <span class="nav-text">innodb_thread_concurrency 参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#query-cache-limit-与-query-cache-size"><span class="nav-number">1.9.</span> <span class="nav-text">query_cache_limit 与 query_cache_size</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最后附上配置文件"><span class="nav-number">2.</span> <span class="nav-text">最后附上配置文件</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sam guo</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Muse</a> v6.0.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.4"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

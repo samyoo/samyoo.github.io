@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.0.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.0.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.0.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.0.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.0.4" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.0.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  
+  <meta name="keywords" content="oracle," />
+
+
+<meta name="description" content="查看表结构12345678910111213141516select dbms_metadata.get_ddl(&apos;TABLE&apos;,&apos;TABLE_NAME&apos;) from dual;DBMS_METADATA.GET_DDL (object_type     IN VARCHAR2,name            IN VARCHAR2,schema          IN VARCHAR2 DEFA">
+<meta name="keywords" content="oracle">
+<meta property="og:type" content="article">
+<meta property="og:title" content="oracle备份还原">
+<meta property="og:url" content="http://samhome.cn/2018/02/02/sql/oracle/oracle备份还原/index.html">
+<meta property="og:site_name" content="Sam Home">
+<meta property="og:description" content="查看表结构12345678910111213141516select dbms_metadata.get_ddl(&apos;TABLE&apos;,&apos;TABLE_NAME&apos;) from dual;DBMS_METADATA.GET_DDL (object_type     IN VARCHAR2,name            IN VARCHAR2,schema          IN VARCHAR2 DEFA">
+<meta property="og:locale" content="zh">
+<meta property="og:updated_time" content="2018-03-07T10:05:14.423Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="oracle备份还原">
+<meta name="twitter:description" content="查看表结构12345678910111213141516select dbms_metadata.get_ddl(&apos;TABLE&apos;,&apos;TABLE_NAME&apos;) from dual;DBMS_METADATA.GET_DDL (object_type     IN VARCHAR2,name            IN VARCHAR2,schema          IN VARCHAR2 DEFA">
+
+
+
+
+
+
+  <link rel="canonical" href="http://samhome.cn/2018/02/02/sql/oracle/oracle备份还原/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+  <title>oracle备份还原 | Sam Home</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Sam Home</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">开发日记，技术记录</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+  
+
+
+
+ </div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/02/sql/oracle/oracle备份还原/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">oracle备份还原</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-02T14:29:44+08:00">2018-02-02</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="查看表结构"><a href="#查看表结构" class="headerlink" title="查看表结构"></a>查看表结构</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> dbms_metadata.get_ddl(<span class="string">'TABLE'</span>,<span class="string">'TABLE_NAME'</span>) <span class="keyword">from</span> dual;</span><br><span class="line"></span><br><span class="line">DBMS_METADATA.GET_DDL (</span><br><span class="line">object_type     IN VARCHAR2,</span><br><span class="line">name            IN VARCHAR2,</span><br><span class="line">schema          IN VARCHAR2 DEFAULT NULL,</span><br><span class="line">version         IN VARCHAR2 DEFAULT 'COMPATIBLE',</span><br><span class="line">model           IN VARCHAR2 DEFAULT 'ORACLE',</span><br><span class="line">transform       IN VARCHAR2 DEFAULT 'DDL')</span><br><span class="line">RETURN CLOB;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> DBMS_METADATA.GET_DDL(<span class="string">'TABLE'</span>,<span class="string">'EMP'</span>,<span class="string">'SCOTT'</span>)</span><br><span class="line"><span class="keyword">FROM</span> DUAL;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> DBMS_METADATA.GET_DDL(<span class="string">'INDEX'</span>,<span class="string">'IDX_EMP'</span>,<span class="string">'SCOTT'</span>)</span><br><span class="line"><span class="keyword">FROM</span> DUAL;</span><br></pre></td></tr></table></figure>
+<h3 id="备份"><a href="#备份" class="headerlink" title="备份"></a>备份</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">declare</span></span><br><span class="line">          h1   <span class="built_in">NUMBER</span>;</span><br><span class="line">          l1   varchar2(20);</span><br><span class="line">         <span class="keyword">begin</span></span><br><span class="line">             h1 := dbms_datapump.open (operation =&gt; <span class="string">'EXPORT'</span>, job_mode =&gt; <span class="string">'SCHEMA'</span>, job_name =&gt; <span class="string">'JOB_EXP1'</span>, <span class="keyword">version</span> =&gt; <span class="string">'COMPATIBLE'</span>); </span><br><span class="line">           dbms_datapump.set_parallel(handle =&gt; h1, degree =&gt; 1); </span><br><span class="line">           dbms_datapump.add_file(handle =&gt; h1, filename =&gt; 'EXPDAT.LOG', directory =&gt; 'DATA_PUMP_DIR', filetype =&gt; 3); </span><br><span class="line">           dbms_datapump.set_parameter(handle =&gt; h1, name =&gt; 'KEEP_MASTER', value =&gt; 0); </span><br><span class="line">           dbms_datapump.metadata_filter(handle =&gt; h1, name =&gt; 'SCHEMA_EXPR', value =&gt; 'IN(''sam_300'')'); </span><br><span class="line">           dbms_datapump.add_file(handle =&gt; h1, filename =&gt; 'sam_300_DB.DMP', directory =&gt; 'DATA_PUMP_DIR', filetype =&gt; 1); </span><br><span class="line">           dbms_datapump.set_parameter(handle =&gt; h1, name =&gt; 'INCLUDE_METADATA', value =&gt; 1); </span><br><span class="line">           dbms_datapump.set_parameter(handle =&gt; h1, name =&gt; 'DATA_ACCESS_METHOD', value =&gt; 'AUTOMATIC'); </span><br><span class="line">           dbms_datapump.set_parameter(handle =&gt; h1, name =&gt; 'ESTIMATE', value =&gt; 'BLOCKS'); </span><br><span class="line">           dbms_datapump.start_job(handle =&gt; h1, skip_current =&gt; 0, abort_step =&gt; 0); </span><br><span class="line">           dbms_datapump.wait_for_job(handle =&gt; h1, job_state =&gt; l1);</span><br><span class="line">           dbms_datapump.detach(handle =&gt; h1); </span><br><span class="line">        <span class="keyword">end</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 2、注意：</span></span><br><span class="line">A、 'IN(''CHY'')' 中的CHY为PL\SQL登陆的用户名，待备份的用户，注意用大写。</span><br><span class="line">B、filename =&gt; 'CHYDB.DMP'中的CHYDB是指定的备份出的dmp文件名称，注意用大写。</span><br><span class="line"><span class="comment">-- 3、待plsql中执行完成，从下面查询获取备份文件的路径，并将dmp文件可以拷贝出来</span></span><br><span class="line"><span class="keyword">SELECT</span> directory_path <span class="keyword">FROM</span> dba_directories <span class="keyword">WHERE</span> directory_name=<span class="string">'DATA_PUMP_DIR'</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="还原"><a href="#还原" class="headerlink" title="还原"></a>还原</h3><h4 id="在新装好的oracle里，用plsql以system登录先创建用户"><a href="#在新装好的oracle里，用plsql以system登录先创建用户" class="headerlink" title="在新装好的oracle里，用plsql以system登录先创建用户"></a>在新装好的oracle里，用plsql以system登录先创建用户</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*创建用户分为四步 */</span></span><br><span class="line"><span class="comment">/*第1步：创建临时表空间  */</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">temporary</span> <span class="keyword">tablespace</span> user_temp  </span><br><span class="line">tempfile <span class="string">'D:\orcldata\user_temp.dbf'</span> </span><br><span class="line"><span class="keyword">size</span> <span class="number">50</span>m  </span><br><span class="line"><span class="keyword">autoextend</span> <span class="keyword">on</span>  </span><br><span class="line"><span class="keyword">next</span> <span class="number">50</span>m <span class="keyword">maxsize</span> <span class="number">20480</span>m  </span><br><span class="line"><span class="keyword">extent</span> <span class="keyword">management</span> <span class="keyword">local</span>;  </span><br><span class="line"> </span><br><span class="line"><span class="comment">/*第2步：创建数据表空间  */</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">tablespace</span> <span class="keyword">user_data</span>  </span><br><span class="line"><span class="keyword">logging</span>  </span><br><span class="line"><span class="keyword">datafile</span> <span class="string">'D:\orcldata\user_data.dbf'</span> </span><br><span class="line"><span class="keyword">size</span> <span class="number">50</span>m  </span><br><span class="line"><span class="keyword">autoextend</span> <span class="keyword">on</span>  </span><br><span class="line"><span class="keyword">next</span> <span class="number">50</span>m <span class="keyword">maxsize</span> <span class="number">20480</span>m  </span><br><span class="line"><span class="keyword">extent</span> <span class="keyword">management</span> <span class="keyword">local</span>;  </span><br><span class="line"> </span><br><span class="line"><span class="comment">/*第3步：创建用户并指定表空间  */</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> sam_300 <span class="keyword">identified</span> <span class="keyword">by</span> sam123  </span><br><span class="line"><span class="keyword">default</span> <span class="keyword">tablespace</span> <span class="keyword">user_data</span>  </span><br><span class="line"><span class="keyword">temporary</span> <span class="keyword">tablespace</span> user_temp;  </span><br><span class="line"> </span><br><span class="line"><span class="comment">/*第4步：给用户授予权限  */</span></span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">connect</span>,<span class="keyword">resource</span>,dba <span class="keyword">to</span> sam_300;</span><br></pre></td></tr></table></figure>
+<h4 id="、然后创建目录别名"><a href="#、然后创建目录别名" class="headerlink" title="、然后创建目录别名"></a>、然后创建目录别名</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">or</span> <span class="keyword">replace</span> <span class="keyword">directory</span> orabak  <span class="keyword">as</span>  <span class="string">'d://orclbak'</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="打开CMD命令程序运行-由于安装的服务器系统是中文的所以要设置字符集"><a href="#打开CMD命令程序运行-由于安装的服务器系统是中文的所以要设置字符集" class="headerlink" title="打开CMD命令程序运行,由于安装的服务器系统是中文的所以要设置字符集"></a>打开CMD命令程序运行,由于安装的服务器系统是中文的所以要设置字符集</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> NLS_LANG=AMERICAN_AMERICA.UTF8</span><br><span class="line"></span><br><span class="line"><span class="comment">/*修改dmp文件名和日志名（备份要在d://orclbak）*/</span></span><br><span class="line"><span class="comment">/*语句二选一*/</span></span><br><span class="line"><span class="comment">/*用户名都是sam_300*/</span></span><br><span class="line">impdp <span class="keyword">system</span>/sam123 <span class="keyword">directory</span>=orabak <span class="keyword">dumpfile</span>=sam_300_EXPDP_2017<span class="number">-05</span><span class="number">-14</span>_BAK.DMP <span class="keyword">logfile</span>=impdp_sam_300_EXPDP_2017<span class="number">-05</span><span class="number">-14.</span><span class="keyword">log</span> schemas=sam_300 transform=<span class="keyword">oid</span>:n</span><br><span class="line"><span class="comment">/*用户名是其他，还要修改新用户名*/</span></span><br><span class="line">impdp <span class="keyword">system</span>/sam123 <span class="keyword">directory</span>=orabak <span class="keyword">dumpfile</span>=sam_300_EXPDP_2017<span class="number">-05</span><span class="number">-14</span>_BAK.DMP <span class="keyword">logfile</span>=impdp_sam_300_EXPDP_2017<span class="number">-05</span><span class="number">-14.</span><span class="keyword">log</span> remap_schema=sam_300:sam_300_2 transform=<span class="keyword">oid</span>:n</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/oracle/" rel="tag"># oracle</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/01/linux/SSH免密登录配置/" rel="next" title="SSH免密登录配置">
+                <i class="fa fa-chevron-left"></i> SSH免密登录配置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/02/22/linux/ubuntu/systemd配置tomcat开机自启动/" rel="prev" title="systemd配置tomcat开机自启动">
+                systemd配置tomcat开机自启动 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Sam guo</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">26</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#查看表结构"><span class="nav-number">1.</span> <span class="nav-text">查看表结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#备份"><span class="nav-number">2.</span> <span class="nav-text">备份</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#还原"><span class="nav-number">3.</span> <span class="nav-text">还原</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在新装好的oracle里，用plsql以system登录先创建用户"><span class="nav-number">3.1.</span> <span class="nav-text">在新装好的oracle里，用plsql以system登录先创建用户</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#、然后创建目录别名"><span class="nav-number">3.2.</span> <span class="nav-text">、然后创建目录别名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#打开CMD命令程序运行-由于安装的服务器系统是中文的所以要设置字符集"><span class="nav-number">3.3.</span> <span class="nav-text">打开CMD命令程序运行,由于安装的服务器系统是中文的所以要设置字符集</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sam guo</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/theme-next/hexo-theme-next">NexT.Muse</a> v6.0.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.0.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.0.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.0.4"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

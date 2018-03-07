@@ -279,6 +279,1391 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/03/08/git/git常用命令/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/08/git/git常用命令/" itemprop="url">git常用命令</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-08T11:45:44+08:00">2018-03-08</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/git/" itemprop="url" rel="index"><span itemprop="name">git</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="git使用示意图"><a href="#git使用示意图" class="headerlink" title="git使用示意图"></a>git使用示意图</h3><p><img src="http://yanhaijing.com/blog/146.png" alt=""></p>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><ul>
+<li>首先是配置帐号信息</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">git config -e [--global] # 编辑Git配置文件</span><br><span class="line"></span><br><span class="line">git config --global user.name sam</span><br><span class="line">git config --global user.email sam@esr.com</span><br><span class="line"></span><br><span class="line">git config --list #查看配置的信息</span><br><span class="line"></span><br><span class="line">git help config #获取帮助信息</span><br></pre></td></tr></table></figure>
+<ul>
+<li>配置自动换行（自动转换坑太大）</li>
+</ul>
+<p>CR回车 LF换行</p>
+<ol>
+<li><code>Windows/Dos CRLF \r\n</code></li>
+<li><code>Linux/Unix LF \n</code></li>
+<li><code>MacOS CR \r</code></li>
+</ol>
+<p>上网查询了大量资料和另人的使用经验后。<a href="https://github.com/cssmagic/blog/issues/22" target="_blank" rel="noopener"><code>GitHub 第一坑：换行符自动转换</code></a></p>
+<p>结论是：<strong>把autocrlf设置为false、不让git自动转换换行符。并且safecrlf设置为true</strong></p>
+<h4 id="AutoCRLF"><a href="#AutoCRLF" class="headerlink" title="AutoCRLF"></a>AutoCRLF</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#提交时转换为LF，检出时转换为CRLF</span><br><span class="line">git config --global core.autocrlf true   </span><br><span class="line"></span><br><span class="line">#提交时转换为LF，检出时不转换</span><br><span class="line">git config --global core.autocrlf input   </span><br><span class="line"></span><br><span class="line">#提交检出均不转换</span><br><span class="line">git config --global core.autocrlf false</span><br></pre></td></tr></table></figure>
+<h4 id="SafeCRLF"><a href="#SafeCRLF" class="headerlink" title="SafeCRLF"></a>SafeCRLF</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#拒绝提交包含混合换行符的文件</span><br><span class="line">git config --global core.safecrlf true   </span><br><span class="line"></span><br><span class="line">#允许提交包含混合换行符的文件</span><br><span class="line">git config --global core.safecrlf false   </span><br><span class="line"></span><br><span class="line">#提交包含混合换行符的文件时给出警告</span><br><span class="line">git config --global core.safecrlf warn</span><br></pre></td></tr></table></figure>
+<h4 id="win安装提示"><a href="#win安装提示" class="headerlink" title="win安装提示"></a>win安装提示</h4><p><img src="http://wx1.sinaimg.cn/large/c12c465bgy1fl4urjrnlhj20dz0ap3ym.jpg" alt=""></p>
+<ul>
+<li><p>Checkout Windows-styl，commit Unix-style line endings</p>
+<blockquote>
+<p>签出时LF转为CRLF  core.autocrlf=true</p>
+</blockquote>
+</li>
+<li><p>Checkout as-is ,commit-Unix-style line endings</p>
+<blockquote>
+<p>签出时不改变任何内容,提交时CRLF替换为LF core.autocrlf=input</p>
+</blockquote>
+</li>
+<li><p>checkout as-is,commit as-is</p>
+<blockquote>
+<p>签出签入都不做任何转换保持原样 core.autocrlf=false</p>
+</blockquote>
+</li>
+</ul>
+<ul>
+<li>配置别名</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git config --global alias.st status #git st</span><br><span class="line">git config --global alias.co checkout #git co</span><br><span class="line">git config --global alias.br branch #git br</span><br><span class="line">git config --global alias.ci commit #git ci</span><br></pre></td></tr></table></figure>
+<h3 id="新建仓库"><a href="#新建仓库" class="headerlink" title="新建仓库"></a>新建仓库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git init #初始化</span><br><span class="line">git status #获取状态</span><br><span class="line">git add [file1] [file2] ... #.或*代表全部添加</span><br><span class="line">git commit -m &quot;message&quot; #此处注意乱码</span><br><span class="line">git remote add origin git@github.com:yanhaijing/test.git #添加源</span><br><span class="line">git push -u origin master #push同事设置默认跟踪分支</span><br></pre></td></tr></table></figure>
+<h3 id="从现有仓库克隆"><a href="#从现有仓库克隆" class="headerlink" title="从现有仓库克隆"></a>从现有仓库克隆</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone git@192.168.60.30:/java/sdap.git	</span><br><span class="line">git clone git@192.168.60.30:/java/sdap.git mypro#克隆到自定义文件夹</span><br></pre></td></tr></table></figure>
+<h3 id="本地"><a href="#本地" class="headerlink" title="本地"></a>本地</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">git add * # 跟踪新文件</span><br><span class="line">git add -u [path] # 添加[指定路径下]已跟踪文件</span><br><span class="line"></span><br><span class="line">rm *&amp;git rm * # 移除文件</span><br><span class="line">git rm -f * # 移除文件</span><br><span class="line">git rm --cached * # 停止追踪指定文件，但该文件会保留在工作区</span><br><span class="line">git mv file_from file_to # 重命名跟踪文件</span><br><span class="line"></span><br><span class="line">git log # 查看提交记录</span><br><span class="line"></span><br><span class="line">git commit # 提交更新	</span><br><span class="line">git commit [file1] [file2] ... # 提交指定文件	</span><br><span class="line">git commit -m &apos;message&apos;</span><br><span class="line">git commit -a # 跳过使用暂存区域，把所有已经跟踪过的文件暂存起来一并提交</span><br><span class="line">git commit --amend#修改最后一次提交</span><br><span class="line">git commit -v # 提交时显示所有diff信息</span><br><span class="line"></span><br><span class="line">git reset HEAD *#取消已经暂存的文件</span><br><span class="line">git reset --mixed HEAD *#同上</span><br><span class="line">git reset --soft HEAD *#重置到指定状态，不会修改索引区和工作树</span><br><span class="line">git reset --hard HEAD *#重置到指定状态，会修改索引区和工作树</span><br><span class="line">git reset -- files#重置index区文件</span><br><span class="line"></span><br><span class="line">git revert HEAD #撤销前一次操作</span><br><span class="line">git revert HEAD~ #撤销前前一次操作</span><br><span class="line">git revert commit ## 撤销指定操作</span><br><span class="line"></span><br><span class="line">git checkout -- file#取消对文件的修改（从暂存区——覆盖worktree file）</span><br><span class="line">git checkout branch|tag|commit -- file_name#从仓库取出file覆盖当前分支</span><br><span class="line">git checkout -- .#从暂存区取出文件覆盖工作区</span><br><span class="line"></span><br><span class="line">git diff file #查看指定文件的差异</span><br><span class="line">git diff --stat #查看简单的diff结果</span><br><span class="line">git diff #比较Worktree和Index之间的差异</span><br><span class="line">git diff --cached #比较Index和HEAD之间的差异</span><br><span class="line">git diff HEAD #比较Worktree和HEAD之间的差异</span><br><span class="line">git diff branch #比较Worktree和branch之间的差异</span><br><span class="line">git diff branch1 branch2 #比较两次分支之间的差异</span><br><span class="line">git diff commit commit #比较两次提交之间的差异</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">git log #查看最近的提交日志</span><br><span class="line">git log --pretty=oneline #单行显示提交日志</span><br><span class="line">git log --graph # 图形化显示</span><br><span class="line">git log --abbrev-commit # 显示log id的缩写</span><br><span class="line">git log -num #显示第几条log（倒数）</span><br><span class="line">git log --stat # 显示commit历史，以及每次commit发生变更的文件</span><br><span class="line">git log --follow [file] # 显示某个文件的版本历史，包括文件改名</span><br><span class="line">git log -p [file] # 显示指定文件相关的每一次diff</span><br><span class="line"></span><br><span class="line">git stash #将工作区现场（已跟踪文件）储藏起来，等以后恢复后继续工作。</span><br><span class="line">git stash list #查看保存的工作现场</span><br><span class="line">git stash apply #恢复工作现场</span><br><span class="line">git stash drop #删除stash内容</span><br><span class="line">git stash pop #恢复的同时直接删除stash内容</span><br><span class="line">git stash apply stash@&#123;0&#125; #恢复指定的工作现场，当你保存了不只一份工作现场时。</span><br></pre></td></tr></table></figure>
+<h4 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">git branch#列出本地分支</span><br><span class="line">git branch -r#列出远端分支</span><br><span class="line">git branch -a#列出所有分支</span><br><span class="line">git branch -v#查看各个分支最后一个提交对象的信息</span><br><span class="line">git branch --merge#查看已经合并到当前分支的分支</span><br><span class="line">git branch --no-merge#查看为合并到当前分支的分支</span><br><span class="line">git branch test#新建test分支</span><br><span class="line">git branch branch [branch|commit|tag] # 从指定位置出新建分支</span><br><span class="line">git branch --track branch remote-branch # 新建一个分支，与指定的远程分支建立追踪关系</span><br><span class="line">git branch -m old new #重命名分支</span><br><span class="line">git branch -d test#删除test分支</span><br><span class="line">git branch -D test#强制删除test分支</span><br><span class="line">git branch --set-upstream dev origin/dev #将本地dev分支与远程dev分支之间建立链接</span><br><span class="line"></span><br><span class="line">git checkout test#切换到test分支</span><br><span class="line">git checkout -b test#新建+切换到test分支</span><br><span class="line">git checkout -b test dev#基于dev新建test分支，并切换</span><br><span class="line"></span><br><span class="line">git merge test#将test分支合并到当前分支</span><br><span class="line">git merge --squash test ## 合并压缩，将test上的commit压缩为一条</span><br><span class="line"></span><br><span class="line">git cherry-pick commit #拣选合并，将commit合并到当前分支</span><br><span class="line">git cherry-pick -n commit #拣选多个提交，合并完后可以继续拣选下一个提交</span><br><span class="line"></span><br><span class="line">git rebase master#将master分之上超前的提交，变基到当前分支</span><br><span class="line">git rebase --onto master 169a6 #限制回滚范围，rebase当前分支从169a6以后的提交</span><br><span class="line">git rebase --interactive #交互模式	</span><br><span class="line">git rebase --continue# 处理完冲突继续合并	</span><br><span class="line">git rebase --skip# 跳过	</span><br><span class="line">git rebase --abort# 取消合并</span><br></pre></td></tr></table></figure>
+<h4 id="远端"><a href="#远端" class="headerlink" title="远端"></a>远端</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">git fetch origin remotebranch[:localbranch]# 从远端拉去分支[到本地指定分支]</span><br><span class="line"></span><br><span class="line">git merge origin/branch#合并远端上指定分支</span><br><span class="line"></span><br><span class="line">git pull origin remotebranch:localbranch# 拉去远端分支到本地分支</span><br><span class="line"></span><br><span class="line">git push origin branch#将当前分支，推送到远端上指定分支</span><br><span class="line">git push origin localbranch:remotebranch#推送本地指定分支，到远端上指定分支</span><br><span class="line">git push origin :remotebranch # 删除远端指定分支</span><br><span class="line">git push origin remotebranch --delete # 删除远程分支</span><br><span class="line">git branch -dr branch # 删除本地和远程分支</span><br><span class="line">git checkout -b [--track] test origin/dev#基于远端dev分支，新建本地test分支[同时设置跟踪]</span><br></pre></td></tr></table></figure>
+<h4 id="源"><a href="#源" class="headerlink" title="源"></a>源</h4><p>git是一个分布式代码管理工具，所以可以支持多个仓库，在git里，服务器上的仓库在本地称之为remote。<br>个人开发时，多源用的可能不多，但多源其实非常有用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin1 git@192.168.60.30:/java/sdap.git</span><br><span class="line"></span><br><span class="line">git remote#显示全部源</span><br><span class="line">git remote -v#显示全部源+详细信息</span><br><span class="line"></span><br><span class="line">git remote rename origin1 origin2#重命名</span><br><span class="line"></span><br><span class="line">git remote rm origin#删除</span><br><span class="line"></span><br><span class="line">git remote show origin#查看指定源的全部信息</span><br></pre></td></tr></table></figure>
+<h4 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h4><p>当开发到一定阶段时，给程序打标签是非常棒的功能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">git tag#列出现有标签	</span><br><span class="line"></span><br><span class="line">git tag v0.1 [branch|commit] # [从指定位置]新建标签</span><br><span class="line">git tag -a v0.1 -m &apos;my version 1.4&apos;#新建带注释标签</span><br><span class="line"></span><br><span class="line">git checkout tagname#切换到标签</span><br><span class="line"></span><br><span class="line">git push origin v1.5#推送分支到源上</span><br><span class="line">git push origin --tags#一次性推送所有分支</span><br><span class="line"></span><br><span class="line">git tag -d v0.1#删除标签</span><br><span class="line">git push origin :refs/tags/v0.1#删除远程标签</span><br></pre></td></tr></table></figure>
+<hr>
+<p>最后再补一个救命的命令吧，如果你不小心删错了东西，就用下面的命令，可以看到你之前操作的id，大部分情况下是可以恢复的，记住git几乎不会删除东西。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reflog # 显示最近操作的commit id</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/03/07/js/ajax下载文件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/07/js/ajax下载文件/" itemprop="url">ajax 下载文件</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-07T19:29:44+08:00">2018-03-07</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/js/" itemprop="url" rel="index"><span itemprop="name">js</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>原本现在文件直接通过超链接可以完成下载，但现在要在url中附带几个参数，并且这些参数要是点击事件触发时的最新值，所以这里使用ajax的方式进行下载</p>
+<p>然而：</p>
+<blockquote>
+<p>使用ajax，ajax的返回值类型是<code>json</code>,<code>text</code>,<code>html</code>,<code>xml</code>类型，或者可以说ajax的发送，接受都只能是string字符串，不能流类型，所以无法实现文件下载，强用会出现response冲突。<br>如果非要使用ajax的话，只能通过返回值得到生成的文件相关url。然后在回调函数里通过创建一个iframe，并设置其src值为文件url，或者一个对文件生成流的处理url，这样操作来实现文件下载且页面无刷新。</p>
+</blockquote>
+<blockquote>
+<p>不使用ajax，通过dom动态操作或创建iframe,form的方式来实现，在下载文件的同时实现页面不刷新，其中iframe的src可以是文件地址url来直接下载文件，也可以是流处理url通过response流输出下载，form的是流处理url通过response流输出下载，dom动态操作的时候实现文件下载，且页面无刷新。</p>
+</blockquote>
+<p>这里就是用两两种操作dom方式实现下载：</p>
+<ul>
+<li><p>操作iframe方式：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ajaxDownload</span>(<span class="params">urlPost,data</span>)</span>&#123;</span><br><span class="line">     $.ajax(&#123;</span><br><span class="line">         url: urlPost,</span><br><span class="line">         type: <span class="string">"POST"</span>,</span><br><span class="line">         cache: <span class="literal">false</span>,</span><br><span class="line">         data:data,</span><br><span class="line">         beforeSend:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">             $(<span class="string">"#grid_crud"</span>).pqGrid(<span class="string">"showLoading"</span>)</span><br><span class="line">         &#125;,</span><br><span class="line">         success: <span class="function"><span class="keyword">function</span>(<span class="params">filename</span>) </span>&#123;</span><br><span class="line">             <span class="keyword">var</span> url = urlPost + (((urlPost.indexOf(<span class="string">"?"</span>) &gt; <span class="number">0</span>) ? <span class="string">"&amp;"</span> : <span class="string">"?"</span>) + $.param(data));</span><br><span class="line">             $(<span class="built_in">document</span>.body).append(<span class="string">"&lt;iframe height='0' width='0' frameborder='0'  src="</span> + url + <span class="string">"&gt;&lt;/iframe&gt;"</span>)</span><br><span class="line">         &#125;,</span><br><span class="line">         complete:<span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">             $(<span class="string">"#grid_crud"</span>).pqGrid(<span class="string">"hideLoading"</span>)</span><br><span class="line">         &#125;,</span><br><span class="line">         error:<span class="function"><span class="keyword">function</span>(<span class="params">a,b,c</span>)</span>&#123;</span><br><span class="line">             $(<span class="string">"#grid_crud"</span>).pqGrid(<span class="string">"hideLoading"</span>)</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>操作form形式：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ajaxDownload</span>(<span class="params">url,data,method</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(url &amp;&amp; data)&#123;</span><br><span class="line">        <span class="comment">// data 是 string 或者 array/object</span></span><br><span class="line">        data = <span class="keyword">typeof</span> data ==<span class="string">'string'</span>?data:jQuery.param(data);</span><br><span class="line">        <span class="keyword">var</span> inputs =<span class="string">''</span>;</span><br><span class="line">        jQuery.each(data.split(<span class="string">'&amp;'</span>),<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="keyword">var</span> pair = <span class="keyword">this</span>.split(<span class="string">'='</span>);</span><br><span class="line">            inputs +=<span class="string">'&lt;input type="hidden" name="'</span>+pair[<span class="number">0</span>]+<span class="string">'" value="'</span>+pair[<span class="number">1</span>]+<span class="string">'"/&gt;'</span>;</span><br><span class="line">        &#125;);</span><br><span class="line">        jQuery(<span class="string">'&lt;form action="'</span>+url+<span class="string">'" method="'</span>+(method || <span class="string">'post'</span>)+<span class="string">'"&gt;'</span>+inputs+<span class="string">'&lt;/form&gt;'</span>).appendTo(<span class="string">'body'</span>).submit().remove();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/03/07/js/19个js有用的简写技术/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/07/js/19个js有用的简写技术/" itemprop="url">19个js有用的简写技术</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-07T19:29:44+08:00">2018-03-07</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/js/" itemprop="url" rel="index"><span itemprop="name">js</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="三元操作符"><a href="#三元操作符" class="headerlink" title="三元操作符"></a>三元操作符</h3><p>当想写if…else语句时，使用三元操作符来代替。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> x = <span class="number">20</span>;</span><br><span class="line"><span class="keyword">let</span> answer;</span><br><span class="line"><span class="keyword">if</span> (x &gt; <span class="number">10</span>) &#123;</span><br><span class="line">    answer = <span class="string">'is greater'</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    answer = <span class="string">'is lesser'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//简写：</span></span><br><span class="line"><span class="keyword">const</span> answer = x &gt; <span class="number">10</span> ? <span class="string">'is greater'</span> : <span class="string">'is lesser'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//也可以嵌套if语句：</span></span><br><span class="line"><span class="keyword">const</span> big = x &gt; <span class="number">10</span> ? <span class="string">" greater 10"</span> : x</span><br></pre></td></tr></table></figure></p>
+<h3 id="短路求值简写方式"><a href="#短路求值简写方式" class="headerlink" title="短路求值简写方式"></a>短路求值简写方式</h3><p>当给一个变量分配另一个值时，想确定源始值不是null，undefined或空值。可以写撰写一个多重条件的if语句。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (variable1 !== <span class="literal">null</span> || variable1 !== <span class="literal">undefined</span> || variable1 !== <span class="string">''</span>) &#123;</span><br><span class="line">     <span class="keyword">let</span> variable2 = variable1;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//或者可以使用短路求值方法：</span></span><br><span class="line"><span class="keyword">const</span> variable2 = variable1 || <span class="string">'new'</span>;</span><br></pre></td></tr></table></figure></p>
+<h3 id="声明变量简写方法"><a href="#声明变量简写方法" class="headerlink" title="声明变量简写方法"></a>声明变量简写方法</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> x;</span><br><span class="line"><span class="keyword">let</span> y;</span><br><span class="line"><span class="keyword">let</span> z = <span class="number">3</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//简写方法：</span></span><br><span class="line"><span class="keyword">let</span> x, y, z=<span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="if存在条件简写方法"><a href="#if存在条件简写方法" class="headerlink" title="if存在条件简写方法"></a>if存在条件简写方法</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (likeJavaScript === <span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//简写：</span></span><br><span class="line"><span class="keyword">if</span> (likeJavaScript)</span><br><span class="line"></span><br><span class="line"><span class="comment">//只有likeJavaScript是真值时，二者语句才相等</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//如果判断值不是真值，则可以这样：</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> a;</span><br><span class="line"><span class="keyword">if</span> ( a !== <span class="literal">true</span> ) &#123;</span><br><span class="line"><span class="comment">// do something...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//简写：</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> a;</span><br><span class="line"><span class="keyword">if</span> ( !a ) &#123;</span><br><span class="line"><span class="comment">// do something...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="JavaScript循环简写方法"><a href="#JavaScript循环简写方法" class="headerlink" title="JavaScript循环简写方法"></a>JavaScript循环简写方法</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; allImgs.length; i++)</span><br><span class="line"></span><br><span class="line"><span class="comment">//简写：</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> index <span class="keyword">in</span> allImgs)</span><br><span class="line"></span><br><span class="line"><span class="comment">//也可以使用Array.forEach：</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">logArrayElements</span>(<span class="params">element, index, array</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"a["</span> + index + <span class="string">"] = "</span> + element);</span><br><span class="line">&#125;</span><br><span class="line">[<span class="number">2</span>, <span class="number">5</span>, <span class="number">9</span>].forEach(logArrayElements);</span><br><span class="line"><span class="comment">// logs:</span></span><br><span class="line"><span class="comment">// a[0] = 2</span></span><br><span class="line"><span class="comment">// a[1] = 5</span></span><br><span class="line"><span class="comment">// a[2] = 9</span></span><br></pre></td></tr></table></figure>
+<h3 id="短路评价"><a href="#短路评价" class="headerlink" title="短路评价"></a>短路评价</h3><p>给一个变量分配的值是通过判断其值是否为null或undefined，则可以：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> dbHost;</span><br><span class="line"><span class="keyword">if</span> (process.env.DB_HOST) &#123;</span><br><span class="line">  dbHost = process.env.DB_HOST;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  dbHost = <span class="string">'localhost'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//简写：</span></span><br><span class="line"><span class="keyword">const</span> dbHost = process.env.DB_HOST || <span class="string">'localhost'</span>;</span><br></pre></td></tr></table></figure></p>
+<h3 id="十进制指数"><a href="#十进制指数" class="headerlink" title="十进制指数"></a>十进制指数</h3><p>当需要写数字带有很多零时（如10000000），可以采用指数（1e7）来代替这个数字：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">10000</span>; i++) &#123;&#125;</span><br><span class="line"><span class="comment">//简写：</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">1e7</span>; i++) &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 下面都是返回true</span></span><br><span class="line"><span class="number">1e0</span> === <span class="number">1</span>;</span><br><span class="line"><span class="number">1e1</span> === <span class="number">10</span>;</span><br><span class="line"><span class="number">1e2</span> === <span class="number">100</span>;</span><br><span class="line"><span class="number">1e3</span> === <span class="number">1000</span>;</span><br><span class="line"><span class="number">1e4</span> === <span class="number">10000</span>;</span><br><span class="line"><span class="number">1e5</span> === <span class="number">100000</span>;</span><br></pre></td></tr></table></figure></p>
+<h3 id="对象属性简写"><a href="#对象属性简写" class="headerlink" title="对象属性简写"></a>对象属性简写</h3><p>如果属性名与key名相同，则可以采用ES6的方法：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = &#123; <span class="attr">x</span>:x, <span class="attr">y</span>:y &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">//简写：</span></span><br><span class="line"><span class="keyword">const</span> obj = &#123; x, y &#125;;</span><br></pre></td></tr></table></figure></p>
+<h3 id="箭头函数简写"><a href="#箭头函数简写" class="headerlink" title="箭头函数简写"></a>箭头函数简写</h3><p>传统函数编写方法很容易让人理解和编写，但是当嵌套在另一个函数中，则这些优势就荡然无存。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayHello</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'Hello'</span>, name);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'Loaded'</span>)</span><br><span class="line">&#125;, <span class="number">2000</span>);</span><br><span class="line"></span><br><span class="line">list.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">item</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(item);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">//简写：</span></span><br><span class="line"></span><br><span class="line">sayHello = <span class="function"><span class="params">name</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">'Hello'</span>, name);</span><br><span class="line"></span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">'Loaded'</span>), <span class="number">2000</span>);</span><br><span class="line"></span><br><span class="line">list.forEach(<span class="function"><span class="params">item</span> =&gt;</span> <span class="built_in">console</span>.log(item));</span><br></pre></td></tr></table></figure></p>
+<h3 id="隐式返回值简写"><a href="#隐式返回值简写" class="headerlink" title="隐式返回值简写"></a>隐式返回值简写</h3><p>经常使用return语句来返回函数最终结果，一个单独语句的箭头函数能隐式返回其值（函数必须省略{}为了省略return关键字）</p>
+<p>为返回多行语句（例如对象字面表达式），则需要使用()包围函数体。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">calcCircumference</span>(<span class="params">diameter</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Math</span>.PI * diameter</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> func = <span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123; <span class="attr">foo</span>: <span class="number">1</span> &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//简写：</span></span><br><span class="line"></span><br><span class="line">calcCircumference = <span class="function"><span class="params">diameter</span> =&gt;</span> (</span><br><span class="line">  <span class="built_in">Math</span>.PI * diameter;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> func = <span class="function"><span class="params">()</span> =&gt;</span> (&#123; <span class="attr">foo</span>: <span class="number">1</span> &#125;);</span><br></pre></td></tr></table></figure></p>
+<h3 id="默认参数值"><a href="#默认参数值" class="headerlink" title="默认参数值"></a>默认参数值</h3><p>为了给函数中参数传递默认值，通常使用if语句来编写，但是使用ES6定义默认值，则会很简洁：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">volume</span>(<span class="params">l, w, h</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (w === <span class="literal">undefined</span>)</span><br><span class="line">    w = <span class="number">3</span>;</span><br><span class="line">  <span class="keyword">if</span> (h === <span class="literal">undefined</span>)</span><br><span class="line">    h = <span class="number">4</span>;</span><br><span class="line">  <span class="keyword">return</span> l * w * h;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//简写：</span></span><br><span class="line"></span><br><span class="line">volume = <span class="function">(<span class="params">l, w = <span class="number">3</span>, h = <span class="number">4</span> </span>) =&gt;</span> (l * w * h);</span><br><span class="line"></span><br><span class="line">volume(<span class="number">2</span>) <span class="comment">//output: 24</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="模板字符串"><a href="#模板字符串" class="headerlink" title="模板字符串"></a>模板字符串</h3><p>传统的JavaScript语言，输出模板通常是这样写的。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> welcome = <span class="string">'You have logged in as '</span> + first + <span class="string">' '</span> + last + <span class="string">'.'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> db = <span class="string">'http://'</span> + host + <span class="string">':'</span> + port + <span class="string">'/'</span> + database;</span><br><span class="line"><span class="comment">//ES6可以使用反引号和$&#123;&#125;简写：</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> welcome = <span class="string">`You have logged in as <span class="subst">$&#123;first&#125;</span> <span class="subst">$&#123;last&#125;</span>`</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> db = <span class="string">`http://<span class="subst">$&#123;host&#125;</span>:<span class="subst">$&#123;port&#125;</span>/<span class="subst">$&#123;database&#125;</span>`</span>;</span><br></pre></td></tr></table></figure></p>
+<h3 id="解构赋值简写方法"><a href="#解构赋值简写方法" class="headerlink" title="解构赋值简写方法"></a>解构赋值简写方法</h3><p>在web框架中，经常需要从组件和API之间来回传递数组或对象字面形式的数据，然后需要解构它<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> observable = <span class="built_in">require</span>(<span class="string">'mobx/observable'</span>);</span><br><span class="line"><span class="keyword">const</span> action = <span class="built_in">require</span>(<span class="string">'mobx/action'</span>);</span><br><span class="line"><span class="keyword">const</span> runInAction = <span class="built_in">require</span>(<span class="string">'mobx/runInAction'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> store = <span class="keyword">this</span>.props.store;</span><br><span class="line"><span class="keyword">const</span> form = <span class="keyword">this</span>.props.form;</span><br><span class="line"><span class="keyword">const</span> loading = <span class="keyword">this</span>.props.loading;</span><br><span class="line"><span class="keyword">const</span> errors = <span class="keyword">this</span>.props.errors;</span><br><span class="line"><span class="keyword">const</span> entity = <span class="keyword">this</span>.props.entity;</span><br><span class="line"><span class="comment">//简写：</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; observable, action, runInAction &#125; <span class="keyword">from</span> <span class="string">'mobx'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123; store, form, loading, errors, entity &#125; = <span class="keyword">this</span>.props;</span><br><span class="line"><span class="comment">//也可以分配变量名：</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123; store, form, loading, errors, <span class="attr">entity</span>:contact &#125; = <span class="keyword">this</span>.props;</span><br><span class="line"><span class="comment">//最后一个变量名为contact</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="多行字符串简写"><a href="#多行字符串简写" class="headerlink" title="多行字符串简写"></a>多行字符串简写</h3><p>需要输出多行字符串，需要使用+来拼接：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> lorem = <span class="string">'Lorem ipsum dolor sit amet, consectetur\n\t'</span></span><br><span class="line">    + <span class="string">'adipisicing elit, sed do eiusmod tempor incididunt\n\t'</span></span><br><span class="line">    + <span class="string">'ut labore et dolore magna aliqua. Ut enim ad minim\n\t'</span></span><br><span class="line">    + <span class="string">'veniam, quis nostrud exercitation ullamco laboris\n\t'</span></span><br><span class="line">    + <span class="string">'nisi ut aliquip ex ea commodo consequat. Duis aute\n\t'</span></span><br><span class="line">    + <span class="string">'irure dolor in reprehenderit in voluptate velit esse.\n\t'</span></span><br><span class="line"><span class="comment">//使用反引号，则可以达到简写作用：</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> lorem = <span class="string">`Lorem ipsum dolor sit amet, consectetur</span></span><br><span class="line"><span class="string">    adipisicing elit, sed do eiusmod tempor incididunt</span></span><br><span class="line"><span class="string">    ut labore et dolore magna aliqua. Ut enim ad minim</span></span><br><span class="line"><span class="string">    veniam, quis nostrud exercitation ullamco laboris</span></span><br><span class="line"><span class="string">    nisi ut aliquip ex ea commodo consequat. Duis aute</span></span><br><span class="line"><span class="string">    irure dolor in reprehenderit in voluptate velit esse.`</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="扩展运算符简写"><a href="#扩展运算符简写" class="headerlink" title="扩展运算符简写"></a>扩展运算符简写</h3><p>扩展运算符有几种用例让JavaScript代码更加有效使用，可以用来代替某个数组函数。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// joining arrays</span></span><br><span class="line"><span class="keyword">const</span> odd = [<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>];</span><br><span class="line"><span class="keyword">const</span> nums = [<span class="number">2</span> ,<span class="number">4</span> , <span class="number">6</span>].concat(odd);</span><br><span class="line"></span><br><span class="line"><span class="comment">// cloning arrays</span></span><br><span class="line"><span class="keyword">const</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line"><span class="keyword">const</span> arr2 = arr.slice()</span><br><span class="line"><span class="comment">//简写：</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// joining arrays</span></span><br><span class="line"><span class="keyword">const</span> odd = [<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span> ];</span><br><span class="line"><span class="keyword">const</span> nums = [<span class="number">2</span> ,<span class="number">4</span> , <span class="number">6</span>, ...odd];</span><br><span class="line"><span class="built_in">console</span>.log(nums); <span class="comment">// [ 2, 4, 6, 1, 3, 5 ]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// cloning arrays</span></span><br><span class="line"><span class="keyword">const</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line"><span class="keyword">const</span> arr2 = [...arr];</span><br><span class="line"><span class="comment">//不像concat()函数，可以使用扩展运算符来在一个数组中任意处插入另一个数组。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> odd = [<span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span> ];</span><br><span class="line"><span class="keyword">const</span> nums = [<span class="number">2</span>, ...odd, <span class="number">4</span> , <span class="number">6</span>];</span><br><span class="line"><span class="comment">//也可以使用扩展运算符解构：</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123; a, b, ...z &#125; = &#123; <span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: <span class="number">2</span>, <span class="attr">c</span>: <span class="number">3</span>, <span class="attr">d</span>: <span class="number">4</span> &#125;;</span><br><span class="line"><span class="built_in">console</span>.log(a) <span class="comment">// 1</span></span><br><span class="line"><span class="built_in">console</span>.log(b) <span class="comment">// 2</span></span><br><span class="line"><span class="built_in">console</span>.log(z) <span class="comment">// &#123; c: 3, d: 4 &#125;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="强制参数简写"><a href="#强制参数简写" class="headerlink" title="强制参数简写"></a>强制参数简写</h3><p>JavaScript中如果没有向函数参数传递值，则参数为undefined。为了增强参数赋值，可以使用if语句来抛出异常，或使用强制参数简写方法。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">bar</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(bar === <span class="literal">undefined</span>) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Missing parameter!'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> bar;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//简写：</span></span><br><span class="line"></span><br><span class="line">mandatory = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Missing parameter!'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo = <span class="function">(<span class="params">bar = mandatory(</span>)) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> bar;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Array-find简写"><a href="#Array-find简写" class="headerlink" title="Array.find简写"></a>Array.find简写</h3><p>想从数组中查找某个值，则需要循环。在ES6中，find()函数能实现同样效果。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> pets = [</span><br><span class="line">  &#123; <span class="attr">type</span>: <span class="string">'Dog'</span>, <span class="attr">name</span>: <span class="string">'Max'</span>&#125;,</span><br><span class="line">  &#123; <span class="attr">type</span>: <span class="string">'Cat'</span>, <span class="attr">name</span>: <span class="string">'Karl'</span>&#125;,</span><br><span class="line">  &#123; <span class="attr">type</span>: <span class="string">'Dog'</span>, <span class="attr">name</span>: <span class="string">'Tommy'</span>&#125;,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">findDog</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>; i&lt;pets.length; ++i) &#123;</span><br><span class="line">    <span class="keyword">if</span>(pets[i].type === <span class="string">'Dog'</span> &amp;&amp; pets[i].name === name) &#123;</span><br><span class="line">      <span class="keyword">return</span> pets[i];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//简写：</span></span><br><span class="line"></span><br><span class="line">pet = pets.find(<span class="function"><span class="params">pet</span> =&gt;</span> pet.type ===<span class="string">'Dog'</span> &amp;&amp; pet.name === <span class="string">'Tommy'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(pet); <span class="comment">// &#123; type: 'Dog', name: 'Tommy' &#125;</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="Object-key-简写"><a href="#Object-key-简写" class="headerlink" title="Object[key]简写"></a>Object[key]简写</h3><p>考虑一个验证函数<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">validate</span>(<span class="params">values</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(!values.first)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  <span class="keyword">if</span>(!values.last)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(validate(&#123;<span class="attr">first</span>:<span class="string">'Bruce'</span>,<span class="attr">last</span>:<span class="string">'Wayne'</span>&#125;)); <span class="comment">// true</span></span><br><span class="line"><span class="comment">//假设当需要不同域和规则来验证，能否编写一个通用函数在运行时确认？</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 对象验证规则</span></span><br><span class="line"><span class="keyword">const</span> schema = &#123;</span><br><span class="line">  first: &#123;</span><br><span class="line">    required:<span class="literal">true</span></span><br><span class="line">  &#125;,</span><br><span class="line">  last: &#123;</span><br><span class="line">    required:<span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 通用验证函数</span></span><br><span class="line"><span class="keyword">const</span> validate = <span class="function">(<span class="params">schema, values</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">for</span>(field <span class="keyword">in</span> schema) &#123;</span><br><span class="line">    <span class="keyword">if</span>(schema[field].required) &#123;</span><br><span class="line">      <span class="keyword">if</span>(!values[field]) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(validate(schema, &#123;<span class="attr">first</span>:<span class="string">'Bruce'</span>&#125;)); <span class="comment">// false</span></span><br><span class="line"><span class="built_in">console</span>.log(validate(schema, &#123;<span class="attr">first</span>:<span class="string">'Bruce'</span>,<span class="attr">last</span>:<span class="string">'Wayne'</span>&#125;)); <span class="comment">// true</span></span><br><span class="line"><span class="comment">//现在可以有适用于各种情况的验证函数，不需要为了每个而编写自定义验证函数了</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="双重非位运算简写"><a href="#双重非位运算简写" class="headerlink" title="双重非位运算简写"></a>双重非位运算简写</h3><p>有一个有效用例用于双重非运算操作符。可以用来代替Math.floor()，其优势在于运行更快，可以阅读此文章了解更多位运算。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Math</span>.floor(<span class="number">4.9</span>) === <span class="number">4</span> <span class="comment">//true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//简写：</span></span><br><span class="line">~~<span class="number">4.9</span> === <span class="number">4</span> <span class="comment">//true</span></span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/03/07/sql/mysql/mysql的week函数模式说明/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/07/sql/mysql/mysql的week函数模式说明/" itemprop="url">mysql的week函数模式说明</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-07T18:29:44+08:00">2018-03-07</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="WEEK函数的官方定义"><a href="#WEEK函数的官方定义" class="headerlink" title="WEEK函数的官方定义"></a>WEEK函数的官方定义</h2><table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>First day of week</th>
+<th>Range</th>
+<th>Week 1 is the first week …</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Sunday</td>
+<td>0-53</td>
+<td>with a Sunday in this year</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Monday</td>
+<td>0-53</td>
+<td>with more than 3 days this year</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Sunday</td>
+<td>1-53</td>
+<td>with a Sunday in this year</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Monday</td>
+<td>1-53</td>
+<td>with more than 3 days this year</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Sunday</td>
+<td>0-53</td>
+<td>with more than 3 days this year</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Monday</td>
+<td>0-53</td>
+<td>with a Monday in this year</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Sunday</td>
+<td>1-53</td>
+<td>with more than 3 days this year</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Monday</td>
+<td>1-53</td>
+<td>with a Monday in this year</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>使用 :  <code>select week(date,3)</code></li>
+<li>拿<code>Mode 3</code>来说明，周的第一天是星期一,周数只会出现1-53的范围。举例：</li>
+</ul>
+<blockquote>
+<p> 如果 1 月 1 日是周一、 周二、 周三或周四，就是今年的 第1周。<br>如果 1 月 1 日是周五，周六或周日，就是前一年的 第52 或 53 周。</p>
+</blockquote>
+<ul>
+<li><strong><code>a_date</code> 国内日期表用的是<code>Mode 3</code></strong></li>
+<li><strong><code>a_date_foreign</code> 国外日期表用的是 <code>Mode 6</code></strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>date</th>
+<th>星期几</th>
+<th>Mode 1</th>
+<th>Mode 2</th>
+<th>Mode 3</th>
+<th>Mode 4</th>
+<th>Mode 5</th>
+<th>Mode 6</th>
+<th>Mode 7</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2015-01-01</td>
+<td>4</td>
+<td>1</td>
+<td>52</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>53</td>
+<td>52</td>
+</tr>
+<tr>
+<td>2015-01-02</td>
+<td>5</td>
+<td>1</td>
+<td>52</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>53</td>
+<td>52</td>
+</tr>
+<tr>
+<td>2015-01-03</td>
+<td>6</td>
+<td>1</td>
+<td>52</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>53</td>
+<td>52</td>
+</tr>
+<tr>
+<td>2015-01-04</td>
+<td>7</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>52</td>
+</tr>
+<tr>
+<td>2015-12-28</td>
+<td>1</td>
+<td>53</td>
+<td>52</td>
+<td>53</td>
+<td>52</td>
+<td>52</td>
+<td>52</td>
+<td>52</td>
+</tr>
+<tr>
+<td>2015-12-29</td>
+<td>2</td>
+<td>53</td>
+<td>52</td>
+<td>53</td>
+<td>52</td>
+<td>52</td>
+<td>52</td>
+<td>52</td>
+</tr>
+<tr>
+<td>2015-12-30</td>
+<td>3</td>
+<td>53</td>
+<td>52</td>
+<td>53</td>
+<td>52</td>
+<td>52</td>
+<td>52</td>
+<td>52</td>
+</tr>
+<tr>
+<td>2015-12-31</td>
+<td>4</td>
+<td>53</td>
+<td>52</td>
+<td>53</td>
+<td>52</td>
+<td>52</td>
+<td>52</td>
+<td>52</td>
+</tr>
+<tr>
+<td>2016-01-01</td>
+<td>5</td>
+<td>0</td>
+<td>52</td>
+<td>53</td>
+<td>0</td>
+<td>0</td>
+<td>52</td>
+<td>52</td>
+</tr>
+<tr>
+<td>2016-01-02</td>
+<td>6</td>
+<td>0</td>
+<td>52</td>
+<td>53</td>
+<td>0</td>
+<td>0</td>
+<td>52</td>
+<td>52</td>
+</tr>
+<tr>
+<td>2016-01-03</td>
+<td>7</td>
+<td>0</td>
+<td>1</td>
+<td>53</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>52</td>
+</tr>
+<tr>
+<td>2016-01-10</td>
+<td>7</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2017-01-01</td>
+<td>7</td>
+<td>0</td>
+<td>1</td>
+<td>52</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>52</td>
+</tr>
+<tr>
+<td>2017-01-08</td>
+<td>7</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2018-01-01</td>
+<td>1</td>
+<td>1</td>
+<td>53</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2018-01-02</td>
+<td>2</td>
+<td>1</td>
+<td>53</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2018-01-03</td>
+<td>3</td>
+<td>1</td>
+<td>53</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2018-01-04</td>
+<td>4</td>
+<td>1</td>
+<td>53</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2018-01-05</td>
+<td>5</td>
+<td>1</td>
+<td>53</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2018-01-06</td>
+<td>6</td>
+<td>1</td>
+<td>53</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2018-01-07</td>
+<td>7</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2018-12-31</td>
+<td>1</td>
+<td>53</td>
+<td>52</td>
+<td>1</td>
+<td>53</td>
+<td>53</td>
+<td>1</td>
+<td>53</td>
+</tr>
+<tr>
+<td>2019-01-01</td>
+<td>2</td>
+<td>1</td>
+<td>52</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>53</td>
+</tr>
+<tr>
+<td>2019-01-02</td>
+<td>3</td>
+<td>1</td>
+<td>52</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>53</td>
+</tr>
+<tr>
+<td>2019-01-03</td>
+<td>4</td>
+<td>1</td>
+<td>52</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>53</td>
+</tr>
+<tr>
+<td>2019-01-04</td>
+<td>5</td>
+<td>1</td>
+<td>52</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>53</td>
+</tr>
+<tr>
+<td>2019-01-05</td>
+<td>6</td>
+<td>1</td>
+<td>52</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>53</td>
+</tr>
+<tr>
+<td>2019-01-06</td>
+<td>7</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>2</td>
+<td>0</td>
+<td>2</td>
+<td>53</td>
+</tr>
+<tr>
+<td>2019-12-30</td>
+<td>1</td>
+<td>53</td>
+<td>52</td>
+<td>1</td>
+<td>53</td>
+<td>52</td>
+<td>1</td>
+<td>52</td>
+</tr>
+<tr>
+<td>2019-12-31</td>
+<td>2</td>
+<td>53</td>
+<td>52</td>
+<td>1</td>
+<td>53</td>
+<td>52</td>
+<td>1</td>
+<td>52</td>
+</tr>
+<tr>
+<td>2020-01-01</td>
+<td>3</td>
+<td>1</td>
+<td>52</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>52</td>
+</tr>
+<tr>
+<td>2020-01-02</td>
+<td>4</td>
+<td>1</td>
+<td>52</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>52</td>
+</tr>
+<tr>
+<td>2020-01-03</td>
+<td>5</td>
+<td>1</td>
+<td>52</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>52</td>
+</tr>
+<tr>
+<td>2020-01-04</td>
+<td>6</td>
+<td>1</td>
+<td>52</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>52</td>
+</tr>
+<tr>
+<td>2020-01-05</td>
+<td>7</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>2</td>
+<td>0</td>
+<td>2</td>
+<td>52</td>
+</tr>
+<tr>
+<td>2020-12-28</td>
+<td>1</td>
+<td>53</td>
+<td>52</td>
+<td>53</td>
+<td>53</td>
+<td>52</td>
+<td>53</td>
+<td>52</td>
+</tr>
+<tr>
+<td>2020-12-29</td>
+<td>2</td>
+<td>53</td>
+<td>52</td>
+<td>53</td>
+<td>53</td>
+<td>52</td>
+<td>53</td>
+<td>52</td>
+</tr>
+<tr>
+<td>2020-12-30</td>
+<td>3</td>
+<td>53</td>
+<td>52</td>
+<td>53</td>
+<td>53</td>
+<td>52</td>
+<td>53</td>
+<td>52</td>
+</tr>
+<tr>
+<td>2020-12-31</td>
+<td>4</td>
+<td>53</td>
+<td>52</td>
+<td>53</td>
+<td>53</td>
+<td>52</td>
+<td>53</td>
+<td>52</td>
+</tr>
+<tr>
+<td>2021-01-01</td>
+<td>5</td>
+<td>0</td>
+<td>52</td>
+<td>53</td>
+<td>0</td>
+<td>0</td>
+<td>53</td>
+<td>52</td>
+</tr>
+<tr>
+<td>2021-01-02</td>
+<td>6</td>
+<td>0</td>
+<td>52</td>
+<td>53</td>
+<td>0</td>
+<td>0</td>
+<td>53</td>
+<td>52</td>
+</tr>
+<tr>
+<td>2021-01-03</td>
+<td>7</td>
+<td>0</td>
+<td>1</td>
+<td>53</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>52</td>
+</tr>
+<tr>
+<td>2021-01-10</td>
+<td>7</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+<td>2</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/03/07/sql/mysql/mysql5.6升级5.7及配置文件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/07/sql/mysql/mysql5.6升级5.7及配置文件/" itemprop="url">mysql5.7配置文件</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-07T14:29:44+08:00">2018-03-07</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h3><h4 id="max-connections参数修改不生效，限制在214的问题。"><a href="#max-connections参数修改不生效，限制在214的问题。" class="headerlink" title="max connections参数修改不生效，限制在214的问题。"></a>max connections参数修改不生效，限制在214的问题。</h4><ul>
+<li>修改文件<code>/lib/systemd/system/mysql.service</code>，在最下面添加</li>
+</ul>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">LimitNOFILE</span>=<span class="number">4096</span></span><br><span class="line"><span class="attr">LimitMEMLOCK</span>=<span class="number">4096</span></span><br></pre></td></tr></table></figure>
+<p>  然后运行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl restart mysql.service</span><br></pre></td></tr></table></figure>
+<h4 id="去掉mysql5-7严格区分表名大小写问题"><a href="#去掉mysql5-7严格区分表名大小写问题" class="headerlink" title="去掉mysql5.7严格区分表名大小写问题"></a>去掉mysql5.7严格区分表名大小写问题</h4><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">lower_case_table_names</span> = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h4 id="sql-mode-的修改"><a href="#sql-mode-的修改" class="headerlink" title="sql_mode 的修改"></a>sql_mode 的修改</h4><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#ONLY_FULL_GRUOP_BY 可以兼容底版本的分组SQL</span></span><br><span class="line"><span class="comment">#NO_ZERO_IN_DATE 日期字段可以默认插入0值</span></span><br><span class="line"><span class="comment">#ERROR_FOR_DIVISION_BY_ZERO 可以把0做除数</span></span><br><span class="line"><span class="attr">sql_mode</span> = <span class="string">''</span></span><br></pre></td></tr></table></figure>
+<h4 id="修改utf编码"><a href="#修改utf编码" class="headerlink" title="修改utf编码"></a>修改utf编码</h4><p>网上很多资源都是在[mysqld]下添加<code>default-character-set=utf8</code><br>如果这样改会导致5.7版本mysql无法打开所以要改为<code>character-set-server=utf8</code></p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[client]</span></span><br><span class="line"><span class="attr">default-character-set</span>=utf8</span><br><span class="line"> </span><br><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="attr">character-set-server</span>=utf8</span><br></pre></td></tr></table></figure>
+<h4 id="缓存的设置"><a href="#缓存的设置" class="headerlink" title="缓存的设置"></a>缓存的设置</h4><p>会话 的缓存大小，是针对每一个connection的，这个值也不会越大越好，默认大小是256kb，过大的配置会消耗更多的内存。</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">read_buffer_size</span>        = <span class="number">16</span>M</span><br><span class="line"><span class="attr">read_rnd_buffer_size</span>    = <span class="number">16</span>M</span><br><span class="line"><span class="attr">sort_buffer_size</span>        = <span class="number">16</span>M</span><br><span class="line"><span class="attr">join_buffer_size</span>        = <span class="number">16</span>M</span><br></pre></td></tr></table></figure>
+<h4 id="innodb-buffer-pool-size-参数"><a href="#innodb-buffer-pool-size-参数" class="headerlink" title="innodb_buffer_pool_size 参数"></a>innodb_buffer_pool_size 参数</h4><p>这个参数主要作用是缓存innodb表的索引，数据，插入数据时的缓冲,默认值：<code>128M</code><br>专用mysql服务器设置的大小:<strong>操作系统内存的70%-80%最佳。</strong><br>此外，这个参数是非动态的，要修改这个值，需要重启mysqld服务。所以设置的时候要非常谨慎。<br>并不是设置的越大越好。设置的过大，会导致system的swap空间被占用，导致操作系统变慢，从而减低sql查询的效率。</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">innodb_buffer_pool_size</span> = <span class="number">16</span>G</span><br></pre></td></tr></table></figure>
+<h4 id="innodb-flush-log-at-trx-commi-参数"><a href="#innodb-flush-log-at-trx-commi-参数" class="headerlink" title="innodb_flush_log_at_trx_commi 参数"></a>innodb_flush_log_at_trx_commi 参数</h4><pre><code>- 设置为1 代表`InnoDB`会在每次提交后刷新(fsync)事务日志到磁盘上,这提供了完整的 ACID 行为.
+</code></pre><p>如果你愿意对事务安全折衷, 并且你正在运行一个小的事物, 你可以设置此值到0或者2来减少由事务日志引起的磁盘I/O   </p>
+<pre><code>- 设置为0 代表日志只大约每秒写入日志文件并且日志文件刷新到磁盘.   
+- 设置为2 代表日志写入日志文件在每次提交后,但是日志文件只有大约每秒才会刷新到磁盘上.    
+</code></pre><blockquote>
+<p>说明：如果是游戏服务器，建议此值设置为2；如果是对数据安全要求极高的应用，建议设置为1；<br>设置为0性能最高，但如果发生故障，数据可能会有丢失的危险！<br>默认值1的意思是每一次事务提交或事务外的指令都需要把日志写入（flush）硬盘，这是很费时的。<br>特别是使用电池供电缓存（Battery backed up cache）时。<br>设成2对于很多运用，特别是从MyISAM表转过来的是可以的，它的意思是不写入硬盘而是写入系统缓存。<br>日志仍然会每秒flush到硬盘，所以你一般不会丢失超过1-2秒的更新。<br>设成0会更快一点，但安全方面比较差，即使MySQL挂了也可能会丢失事务的数据。而值2只会在整个操作系统挂了时才可能丢数据。）</p>
+</blockquote>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">innodb_flush_log_at_trx_commit</span> = <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<h4 id="innodb-thread-concurrency-参数"><a href="#innodb-thread-concurrency-参数" class="headerlink" title="innodb_thread_concurrency 参数"></a>innodb_thread_concurrency 参数</h4><p>在<code>InnoDb</code>核心内的允许线程数量.最优值依赖于应用程序,硬件以及操作系统的调度方式.过高的值可能导致线程的互斥颠簸.</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">innodb_thread_concurrency</span> = <span class="number">12</span></span><br></pre></td></tr></table></figure>
+<h4 id="query-cache-limit-与-query-cache-size"><a href="#query-cache-limit-与-query-cache-size" class="headerlink" title="query_cache_limit 与 query_cache_size"></a>query_cache_limit 与 query_cache_size</h4><pre><code>- query_cache_size : 查询缓冲常被用来缓冲`SELECT`的结果并且在下一次同样查询的时候不再执行直接返回结果.打开查询缓冲可以极大的提高服务器速度, 如果你有大量的相同的查询并且很少修改表.
+</code></pre><p>查看<code>Qcache_lowmem_prunes</code>状态变量来检查是否当前值对于你的负载来说是否足够高.</p>
+<pre><code>- query_cache_limit : 只有小于此设定值的结果才会被缓冲此设置用来保护查询缓冲,防止一个极大的结果集将其他所有的查询结果都覆盖.
+</code></pre><blockquote>
+<p><strong><em>注意:</em></strong> 在你表经常变化的情况下或者如果你的查询原文每次都不同,<br>查询缓冲也许引起性能下降而不是性能提升.</p>
+</blockquote>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># * Query Cache Configuration</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="attr">query_cache_limit</span>       = <span class="number">2</span>M</span><br><span class="line"><span class="attr">query_cache_size</span>        = <span class="number">32</span>M</span><br></pre></td></tr></table></figure>
+<h3 id="最后附上配置文件"><a href="#最后附上配置文件" class="headerlink" title="最后附上配置文件"></a>最后附上配置文件</h3><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># The MySQL database server configuration file.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># You can copy this to one of:</span></span><br><span class="line"><span class="comment"># - "/etc/mysql/my.cnf" to set global options,</span></span><br><span class="line"><span class="comment"># - "~/.my.cnf" to set user-specific options.</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># One can use all long options that the program supports.</span></span><br><span class="line"><span class="comment"># Run program with --help to get a list of available options and with</span></span><br><span class="line"><span class="comment"># --print-defaults to see which it would actually understand and use.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># For explanations see</span></span><br><span class="line"><span class="comment"># http://dev.mysql.com/doc/mysql/en/server-system-variables.html</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># This will be passed to all mysql clients</span></span><br><span class="line"><span class="comment"># It has been reported that passwords should be enclosed with ticks/quotes</span></span><br><span class="line"><span class="comment"># escpecially if they contain "#" chars...</span></span><br><span class="line"><span class="comment"># Remember to edit /etc/mysql/debian.cnf when changing the socket location.</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Here is entries for some specific programs</span></span><br><span class="line"><span class="comment"># The following values assume you have at least 32M ram</span></span><br><span class="line"><span class="section">[client]</span></span><br><span class="line"><span class="attr">default-character-set</span>=utf8</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="section">[mysqld_safe]</span></span><br><span class="line"><span class="attr">socket</span>		= /var/run/mysqld/mysqld.sock</span><br><span class="line"><span class="attr">nice</span>		= <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># * Basic Settings</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="attr">user</span>		= mysql</span><br><span class="line"><span class="attr">pid-file</span>	= /var/run/mysqld/mysqld.pid</span><br><span class="line"><span class="attr">socket</span>		= /var/run/mysqld/mysqld.sock</span><br><span class="line"><span class="attr">port</span>		= <span class="number">3306</span></span><br><span class="line"><span class="attr">basedir</span>		= /usr</span><br><span class="line"><span class="attr">datadir</span>		= /var/lib/mysql</span><br><span class="line"><span class="attr">tmpdir</span>		= /tmp</span><br><span class="line"><span class="attr">lc-messages-dir</span>	= /usr/share/mysql</span><br><span class="line">skip-external-locking</span><br><span class="line"></span><br><span class="line"><span class="attr">open_files_limit</span> 	= <span class="number">8192</span></span><br><span class="line"><span class="attr">max_connections</span> 	= <span class="number">3000</span></span><br><span class="line"><span class="attr">max_connect_errors</span>	= <span class="number">500</span></span><br><span class="line"><span class="attr">tmp_table_size</span> 		= <span class="number">128</span>M</span><br><span class="line"><span class="attr">max_allowed_packet</span>	= <span class="number">64</span>M</span><br><span class="line"><span class="attr">interactive_timeout</span> 	= <span class="number">1800</span></span><br><span class="line"><span class="attr">wait_timeout</span> 		= <span class="number">1800</span></span><br><span class="line"><span class="attr">read_buffer_size</span> 	= <span class="number">16</span>M</span><br><span class="line"><span class="attr">read_rnd_buffer_size</span>	= <span class="number">16</span>M</span><br><span class="line"><span class="attr">sort_buffer_size</span> 	= <span class="number">16</span>M</span><br><span class="line"><span class="attr">join_buffer_size</span> 	= <span class="number">16</span>M</span><br><span class="line"><span class="comment">#sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'</span></span><br><span class="line"><span class="attr">sql_mode</span>                = <span class="string">''</span></span><br><span class="line"></span><br><span class="line"><span class="attr">lower_case_table_names</span>  = <span class="number">1</span></span><br><span class="line"><span class="attr">group_concat_max_len</span>    = <span class="number">102400</span></span><br><span class="line"><span class="attr">character-set-server</span>    = utf8</span><br><span class="line"></span><br><span class="line"><span class="attr">innodb_write_io_threads</span> = <span class="number">12</span></span><br><span class="line"><span class="attr">innodb_read_io_threads</span>  = <span class="number">12</span></span><br><span class="line"><span class="attr">innodb_buffer_pool_size</span> = <span class="number">12</span>G</span><br><span class="line"><span class="attr">innodb_thread_concurrency</span> = <span class="number">12</span></span><br><span class="line"><span class="attr">innodb_flush_log_at_trx_commit</span> = <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Instead of skip-networking the default is now to listen only on</span></span><br><span class="line"><span class="comment"># localhost which is more compatible and is not less secure.</span></span><br><span class="line"><span class="comment">#bind-address		= 127.0.0.1</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># * Fine Tuning</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="attr">key_buffer_size</span>		= <span class="number">64</span>M</span><br><span class="line"><span class="attr">thread_stack</span>		= <span class="number">1</span>M</span><br><span class="line"><span class="attr">thread_cache_size</span>       = <span class="number">32</span></span><br><span class="line"><span class="comment"># This replaces the startup script and checks MyISAM tables if needed</span></span><br><span class="line"><span class="comment"># the first time they are touched</span></span><br><span class="line"><span class="attr">myisam-recover-options</span>  = BACKUP</span><br><span class="line"><span class="comment">#max_connections        = 100</span></span><br><span class="line"><span class="comment">#table_cache            = 64</span></span><br><span class="line"><span class="comment">#thread_concurrency     = 10</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># * Query Cache Configuration</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="attr">query_cache_limit</span>	= <span class="number">2</span>M</span><br><span class="line"><span class="attr">query_cache_size</span>        = <span class="number">32</span>M</span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># * Logging and Replication</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Both location gets rotated by the cronjob.</span></span><br><span class="line"><span class="comment"># Be aware that this log type is a performance killer.</span></span><br><span class="line"><span class="comment"># As of 5.1 you can enable the log at runtime!</span></span><br><span class="line"><span class="comment">#general_log_file        = /var/log/mysql/mysql.log</span></span><br><span class="line"><span class="comment">#general_log             = 1</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Error log - should be very few entries.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="attr">log_error</span> = /var/log/mysql/error.log</span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Here you can see queries with especially long duration</span></span><br><span class="line"><span class="comment">#log_slow_queries	= /var/log/mysql/mysql-slow.log</span></span><br><span class="line"><span class="comment">#long_query_time = 2</span></span><br><span class="line"><span class="comment">#log-queries-not-using-indexes</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># The following can be used as easy to replay backup logs or for replication.</span></span><br><span class="line"><span class="comment"># <span class="doctag">note:</span> if you are setting up a replication slave, see README.Debian about</span></span><br><span class="line"><span class="comment">#       other settings you may need to change.</span></span><br><span class="line"><span class="comment">#server-id		= 1</span></span><br><span class="line"><span class="comment">#log_bin			= /var/log/mysql/mysql-bin.log</span></span><br><span class="line"><span class="attr">expire_logs_days</span>	= <span class="number">10</span></span><br><span class="line"><span class="attr">max_binlog_size</span>   = <span class="number">300</span>M</span><br><span class="line"><span class="comment">#binlog_do_db		= include_database_name</span></span><br><span class="line"><span class="comment">#binlog_ignore_db	= include_database_name</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># * InnoDB</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># InnoDB is enabled by default with a 10MB datafile in /var/lib/mysql/.</span></span><br><span class="line"><span class="comment"># Read the manual for more InnoDB related options. There are many!</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># * Security Features</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># Read the manual, too, if you want chroot!</span></span><br><span class="line"><span class="comment"># chroot = /var/lib/mysql/</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># For generating SSL certificates I recommend the OpenSSL GUI "tinyca".</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># ssl-ca=/etc/mysql/cacert.pem</span></span><br><span class="line"><span class="comment"># ssl-cert=/etc/mysql/server-cert.pem</span></span><br><span class="line"><span class="comment"># ssl-key=/etc/mysql/server-key.pem</span></span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/03/06/git/git合并多个commit/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -380,6 +1765,171 @@
 </ul>
 <p>我们将 hash1 这个 commit 前方的命令改成 squash 或 s，然后输入:wq以保存并退出</p>
 <p><strong><em>注意事项：</em></strong> 如果这个过程中有操作错误，可以使用 <code>git rebase --abort</code>来撤销修改，回到没有开始操作合并之前的状态</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/03/06/js/数组reduce使用方法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/06/js/数组reduce使用方法/" itemprop="url">数组reduce使用方法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-06T11:29:44+08:00">2018-03-06</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/js/" itemprop="url" rel="index"><span itemprop="name">js</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在JS新特性中添加了<code>reduce()</code>方法十分好用，它可以将数组中的每一项通过叠加变成一项。<br>下面从一个简单的例子来说明：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span>  arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line">sum = arr.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">prev, cur, index, arr</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(prev, cur, index);</span><br><span class="line">    <span class="keyword">return</span> prev + cur;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(arr, sum);</span><br></pre></td></tr></table></figure></p>
+<p>输出结果：</p>
+<blockquote>
+<p>1 2 1<br>3 3 2<br>6 4 3<br>10 5 4<br>[1, 2, 3, 4, 5] 15</p>
+</blockquote>
+<p>我们先重新回顾一下reduce中回调函数的参数，这个回调函数中有4个参数，意思分别为</p>
+<blockquote>
+<p>prev: 第一项的值或者上一次叠加的结果值<br>cur: 当前会参与叠加的项<br>index： 当前值的索引<br>arr: 数组本身    </p>
+</blockquote>
+<p>首先我们要区分prev与cur这2个参数的区别，刚开始的时候我以为他们是一种类型的，可是后来我发现我理解错了。prev表示每次叠加之后的结果，类型可能与数组中的每一项不同，而cur则表示数组中参与叠加的当前项。在后边我们可以结合实例来理解这个地方。</p>
+<p>其次我们看到，上例中其实值遍历了4次，数组有五项。数组中的第一项被当做了prev的初始值，而遍历从第二项开始。</p>
+<p>我们看下面一个例子。<br>某同学的期末成绩如下表示<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> result = [</span><br><span class="line">    &#123;</span><br><span class="line">        subject: <span class="string">'math'</span>,</span><br><span class="line">        score: <span class="number">88</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        subject: <span class="string">'chinese'</span>,</span><br><span class="line">        score: <span class="number">95</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        subject: <span class="string">'english'</span>,</span><br><span class="line">        score: <span class="number">80</span></span><br><span class="line">    &#125;</span><br><span class="line">];</span><br></pre></td></tr></table></figure></p>
+<p>如何求该同学的总成绩？</p>
+<p>很显然，利用for循环可以很简单得出结论</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> sum = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;result.length; i++) &#123;</span><br><span class="line">    sum += result[i].score;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是我们的宗旨就是抛弃for循环，因此使用reduce来搞定这个问题</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> sum = result.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">prev, cur</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> cur.score + prev;</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<p>这个时候，我给reduce参数添加了第二个参数。通过打印我发现设置了这个参数之后，reduce遍历便已经从第一项开始了。</p>
+<p>这第二个参数就是设置prev的初始类型和初始值，比如为0，就表示prev的初始值为number类型，值为0，因此，reduce的最终结果也会是number类型。</p>
+<p>我们来给这个例子增加一点难度。假如该同学的总成绩中，各科所占的比重不同，分别为50%，30%，20%，我们应该如何求出最终的权重结果呢？</p>
+<p>解决方案如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> dis = &#123;</span><br><span class="line">    math: <span class="number">0.5</span>,</span><br><span class="line">    chinese: <span class="number">0.3</span>,</span><br><span class="line">    english: <span class="number">0.2</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> sum = result.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">prev, cur</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(prev);</span><br><span class="line">    <span class="keyword">return</span> cur.score + prev;</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> qsum = result.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">prev, cur</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> cur.score * dis[cur.subject] + prev;</span><br><span class="line">&#125;, <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(sum, qsum);</span><br></pre></td></tr></table></figure></p>
+<p>再看另一个例子，如何知道一串字符串中每个字母出现的次数？</p>
+<p>我们可以运用reduce来解决这个问题。</p>
+<p>我们在reduce的第二个参数里面初始了回调函数第一个参数的类型和值，将字符串转化为数组，那么迭代的结果将是一个对象，对象的每一项key值就是字符串的字母。运行感受一下吧。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arrString = <span class="string">'abcdaabc'</span>;</span><br><span class="line"></span><br><span class="line">arrString.split(<span class="string">''</span>).reduce(<span class="function"><span class="keyword">function</span>(<span class="params">res, cur</span>) </span>&#123;</span><br><span class="line">    res[cur] ? res[cur] ++ : res[cur] = <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;, &#123;&#125;)</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -846,949 +2396,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/28/java/java8的一些使用示例/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sam guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sam Home">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/28/java/java8的一些使用示例/" itemprop="url">java8的一些使用示例</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-28T14:29:44+08:00">2018-02-28</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h4 id="wdt的签名sign算法"><a href="#wdt的签名sign算法" class="headerlink" title="wdt的签名sign算法"></a>wdt的签名sign算法</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">getSign</span><span class="params">(Map&lt;String,String&gt; paramMap)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> MD5Util.getMD5(packData(paramMap)+appsecret);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">packData</span><span class="params">(Map&lt;String,String&gt; paramMap)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> paramMap.keySet().stream().sorted()</span><br><span class="line">            .map(key-&gt;getKey(key)+<span class="string">":"</span>+getVal(paramMap.get(key)))</span><br><span class="line">            .collect(Collectors.joining(<span class="string">";"</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="按名称分组"><a href="#按名称分组" class="headerlink" title="按名称分组"></a>按名称分组</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String, List&lt;Record&gt;&gt; map =  list.stream()</span><br><span class="line">     .collect(Collectors.groupingBy(record-&gt;record.getStr(<span class="string">"name"</span>)));</span><br></pre></td></tr></table></figure>
-<h4 id="List-To-Map"><a href="#List-To-Map" class="headerlink" title="List To Map"></a>List To Map</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// key = name, value - id</span></span><br><span class="line">Map&lt;String, Long&gt; result2 = list.stream().collect(</span><br><span class="line">        Collectors.toMap(Bean::getName, Bean::getId));</span><br><span class="line"></span><br><span class="line"><span class="comment">// Same with result1, just different syntax</span></span><br><span class="line"><span class="comment">// key = id, value = name</span></span><br><span class="line">Map&lt;Integer, String&gt; result3 = list.stream().collect(</span><br><span class="line">         Collectors.toMap(x -&gt; x.getId(), x -&gt; x.getName()));</span><br></pre></td></tr></table></figure>
-<h4 id="返回当前日期，在一年中的第几周"><a href="#返回当前日期，在一年中的第几周" class="headerlink" title="返回当前日期，在一年中的第几周"></a>返回当前日期，在一年中的第几周</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getLocalWeek</span><span class="params">(LocalDate date)</span></span>&#123;</span><br><span class="line">    <span class="comment">// Or use a specific locale, or configure your own rules</span></span><br><span class="line">    <span class="comment">//WeekFields weekFields = WeekFields.of(Locale.CHINESE);</span></span><br><span class="line">    <span class="keyword">int</span> weekNumber = date.get(WeekFields.ISO.weekOfWeekBasedYear());</span><br><span class="line">    <span class="keyword">return</span> weekNumber;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="格式化日期时间"><a href="#格式化日期时间" class="headerlink" title="格式化日期时间"></a>格式化日期时间</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">format</span><span class="params">(LocalDateTime ldt)</span></span>&#123;</span><br><span class="line">     DateTimeFormatter dt = <span class="keyword">new</span> DateTimeFormatterBuilder()</span><br><span class="line">             .appendValue(HOUR_OF_DAY, <span class="number">2</span>)</span><br><span class="line">             .appendLiteral(<span class="string">':'</span>)</span><br><span class="line">             .appendValue(MINUTE_OF_HOUR, <span class="number">2</span>)</span><br><span class="line">             .optionalStart()</span><br><span class="line">             .appendLiteral(<span class="string">':'</span>)</span><br><span class="line">             .appendValue(SECOND_OF_MINUTE, <span class="number">2</span>).toFormatter();</span><br><span class="line"></span><br><span class="line">     DateTimeFormatter df = <span class="keyword">new</span> DateTimeFormatterBuilder()</span><br><span class="line">             .parseCaseInsensitive()</span><br><span class="line">             .append(DateTimeFormatter.ISO_LOCAL_DATE)</span><br><span class="line">             .appendLiteral(<span class="string">' '</span>)</span><br><span class="line">             .append(dt).toFormatter();</span><br><span class="line"></span><br><span class="line">     <span class="keyword">return</span> ldt.format(df);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/28/git/gitlab安装配置/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sam guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sam Home">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/28/git/gitlab安装配置/" itemprop="url">gitlab安装配置</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-28T11:45:44+08:00">2018-02-28</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/git/" itemprop="url" rel="index"><span itemprop="name">git</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="搭建"><a href="#搭建" class="headerlink" title="搭建"></a>搭建</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>安装依赖软件</span><br><span class="line">sudo apt-get install -y curl openssh-server ca-certificates</span><br><span class="line">sudo apt-get install -y postfix</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>Add the GitLab package repository.</span><br><span class="line">curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.deb.sh | sudo bash</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>install the GitLab package.</span><br><span class="line">sudo apt-get install gitlab-ce</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>Configure and start GitLab</span><br><span class="line">sudo gitlab-ctl reconfigure</span><br></pre></td></tr></table></figure>
-<h3 id="特殊配置"><a href="#特殊配置" class="headerlink" title="特殊配置"></a>特殊配置</h3><p> gitlab安装完成后会有一个默认的存储代码仓库的路径，建议自己自定义到大磁盘上，以免之后磁盘空间引起不必要的麻烦。</p>
-<h4 id="配置gitlab的项目代码存储目录为-data-GitData-git-data"><a href="#配置gitlab的项目代码存储目录为-data-GitData-git-data" class="headerlink" title="配置gitlab的项目代码存储目录为 /data/GitData/git-data/"></a>配置gitlab的项目代码存储目录为 /data/GitData/git-data/</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -pv /data/GitData/git-data/</span><br><span class="line">chown git -R  /data/GitData/git-data/</span><br></pre></td></tr></table></figure>
-<h4 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> /etc/gitlab/gitlab.rb 添加配置：</span><br><span class="line">git_data_dirs(&#123; "default" =&gt; &#123; "path" =&gt; "/data/GitData/git-data" &#125; &#125;)</span><br></pre></td></tr></table></figure>
-<h4 id="配置访问的域名"><a href="#配置访问的域名" class="headerlink" title="配置访问的域名."></a>配置访问的域名.</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>/etc/gitlab/gitlab.rb 修改配置：</span><br><span class="line">external_url 'http://git.xxxx.com'</span><br></pre></td></tr></table></figure>
-<h4 id="配置生效"><a href="#配置生效" class="headerlink" title="配置生效"></a>配置生效</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gitlab-ctl reconfigure</span><br></pre></td></tr></table></figure>
-<h3 id="使用命令"><a href="#使用命令" class="headerlink" title="使用命令"></a>使用命令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>查看状态：</span><br><span class="line">sudo gitlab-ctl status;</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span>Start all GitLab components (启动)</span><br><span class="line">sudo gitlab-ctl start</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span>Stop all GitLab components (停止)</span><br><span class="line">sudo gitlab-ctl stop</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span>Restart all GitLab components(重启)</span><br><span class="line">sudo gitlab-ctl restart</span><br></pre></td></tr></table></figure>
-<h3 id="备份"><a href="#备份" class="headerlink" title="备份"></a>备份</h3><p> 使用一条命令即可创建完整的Gitlab备份:<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gitlab-rake gitlab:backup:create</span><br></pre></td></tr></table></figure></p>
-<p>使用以上命令会在/var/opt/gitlab/backups目录下创建一个名称类似为<code>1508136272_2017_10_16_10.0.2_gitlab_backup.tar</code>的压缩包, 这个压缩包就是Gitlab整个的完整部分, 其中开头的1508136272_2017_10_16是备份创建的日期,10.0.2是gitlab的版本号。</p>
-<h3 id="恢复"><a href="#恢复" class="headerlink" title="恢复"></a>恢复</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>停止相关数据连接服务</span><br><span class="line">gitlab-ctl stop unicorn</span><br><span class="line">gitlab-ctl stop sidekiq</span><br><span class="line">  </span><br><span class="line"><span class="meta">#</span>从1393513186编号备份中恢复</span><br><span class="line">gitlab-rake gitlab:backup:restore BACKUP=1508136272</span><br><span class="line">  </span><br><span class="line"><span class="meta">#</span>启动Gitlab</span><br><span class="line">sudo gitlab-ctl start</span><br></pre></td></tr></table></figure>
-<hr>
-<p>参考 : <a href="https://about.gitlab.com/" target="_blank" rel="noopener">官网</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/28/git/Git同步Fork代码/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sam guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sam Home">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/28/git/Git同步Fork代码/" itemprop="url">Git同步Fork代码</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-28T11:21:44+08:00">2018-02-28</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/git/" itemprop="url" rel="index"><span itemprop="name">git</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="给fork配置远程库"><a href="#给fork配置远程库" class="headerlink" title="给fork配置远程库"></a>给fork配置远程库</h3><p>使用<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure></p>
-<h3 id="查看远程状态"><a href="#查看远程状态" class="headerlink" title="查看远程状态"></a>查看远程状态</h3><p>确定一个将被同步给 fork 远程的上游仓库<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add upstream https://github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.git</span><br></pre></td></tr></table></figure></p>
-<p>再次查看状态确认是否配置成功。</p>
-<h3 id="同步fork"><a href="#同步fork" class="headerlink" title="同步fork"></a>同步fork</h3><p>从上游仓库 fetch 分支和提交点，提交给本地 master，并会被存储在一个本地分支 upstream/master<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git fetch upstream</span><br></pre></td></tr></table></figure></p>
-<h3 id="切换到本地主分支-如果不在的话"><a href="#切换到本地主分支-如果不在的话" class="headerlink" title="切换到本地主分支(如果不在的话)"></a>切换到本地主分支(如果不在的话)</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout master</span><br></pre></td></tr></table></figure>
-<h3 id="把-upstream-master-分支合并到本地-master-上，这样就完成了同步，并且不会丢掉本地修改的内容。"><a href="#把-upstream-master-分支合并到本地-master-上，这样就完成了同步，并且不会丢掉本地修改的内容。" class="headerlink" title="把 upstream/master 分支合并到本地 master 上，这样就完成了同步，并且不会丢掉本地修改的内容。"></a>把 upstream/master 分支合并到本地 master 上，这样就完成了同步，并且不会丢掉本地修改的内容。</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge upstream/master</span><br></pre></td></tr></table></figure>
-<h3 id="如果想更新到-GitHub-的-fork-上，直接"><a href="#如果想更新到-GitHub-的-fork-上，直接" class="headerlink" title="如果想更新到 GitHub 的 fork 上，直接"></a>如果想更新到 GitHub 的 fork 上，直接</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
-<p>就好了。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/28/java/java8中Collectors的使用方法和Function简介/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sam guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sam Home">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/28/java/java8中Collectors的使用方法和Function简介/" itemprop="url">java8中Collectors的使用方法和Function简介</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-28T09:29:44+08:00">2018-02-28</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Collectors-实现了接口-Collector-lt-T-A-R-gt"><a href="#Collectors-实现了接口-Collector-lt-T-A-R-gt" class="headerlink" title="Collectors 实现了接口 Collector&lt;T,A,R&gt;"></a>Collectors 实现了接口 <code>Collector&lt;T,A,R&gt;</code></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">T:需要进行reduce操作的元素类型 </span><br><span class="line">A:reduce操作的动态集合类型 </span><br><span class="line">R:reduce操作的结果类型</span><br></pre></td></tr></table></figure>
-<h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//将名字集合到list</span></span><br><span class="line">List&lt;String&gt; list = people.stream().map(Person::getName).collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//将名字集合到TreeSet</span></span><br><span class="line">Set&lt;String&gt; set = people.stream().map(Person::getName)</span><br><span class="line">                 .collect(Collectors.toCollection(TreeSet::<span class="keyword">new</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">//将名字转换为String,并连接为一个字符串</span></span><br><span class="line">String joined = things.stream()</span><br><span class="line">                      .map(Object::toString)</span><br><span class="line">                      .collect(Collectors.joining(<span class="string">", "</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">//计算员工的工资总额</span></span><br><span class="line"><span class="keyword">int</span> total = employees.stream()</span><br><span class="line">                     .collect(Collectors.summingInt(Employee::getSalary)));</span><br><span class="line"></span><br><span class="line"><span class="comment">//根据部门将员工分组：</span></span><br><span class="line">Map&lt;Department, List&lt;Employee&gt;&gt; byDept = employees.stream()</span><br><span class="line">                    .collect(Collectors.groupingBy(Employee::getDepartment));</span><br><span class="line"></span><br><span class="line"><span class="comment">//计算不同部门的员工工资总额</span></span><br><span class="line">Map&lt;Department, Integer&gt; totalByDept= employees.stream()</span><br><span class="line">                       .collect(Collectors.groupingBy(</span><br><span class="line">                        Employee::getDepartment, </span><br><span class="line">                        Collectors.summingInt(Employee::getSalary)));</span><br><span class="line"></span><br><span class="line"><span class="comment">//划分及格和不及格的学生</span></span><br><span class="line">Map&lt;Boolean, List&lt;Student&gt;&gt; passingFailing = students.stream()</span><br><span class="line">                 .collect(Collectors.partitioningBy(</span><br><span class="line">                         s -&gt; s.getGrade() &gt;= PASS_THRESHOLD));</span><br></pre></td></tr></table></figure>
-<h3 id="Function-lt-T-R-gt"><a href="#Function-lt-T-R-gt" class="headerlink" title="Function&lt;T, R&gt;"></a><code>Function&lt;T, R&gt;</code></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">T:函数的输入类型 </span><br><span class="line">R:函数的输出类型</span><br></pre></td></tr></table></figure>
-<p>也就是通过这个函数，可以将一个类型转换为另一个类型，比如下面的例子：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">//定义一个function 输入是String类型，输出是 EventInfo 类型，  EventInfo是一个类。           </span></span><br><span class="line">Function&lt;String, EventInfo&gt; times2 = fun -&gt; &#123; </span><br><span class="line">              EventInfo a = <span class="keyword">new</span> EventInfo(); </span><br><span class="line">              a.setName(fun); </span><br><span class="line">              <span class="keyword">return</span> a;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">String[] testintStrings=&#123;<span class="string">"1"</span>,<span class="string">"2"</span>,<span class="string">"3"</span>,<span class="string">"4"</span>&#125;; </span><br><span class="line"></span><br><span class="line"><span class="comment">//将String 的Array转换成map,调用times2函数进行转换</span></span><br><span class="line">Map&lt;String,EventInfo&gt; eventmap1=Stream.of(testintStrings)</span><br><span class="line">                        .collect(Collectors.toMap(</span><br><span class="line">                         inputvalue-&gt;inputvalue, </span><br><span class="line">                         inputvalue-&gt;times2.apply(inputvalue)));</span><br></pre></td></tr></table></figure></p>
-<p>如果<code>Collectors.toMap</code>的转换过程很简单，比如输入和输出类型相同，则不需要另外定义<code>Function</code>,例如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String,String&gt; eventmap2=Stream.of(testStrings)</span><br><span class="line">                  .collect(Collectors.toMap(</span><br><span class="line">                   inputvalue-&gt;inputvalue, </span><br><span class="line">                   inputvalue-&gt;(inputvalue+<span class="string">"a"</span>)));</span><br></pre></td></tr></table></figure></p>
-<h3 id="Java中有哪些函数式接口呢？"><a href="#Java中有哪些函数式接口呢？" class="headerlink" title="Java中有哪些函数式接口呢？"></a>Java中有哪些函数式接口呢？</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">java.lang.Runnable </span><br><span class="line">java.util.concurrent.Callable </span><br><span class="line">java.security.PrivilegedAction </span><br><span class="line">java.util.Comparator </span><br><span class="line">java.io.FileFilter </span><br><span class="line">java.nio.file.PathMatcher </span><br><span class="line">java.lang.reflect.InvocationHandler </span><br><span class="line">java.beans.PropertyChangeListener </span><br><span class="line">java.awt.event.ActionListener </span><br><span class="line">javax.swing.event.ChangeListener</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">java.util.function — 中定义了几组类型的函数式接口以及针对基本数据类型的子类。 </span><br><span class="line">Predicate — 传入一个参数，返回一个bool结果， 方法为boolean test(T t) </span><br><span class="line">Consumer — 传入一个参数，无返回值，纯消费。 方法为void accept(T t) </span><br><span class="line">Function — 传入一个参数，返回一个结果，方法为R apply(T t) </span><br><span class="line">Supplier — 无参数传入，返回一个结果，方法为T get() </span><br><span class="line">UnaryOperator — 一元操作符， 继承Function,传入参数的类型和返回类型相同。 </span><br><span class="line">BinaryOperator — 二元操作符， 传入的两个参数的类型和返回类型相同， 继承BiFunction</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/27/sql/mysql/mysql命令语句/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sam guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sam Home">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/27/sql/mysql/mysql命令语句/" itemprop="url">mysql生成数据字典</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-27T14:29:44+08:00">2018-02-27</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--分析mysql的实例的情况</span></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">processlist</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看表是否太大 </span></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">table</span> <span class="keyword">status</span> <span class="keyword">like</span> <span class="string">'t_xx'</span> ;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看引擎状态</span></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">engine</span> <span class="keyword">innodb</span> <span class="keyword">status</span> ;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查找当前等待事务：</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span>  performance_schema .events_waits_current;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查找事务</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> information_schema.innodb_trx;</span><br><span class="line"></span><br><span class="line"><span class="comment">--建库</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> <span class="string">`esr`</span> <span class="keyword">DEFAULT</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci; </span><br><span class="line"></span><br><span class="line"><span class="comment">-- 建所有权限用户</span></span><br><span class="line"><span class="keyword">grant</span> all <span class="keyword">privileges</span> <span class="keyword">on</span> *.* <span class="keyword">to</span> root@<span class="string">'%'</span> <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">'root'</span>;</span><br><span class="line"><span class="keyword">grant</span> all <span class="keyword">privileges</span> <span class="keyword">on</span> *.* <span class="keyword">to</span> esr@<span class="string">'192.168.%'</span> <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">'123'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 建查询权限用户</span></span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">SELECT</span> <span class="keyword">ON</span> <span class="string">`nutch`</span>.<span class="string">`t_wdt_order_goods`</span> <span class="keyword">TO</span> <span class="string">'phpw'</span>@<span class="string">'%'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 刷新权限</span></span><br><span class="line"><span class="keyword">flush</span> <span class="keyword">privileges</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment">-- 带条件导出SQL</span></span><br><span class="line">mysqldump -u root -p nutch tbname -w="id&gt;123456789" &gt; xxxx.sql;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 数据字典</span></span><br><span class="line"><span class="keyword">SELECT</span> TABLE_SCHEMA,TABLE_NAME,COLUMN_NAME,COLUMN_TYPE,COLUMN_KEY,COLUMN_COMMENT </span><br><span class="line"><span class="keyword">FROM</span> information_schema.columns <span class="keyword">WHERE</span> TABLE_SCHEMA=<span class="string">'nutch'</span> </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 创建function</span></span><br><span class="line">delimiter ;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">FUNCTION</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> fun_rand_key ;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">FUNCTION</span> fun_rand_key(iparam <span class="built_in">int</span>) <span class="keyword">RETURNs</span> <span class="built_in">int</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">   <span class="keyword">declare</span> i_return <span class="built_in">int</span>;</span><br><span class="line">   <span class="keyword">set</span> i_return =iparam + <span class="keyword">floor</span>(<span class="keyword">rand</span>()*<span class="number">100</span>);</span><br><span class="line">   return i_return;</span><br><span class="line"><span class="keyword">END</span>;</span><br><span class="line"> ;;</span><br><span class="line"></span><br><span class="line">delimiter ;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/27/java/Java8新特性之Stream/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sam guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sam Home">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/27/java/Java8新特性之Stream/" itemprop="url">Java8新特性之Stream</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-27T11:29:44+08:00">2018-02-27</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>这个包主要提供元素的streams函数操作，比如对collections的map,reduce.<br>例如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> sum = widgets.stream()</span><br><span class="line">                      .filter(b -&gt; b.getColor() == RED)</span><br><span class="line">                      .mapToInt(b -&gt; b.getWeight())</span><br><span class="line">                      .sum();</span><br></pre></td></tr></table></figure></p>
-<p>本例中的widgets是Stream的源，类型为Collection，通过filter-&gt;map-&gt;reduce操作获取red widget的sum weight.<br>除了基本的Stream,JAVA8还专门为基础类型int,long,double提供了<code>IntStream</code>,<code>LongStream</code>,<code>DoubleStream</code>.</p>
-<h3 id="Streams和collections的不同之处"><a href="#Streams和collections的不同之处" class="headerlink" title="Streams和collections的不同之处"></a>Streams和collections的不同之处</h3><ol>
-<li>Stream没有存储。即不是一个存储结构，而是通过管道操作从Array,IO channel等转换而来。</li>
-<li>Stream本质上是泛函。Streams上的操作不会修改源数据，比如filter操作只是将符合要求的数据放在一个新的Stream,而不是真的删除源数据。</li>
-<li>Laziness-seeking，懒查询。</li>
-<li>大小不受限制，collections 有大小限制，streams没有。比如，limit或者findfirst等Short-circuiting操作会在有限的时间内完成无限的大小的streams操作。</li>
-<li>不可逆的，streams中的元素只能被操作一次。就像流水一样，一去不复返。如果你希望在源数据中获取一个新的Stream,必须在源数据上重新开始。</li>
-</ol>
-<h3 id="Stream创建"><a href="#Stream创建" class="headerlink" title="Stream创建"></a>Stream创建</h3><p>怎样创建一个Stream呢，有下面几种方法：</p>
-<ul>
-<li>Collection的Stream()和paralleStream()方法。</li>
-<li>Arrays.stream(Object[])</li>
-<li>Stream 类的静态方法，比如:  </li>
-</ul>
-<blockquote>
-<p><code>Stream.of(Object[]),IntStream.range(int, int)</code><br><code>Stream.iterate(Object, UnaryOperator)</code></p>
-</blockquote>
-<ul>
-<li>File的lines操作， BufferedReader.lines();</li>
-<li>Files中的一些方法获取file path的stream.例如:</li>
-</ul>
-<blockquote>
-<p><code>static Stream&lt;Path&gt; list(Path dir)</code><br><code>static Stream&lt;Path&gt;  walk(Path start, FileVisitOption... options)</code></p>
-</blockquote>
-<ul>
-<li>Random.ints()返回IntStream </li>
-<li>JDK中也有很多方法产生Stream,比如</li>
-</ul>
-<blockquote>
-<p><code>BitSet.stream()</code><br><code>Pattern.splitAsStream(java.lang.CharSequence)</code><br><code>JarFile.stream()</code>   </p>
-</blockquote>
-<h5 id="1-接口"><a href="#1-接口" class="headerlink" title="1.接口"></a>1.接口</h5><blockquote>
-<p><code>BaseStream&lt;T,S extends BaseStream&lt;T,S&gt;&gt;</code>  </p>
-</blockquote>
-<p>Streams的Base interface,支持各种并行和线性聚合操作。<br><code>Collector&lt;T,A,R&gt;</code>，可以将元素聚集在一个容器中，容器类型可变，比如List,Map. 是一个Stream处理完毕之后的结束操作。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">DoubleStream ，处理double类型的stream </span><br><span class="line">DoubleStream.Builder, 可变的builder。 </span><br><span class="line">IntStream，处理int类型的stream. </span><br><span class="line">IntStream.Builder, 可变的builder </span><br><span class="line">LongStream,处理Long类型的Stream. </span><br><span class="line">LongStream.Builder,可变的builder</span><br><span class="line"></span><br><span class="line">Stream&lt;T&gt; -–数据流，支持并行和线性聚合操作。 </span><br><span class="line">Stream.Builder&lt;T&gt;—-Stream的可变builder.</span><br></pre></td></tr></table></figure></p>
-<h5 id="2-类"><a href="#2-类" class="headerlink" title="2.类"></a>2.类</h5><p>执行Collector reduce操作的类，比如将元素聚合为collection,list等。<br>StreamSupport，创建和处理Stream的低级工具。</p>
-<h5 id="3-Enum"><a href="#3-Enum" class="headerlink" title="3.Enum"></a>3.Enum</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Collector.Characteristics—Collector的属性，可以用于优化reduce 操作。 </span><br><span class="line">Collector.Characteristics CONCURRENT：表示collector的result container可以被多个线程同时处理。 </span><br><span class="line">Collector.Characteristics UNORDERED：collection操作不保证操作元素的原有顺序 </span><br><span class="line">Collector.Characteristics IDENTITY_FINISH：类型转换时不会检查</span><br></pre></td></tr></table></figure>
-<h3 id="Stream的操作和管道"><a href="#Stream的操作和管道" class="headerlink" title="Stream的操作和管道"></a>Stream的操作和管道</h3><p>Stream操作是管道操作，操作分为中间操作和结束操作两种。整个管道操作的流程为数据源-&gt;中间操作-&gt;结束操作。<br><strong>中间操作</strong>比如：<code>Stream.filter</code>、<code>Stream.map</code>,可以有0个或者多个中间操作。<br><strong>结束操作</strong>比如：<code>Sream.foreach</code>、<code>Stream.reduce</code>，<code>Stream.collect</code>,结束操作是必须的。<br>中间操作返回的仍然是stream,这些操作经常是“懒惰的”。比如filter操作，并非真的对源数据进行过滤，而是重新创建一个Stream。而且当多个中间操作时，不是真的每次都去遍历源数据，而是在结束操作时，才会去遍历源数据，从而执行这些中间操作。在遍历中，操作的懒惰性表现在，并不是每次都是遍历所有的数据，比如“找出长度大于1000的第一个String”,找到之后就会返回。</p>
-<p>结束操作的目的是将Stream转换为想要的结果或者结构。当结束操作之后，<strong>当前管道结束，不可以再重复使用。如果你仍然想操作源数据，那你必须创建一个新的Stream。</strong></p>
-<p>中间操作又分为<strong>无状态</strong>和<strong>有状态</strong>两种。比如map和filter是无状态操作，也就是各元素间的操作是无关的，可单独进行。而distinct和sorted 是有状态操作，在操作时需要用到前元素，也就是元素之间的处理是相关的。<br>有状态的操作必须全部执行完毕的时候才能装入结果中。</p>
-<h5 id="1-并行操作"><a href="#1-并行操作" class="headerlink" title="1.并行操作"></a>1.并行操作</h5><p>JDK的默认操作都是线性的，或者说单线程的。并行操作可以通过Collection.parallelStream()和BaseStream.parallel()实现。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> sumOfWeights = widgets.parallelStream()</span><br><span class="line">                               .filter(b -&gt; b.getColor() == RED)</span><br><span class="line">                               .mapToInt(b -&gt; b.getWeight())</span><br><span class="line">                               .sum();</span><br></pre></td></tr></table></figure></p>
-<p>检查一个Stream的执行方式可以调用 isParallel() 方法。</p>
-<p>但并不是所有的数据都是可以使用并行操作的。要执行的操作必须是可以并行执行的，也就是多个线程操作之后，和顺序执行的结果是一致的，即线程安全。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>[] wordLength = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">12</span>];</span><br><span class="line"></span><br><span class="line">Stream.of(<span class="string">"It"</span>, <span class="string">"is"</span>, <span class="string">"your"</span>, <span class="string">"responsibility"</span>).parallel().forEach(s -&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (s.length() &lt; <span class="number">12</span>) wordLength[s.length()]++;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>比如上面的wordlength操作就是非线程安全的。</p>
-<h5 id="2-非干扰性"><a href="#2-非干扰性" class="headerlink" title="2.非干扰性"></a>2.非干扰性</h5><p>通常在结束操作之前，源数据都是可以修改的。除了一些Concurrent数据，还有iterator,spliterator操作。<br>下面的例子就是正确的：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; l = <span class="keyword">new</span> ArrayList(Arrays.asList(<span class="string">"one"</span>, <span class="string">"two"</span>));</span><br><span class="line">     Stream&lt;String&gt; sl = l.stream();</span><br><span class="line">     l.add(<span class="string">"three"</span>);</span><br><span class="line">     String s = sl.collect(joining(<span class="string">" "</span>));</span><br></pre></td></tr></table></figure>
-<h5 id="3-无状态的行为"><a href="#3-无状态的行为" class="headerlink" title="3.无状态的行为"></a>3.无状态的行为</h5><p>在streams操作中使用无状态的行为，即操作的结果不受其他状态的影响，就比如上面提高的parallel操作要考虑多线程的行为，是否有线程安全问题。</p>
-<h5 id="4-collect-reduce操作通常是线程安全的"><a href="#4-collect-reduce操作通常是线程安全的" class="headerlink" title="4.collect,reduce操作通常是线程安全的."></a>4.collect,reduce操作通常是线程安全的.</h5><h5 id="5-顺序"><a href="#5-顺序" class="headerlink" title="5.顺序"></a>5.顺序</h5><p>对于有顺序的源数据，比如list,set,Stream操作之后仍然会按照顺序排（线性操作）。<br>如果是非固定顺序的数据源，则不保证其最后处理的顺序。<br>对于线性Streams,源的固定顺序对性能没有特别影响。<br>对于并行Streams,不强调顺序的话显然性能会更好。比如filter,distinct,groupingBy操作，非顺序操作的效率就更好.<br>另外，如果数据本身是固定顺序的，但是开发者本身不在意是否按顺序处理，那么可以通过unordered()处理之后再操作，会提高某些有状态的并行操作和结束操作的效率。</p>
-<p>下面穿插一些线程安全的操作例子：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; datalist=<span class="keyword">new</span> ArrayList&lt;&gt;(<span class="number">1000</span>);</span><br><span class="line">List&lt;Integer&gt; datalist_collect=<span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"><span class="comment">//无状态的并行操作，即元素的操作和其他元素状态无关，线程安全</span></span><br><span class="line">        <span class="keyword">long</span> sum = IntStream.range(<span class="number">0</span>,<span class="number">1000</span>).parallel().filter(s-&gt;s%<span class="number">2</span>==<span class="number">0</span>).count();</span><br><span class="line">        System.out.println(<span class="string">"并行:"</span>+sum);</span><br><span class="line"><span class="comment">//datalist为非线程安全的，因此属于有状态并行操作，非线程安全     IntStream.range(0,1000).parallel().forEach(data-&gt;datalist.add(data));</span></span><br><span class="line">        System.out.println(<span class="string">"并行foreach:"</span>+datalist.size());</span><br><span class="line"></span><br><span class="line"><span class="comment">//collect操作线程安全</span></span><br><span class="line">datalist_collect=IntStream.range(<span class="number">0</span>,<span class="number">1000</span>).parallel().collect(ArrayList::<span class="keyword">new</span>, (c,e)-&gt;c.add(e), (c1,c2)-&gt;c1.addAll(c2));</span><br><span class="line">        System.out.println(<span class="string">"并行collect:"</span>+datalist_collect.size());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> sum2 = IntStream.range(<span class="number">0</span>,<span class="number">1000</span>).filter(s-&gt;s%<span class="number">2</span>==<span class="number">0</span>).count();</span><br><span class="line">            System.out.println(<span class="string">"串行:"</span>+sum2);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        List&lt;Integer&gt; intlist=IntStream.range(<span class="number">0</span>,<span class="number">10</span>).collect(ArrayList::<span class="keyword">new</span>, (c,e)-&gt;c.add(e), (c1,c2)-&gt;c1.addAll(c2));</span><br><span class="line">        System.out.println(<span class="string">"并行数据开始："</span>);</span><br><span class="line">  <span class="comment">//并行操作时无顺序    intlist.parallelStream().map(e-&gt;e+1).forEach(System.out::println);</span></span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"串行数据开始："</span>);</span><br><span class="line"><span class="comment">//串行操作保证顺序</span></span><br><span class="line">        intlist.stream().forEach(System.out::println);</span><br><span class="line">        System.out.println(<span class="string">"串行数据结束："</span>);</span><br></pre></td></tr></table></figure></p>
-<p>运行结果如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">并行:500</span><br><span class="line">并行foreach:980</span><br><span class="line">并行collect:1000</span><br><span class="line">串行:500</span><br><span class="line">并行数据开始：</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">10</span><br><span class="line">6</span><br><span class="line">5</span><br><span class="line">4</span><br><span class="line">1</span><br><span class="line">9</span><br><span class="line">3</span><br><span class="line">2</span><br><span class="line">串行数据开始：</span><br><span class="line">0</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">串行数据结束</span><br></pre></td></tr></table></figure>
-<h5 id="6-Reduction-操作"><a href="#6-Reduction-操作" class="headerlink" title="6.Reduction 操作"></a>6.Reduction 操作</h5><p>Reduction操作将元素通过合并操作还原为一个result,比如总数，最大值，元素存入list等。<br>Reduction操作的函数有很多，比如 reduce(),collect(),sum(),max(),count()等。<br>Reduction操作不仅看起来简洁，而且可以使用并行来实现，效率高，不存在效率安全问题，比如<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> x : numbers) &#123;</span><br><span class="line">       sum += x;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//改写为</span></span><br><span class="line"><span class="keyword">int</span> sum = numbers.parallelStream().reduce(<span class="number">0</span>, Integer::sum);</span><br></pre></td></tr></table></figure></p>
-<p>Reduce()定义1：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">T <span class="title">reduce</span><span class="params">(T identity,</span></span></span><br><span class="line"><span class="function"><span class="params">         BinaryOperator&lt;T&gt; accumulator)</span></span></span><br></pre></td></tr></table></figure></p>
-<p>该方法使用提供的identity和accumulator来获取result.等同于下面的写法，其实identity就是计算的初始值：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">T result = identity;</span><br><span class="line">     <span class="keyword">for</span> (T element : <span class="keyword">this</span> stream)</span><br><span class="line">         result = accumulator.apply(result, element)</span><br><span class="line">     <span class="keyword">return</span> result;</span><br></pre></td></tr></table></figure></p>
-<p>但于for循环不同的是，reduce操作不局限于线性运行。但对于同一个对象T,其accumulator的运算结果必须相同。</p>
-<p>Reduce()定义2：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Optional&lt;T&gt; <span class="title">reduce</span><span class="params">(BinaryOperator&lt;T&gt; accumulator)</span></span></span><br><span class="line"><span class="function"><span class="comment">//这个操作等同于：</span></span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> foundAny </span>= <span class="keyword">false</span>;</span><br><span class="line">     T result = <span class="keyword">null</span>;</span><br><span class="line">     <span class="keyword">for</span> (T element : <span class="keyword">this</span> stream) &#123;</span><br><span class="line">         <span class="keyword">if</span> (!foundAny) &#123;</span><br><span class="line">             foundAny = <span class="keyword">true</span>;</span><br><span class="line">             result = element;</span><br><span class="line">         &#125;</span><br><span class="line">         <span class="keyword">else</span></span><br><span class="line">             result = accumulator.apply(result, element);</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span> foundAny ? Optional.of(result) : Optional.empty();</span><br></pre></td></tr></table></figure></p>
-<p>Reduce()定义3：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;U&gt; <span class="function">U <span class="title">reduce</span><span class="params">(U identity,</span></span></span><br><span class="line"><span class="function"><span class="params">             BiFunction&lt;U,? <span class="keyword">super</span> T,U&gt; accumulator,</span></span></span><br><span class="line"><span class="function"><span class="params">             BinaryOperator&lt;U&gt; combiner)</span></span></span><br><span class="line"><span class="function"><span class="comment">//这个操作等同于：</span></span></span><br><span class="line"><span class="function"> U result </span>= identity;</span><br><span class="line">     <span class="keyword">for</span> (T element : <span class="keyword">this</span> stream)</span><br><span class="line">         result = accumulator.apply(result, element)</span><br><span class="line">     <span class="keyword">return</span> result;</span><br></pre></td></tr></table></figure>
-<p>此方法通常用于将map和reduce操作的结合来使用。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1831,7 +2443,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">17</span>
+                    <span class="site-state-item-count">26</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -1852,7 +2464,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">4</span>
+                      
+                    
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>
@@ -1891,7 +2505,13 @@
                     
                       
                     
-                    <span class="site-state-item-count">13</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
