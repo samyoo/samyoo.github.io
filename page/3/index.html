@@ -279,6 +279,435 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/26/sql/mysql/mysql分组取最大N条记录/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/26/sql/mysql/mysql分组取最大N条记录/" itemprop="url">mysql分组取最大N条记录</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-26T14:29:44+08:00">2018-02-26</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="先看原始数据"><a href="#先看原始数据" class="headerlink" title="先看原始数据"></a>先看原始数据</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> t2 (</span><br><span class="line">    <span class="keyword">id</span> <span class="built_in">int</span> primary <span class="keyword">key</span>,</span><br><span class="line">    gid    <span class="built_in">char</span>,</span><br><span class="line">    col1    <span class="built_in">int</span>,</span><br><span class="line">    col2    <span class="built_in">int</span></span><br><span class="line">) <span class="keyword">engine</span>=<span class="keyword">innodb</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> t2 <span class="keyword">values</span> (<span class="number">1</span>,<span class="string">'A'</span>,<span class="number">31</span>,<span class="number">6</span>), (<span class="number">2</span>,<span class="string">'B'</span>,<span class="number">25</span>,<span class="number">83</span>), (<span class="number">3</span>,<span class="string">'C'</span>,<span class="number">76</span>,<span class="number">21</span>), (<span class="number">4</span>,<span class="string">'D'</span>,<span class="number">63</span>,<span class="number">56</span>), (<span class="number">5</span>,<span class="string">'E'</span>,<span class="number">3</span>,<span class="number">17</span>), (<span class="number">6</span>,<span class="string">'A'</span>,<span class="number">29</span>,<span class="number">97</span>), (<span class="number">7</span>,<span class="string">'B'</span>,<span class="number">88</span>,<span class="number">63</span>), (<span class="number">8</span>,<span class="string">'C'</span>,<span class="number">16</span>,<span class="number">22</span>), (<span class="number">9</span>,<span class="string">'D'</span>,<span class="number">25</span>,<span class="number">43</span>), (<span class="number">10</span>,<span class="string">'E'</span>,<span class="number">45</span>,<span class="number">28</span>),</span><br><span class="line">(<span class="number">11</span>,<span class="string">'A'</span>,<span class="number">2</span>,<span class="number">78</span>), (<span class="number">12</span>,<span class="string">'B'</span>,<span class="number">30</span>,<span class="number">79</span>), (<span class="number">13</span>,<span class="string">'C'</span>,<span class="number">96</span>,<span class="number">73</span>), (<span class="number">14</span>,<span class="string">'D'</span>,<span class="number">37</span>,<span class="number">40</span>), (<span class="number">15</span>,<span class="string">'E'</span>,<span class="number">14</span>,<span class="number">86</span>), (<span class="number">16</span>,<span class="string">'A'</span>,<span class="number">32</span>,<span class="number">67</span>), (<span class="number">17</span>,<span class="string">'B'</span>,<span class="number">84</span>,<span class="number">38</span>), (<span class="number">18</span>,<span class="string">'C'</span>,<span class="number">27</span>,<span class="number">9</span>), (<span class="number">19</span>,<span class="string">'D'</span>,<span class="number">31</span>,<span class="number">21</span>), (<span class="number">20</span>,<span class="string">'E'</span>,<span class="number">80</span>,<span class="number">63</span>),</span><br><span class="line">(<span class="number">21</span>,<span class="string">'A'</span>,<span class="number">89</span>,<span class="number">9</span>), (<span class="number">22</span>,<span class="string">'B'</span>,<span class="number">15</span>,<span class="number">22</span>), (<span class="number">23</span>,<span class="string">'C'</span>,<span class="number">46</span>,<span class="number">84</span>), (<span class="number">24</span>,<span class="string">'D'</span>,<span class="number">54</span>,<span class="number">79</span>), (<span class="number">25</span>,<span class="string">'E'</span>,<span class="number">85</span>,<span class="number">64</span>), (<span class="number">26</span>,<span class="string">'A'</span>,<span class="number">87</span>,<span class="number">13</span>), (<span class="number">27</span>,<span class="string">'B'</span>,<span class="number">40</span>,<span class="number">45</span>), (<span class="number">28</span>,<span class="string">'C'</span>,<span class="number">34</span>,<span class="number">90</span>), (<span class="number">29</span>,<span class="string">'D'</span>,<span class="number">63</span>,<span class="number">8</span>), (<span class="number">30</span>,<span class="string">'E'</span>,<span class="number">66</span>,<span class="number">40</span>),</span><br><span class="line">(<span class="number">31</span>,<span class="string">'A'</span>,<span class="number">83</span>,<span class="number">49</span>), (<span class="number">32</span>,<span class="string">'B'</span>,<span class="number">4</span>,<span class="number">90</span>), (<span class="number">33</span>,<span class="string">'C'</span>,<span class="number">81</span>,<span class="number">7</span>), (<span class="number">34</span>,<span class="string">'D'</span>,<span class="number">11</span>,<span class="number">12</span>), (<span class="number">35</span>,<span class="string">'E'</span>,<span class="number">85</span>,<span class="number">10</span>), (<span class="number">36</span>,<span class="string">'A'</span>,<span class="number">39</span>,<span class="number">75</span>), (<span class="number">37</span>,<span class="string">'B'</span>,<span class="number">22</span>,<span class="number">39</span>), (<span class="number">38</span>,<span class="string">'C'</span>,<span class="number">76</span>,<span class="number">67</span>), (<span class="number">39</span>,<span class="string">'D'</span>,<span class="number">20</span>,<span class="number">11</span>), (<span class="number">40</span>,<span class="string">'E'</span>,<span class="number">81</span>,<span class="number">36</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="期望结果"><a href="#期望结果" class="headerlink" title="期望结果"></a>期望结果</h3><h4 id="1-N-1-取GID每组-COL2最大的记录"><a href="#1-N-1-取GID每组-COL2最大的记录" class="headerlink" title="1) N=1 取GID每组 COL2最大的记录"></a>1) N=1 取GID每组 COL2最大的记录</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">+----+------+------+------+</span><br><span class="line">| id | gid  | col1 | col2 |</span><br><span class="line">+----+------+------+------+</span><br><span class="line">|  6 | A    |   29 |   97 |</span><br><span class="line">| 15 | E    |   14 |   86 |</span><br><span class="line">| 24 | D    |   54 |   79 |</span><br><span class="line">| 28 | C    |   34 |   90 |</span><br><span class="line">| 32 | B    |    4 |   90 |</span><br><span class="line">+----+------+------+------+</span><br></pre></td></tr></table></figure>
+<h4 id="2-N-3-取GID每组-COL2最大的3条记录"><a href="#2-N-3-取GID每组-COL2最大的3条记录" class="headerlink" title="2) N=3 取GID每组 COL2最大的3条记录"></a>2) N=3 取GID每组 COL2最大的3条记录</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">+----+------+------+------+</span><br><span class="line">| id | gid  | col1 | col2 |</span><br><span class="line">+----+------+------+------+</span><br><span class="line">|  6 | A    |   29 |   97 |</span><br><span class="line">| 11 | A    |    2 |   78 |</span><br><span class="line">| 36 | A    |   39 |   75 |</span><br><span class="line">| 32 | B    |    4 |   90 |</span><br><span class="line">|  2 | B    |   25 |   83 |</span><br><span class="line">| 12 | B    |   30 |   79 |</span><br><span class="line">| 28 | C    |   34 |   90 |</span><br><span class="line">| 23 | C    |   46 |   84 |</span><br><span class="line">| 13 | C    |   96 |   73 |</span><br><span class="line">| 24 | D    |   54 |   79 |</span><br><span class="line">|  4 | D    |   63 |   56 |</span><br><span class="line">|  9 | D    |   25 |   43 |</span><br><span class="line">| 15 | E    |   14 |   86 |</span><br><span class="line">| 25 | E    |   85 |   64 |</span><br><span class="line">| 20 | E    |   80 |   63 |</span><br><span class="line">+----+------+------+------+</span><br></pre></td></tr></table></figure>
+<h4 id="第一题SQL写法"><a href="#第一题SQL写法" class="headerlink" title="第一题SQL写法"></a>第一题SQL写法</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> a.* <span class="keyword">from</span> t2 a  <span class="keyword">join</span> (<span class="keyword">select</span> gid,<span class="keyword">max</span>(col2) col2 <span class="keyword">from</span> t2 <span class="keyword">group</span> <span class="keyword">by</span> gid) b</span><br><span class="line"><span class="keyword">on</span> a.gid=b.gid <span class="keyword">and</span> a.col2=b.col2;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> a.id,a.gid,a.col1,a.col2 </span><br><span class="line"><span class="keyword">FROM</span> t2 <span class="keyword">as</span> a,t2 <span class="keyword">as</span> b </span><br><span class="line"><span class="keyword">where</span> a.gid=b.gid <span class="keyword">AND</span> a.col2 &lt;=b.col2</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> a.id,a.gid,a.col1,a.col2 </span><br><span class="line"><span class="keyword">having</span> a.col2=<span class="keyword">max</span>(b.col2)</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> a.gid,a.col2 <span class="keyword">desc</span></span><br></pre></td></tr></table></figure>
+<h4 id="第二题SQL写法"><a href="#第二题SQL写法" class="headerlink" title="第二题SQL写法"></a>第二题SQL写法</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> a.id,a.gid,a.col1,a.col2 </span><br><span class="line"><span class="keyword">FROM</span> t2  a,t2 b </span><br><span class="line"><span class="keyword">where</span> a.gid=b.gid <span class="keyword">AND</span> a.col2 &lt;=b.col2</span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> a.id,a.gid,a.col1,a.col2 </span><br><span class="line"><span class="keyword">HAVING</span>   <span class="keyword">COUNT</span>(b.id) &lt;=<span class="number">3</span> </span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> a.gid,a.col2 <span class="keyword">desc</span></span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/25/sql/mysql/mysql生成数据字典/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/25/sql/mysql/mysql生成数据字典/" itemprop="url">mysql生成数据字典</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-25T14:29:44+08:00">2018-02-25</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="首先把所有表名放进一个文件里。"><a href="#首先把所有表名放进一个文件里。" class="headerlink" title="首先把所有表名放进一个文件里。"></a>首先把所有表名放进一个文件里。</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -proot nutch -e 'show tables' &gt; ./tables.txt</span><br></pre></td></tr></table></figure>
+<p>也可以直接把要生成的表名写进<code>tables.txt</code>里，一个表名一行。</p>
+<h3 id="然后运行下面脚本"><a href="#然后运行下面脚本" class="headerlink" title="然后运行下面脚本"></a>然后运行下面脚本</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>! /bin/bash</span><br><span class="line"></span><br><span class="line">TABLES=`cat /home/sdap/tables.txt`</span><br><span class="line">DIR=/home/sdap/tmp/</span><br><span class="line">if [ ! -d $DIR  ];then</span><br><span class="line">        mkdir $DIR</span><br><span class="line">fi</span><br><span class="line">cd $DIR</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">for tab in $TABLES;do</span><br><span class="line"></span><br><span class="line">        SQL="SELECT COLUMN_NAME as '字段',COLUMN_TYPE as '类型',IS_NULLABLE as '空',IFNULL(COLUMN_DEFAULT,'') as '默认',IF(COLUMN_COMMENT='','-',COLUMN_COMMENT) as '注释'FROM information_schema.columns WHERE TABLE_SCHEMA='nutch' and table_name='$&#123;tab&#125;'";</span><br><span class="line">        #echo $SQL;</span><br><span class="line">        mysql -uroot -pesr16888.0 -t -e "$&#123;SQL&#125;"  &gt; ./$&#123;tab&#125;.txt</span><br><span class="line">        sed -i "s/+/|/g" ./$&#123;tab&#125;.txt</span><br><span class="line">        sed -i '$d' ./$&#123;tab&#125;.txt</span><br><span class="line">        sed -i "1c\ \n- 表名 $&#123;tab&#125;\n" ./$&#123;tab&#125;.txt</span><br><span class="line">        cat ./$&#123;tab&#125;.txt &gt;&gt; ./tt.txt</span><br><span class="line">        #echo $&#123;a//+/|&#125;&gt;./$&#123;tab&#125;.txt</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/25/sql/sqlserver/sqlserver常用命令/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/25/sql/sqlserver/sqlserver常用命令/" itemprop="url">sqlserver常用命令</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-25T14:29:44+08:00">2018-02-25</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 显示所有数据库</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">name</span> <span class="keyword">FROM</span> master.dbo.sysdatabases;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 显示所有表名</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">name</span> <span class="keyword">from</span> sys.objects <span class="keyword">where</span> <span class="keyword">type</span>=<span class="string">'U'</span>;</span><br><span class="line"><span class="comment">-- 或者</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">name</span> <span class="keyword">from</span> sys.tables;</span><br><span class="line"><span class="comment">-- 或者</span></span><br><span class="line"><span class="keyword">SELECT</span> table_name, table_type <span class="keyword">FROM</span> information_schema.tables;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 显示所有字段</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> syscolumns <span class="keyword">where</span> <span class="keyword">id</span>=object_id(<span class="string">'TABLES_NAME'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 显示字段信息</span></span><br><span class="line">exec sp_columns TABLES_NAME;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 修改字段名称</span></span><br><span class="line">exec sp_rename 'TABLES_NAME.oldName','newName';</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 显示所以索引</span></span><br><span class="line">exec sp_helpindex  TABLES_NAME;</span><br><span class="line">exec sp_help TABLES_NAME;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 种子值</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">IDENT_CURRENT</span>(<span class="string">'TABLES_NAME'</span>);</span><br><span class="line">DBCC CHECKIDENT(TABLES_NAME, RESEED, 1);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看表结构</span></span><br><span class="line"><span class="keyword">SELECT</span> (<span class="keyword">case</span> <span class="keyword">when</span> a.colorder=<span class="number">1</span> <span class="keyword">then</span> d.name <span class="keyword">else</span> <span class="literal">null</span> <span class="keyword">end</span>) 表名,  </span><br><span class="line">a.colorder 字段序号,a.name 字段名,</span><br><span class="line">(<span class="keyword">case</span> <span class="keyword">when</span> COLUMNPROPERTY( a.id,a.name,<span class="string">'IsIdentity'</span>)=<span class="number">1</span> <span class="keyword">then</span> <span class="string">'√'</span><span class="keyword">else</span> <span class="string">''</span> <span class="keyword">end</span>) 标识, </span><br><span class="line">(<span class="keyword">case</span> <span class="keyword">when</span> (<span class="keyword">SELECT</span> <span class="keyword">count</span>(*) <span class="keyword">FROM</span> sysobjects  </span><br><span class="line"><span class="keyword">WHERE</span> (<span class="keyword">name</span> <span class="keyword">in</span> (<span class="keyword">SELECT</span> <span class="keyword">name</span> <span class="keyword">FROM</span> sysindexes  </span><br><span class="line"><span class="keyword">WHERE</span> (<span class="keyword">id</span> = a.id) <span class="keyword">AND</span> (indid <span class="keyword">in</span>  </span><br><span class="line">(<span class="keyword">SELECT</span> indid <span class="keyword">FROM</span> sysindexkeys  </span><br><span class="line"><span class="keyword">WHERE</span> (<span class="keyword">id</span> = a.id) <span class="keyword">AND</span> (colid <span class="keyword">in</span>  </span><br><span class="line">(<span class="keyword">SELECT</span> colid <span class="keyword">FROM</span> syscolumns <span class="keyword">WHERE</span> (<span class="keyword">id</span> = a.id) <span class="keyword">AND</span> (<span class="keyword">name</span> = a.name)))))))  </span><br><span class="line"><span class="keyword">AND</span> (xtype = <span class="string">'PK'</span>))&gt;<span class="number">0</span> <span class="keyword">then</span> <span class="string">'√'</span> <span class="keyword">else</span> <span class="string">''</span> <span class="keyword">end</span>) 主键,b.name 类型,a.length 占用字节数,  </span><br><span class="line">COLUMNPROPERTY(a.id,a.name,<span class="string">'PRECISION'</span>) <span class="keyword">as</span> 长度,  </span><br><span class="line"><span class="keyword">isnull</span>(COLUMNPROPERTY(a.id,a.name,<span class="string">'Scale'</span>),<span class="number">0</span>) <span class="keyword">as</span> 小数位数,(<span class="keyword">case</span> <span class="keyword">when</span> a.isnullable=<span class="number">1</span> <span class="keyword">then</span> <span class="string">'√'</span><span class="keyword">else</span> <span class="string">''</span> <span class="keyword">end</span>) 允许空,  </span><br><span class="line"><span class="keyword">isnull</span>(e.text,<span class="string">''</span>) 默认值,<span class="keyword">isnull</span>(g.[<span class="keyword">value</span>], <span class="string">' '</span>) <span class="keyword">AS</span> [说明]</span><br><span class="line"><span class="keyword">FROM</span>  syscolumns a </span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> systypes b <span class="keyword">on</span> a.xtype=b.xusertype  </span><br><span class="line"><span class="keyword">inner</span> <span class="keyword">join</span> sysobjects d <span class="keyword">on</span> a.id=d.id <span class="keyword">and</span> d.xtype=<span class="string">'U'</span> <span class="keyword">and</span> d.name&lt;&gt;<span class="string">'dtproperties'</span> </span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> syscomments e <span class="keyword">on</span> a.cdefault=e.id  </span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> sys.extended_properties g <span class="keyword">on</span> a.id=g.major_id <span class="keyword">AND</span> a.colid=g.minor_id</span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> sys.extended_properties f <span class="keyword">on</span> d.id=f.class <span class="keyword">and</span> f.minor_id=<span class="number">0</span></span><br><span class="line"><span class="keyword">where</span>  d.name=<span class="string">'TABLES_NAME'</span> </span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> a.id,a.colorder</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/24/linux/centos/Centos7编译安装nginx/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -881,150 +1310,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/01/linux/SSH免密登录配置/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sam guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sam Home">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/01/linux/SSH免密登录配置/" itemprop="url">SSH免密登录配置</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-01T14:29:44+08:00">2018-02-01</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/运维/" itemprop="url" rel="index"><span itemprop="name">运维</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="配置SSH无密码登录需要3步："><a href="#配置SSH无密码登录需要3步：" class="headerlink" title="配置SSH无密码登录需要3步："></a>配置SSH无密码登录需要3步：</h3><h4 id="生成公钥和私钥"><a href="#生成公钥和私钥" class="headerlink" title="生成公钥和私钥"></a>生成公钥和私钥</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa</span><br></pre></td></tr></table></figure>
-<p>　<br>默认在<code>~/.ssh</code>目录生成两个文件：<code>id_rsa</code>(私钥)、<code>id_rsa.pub</code>(公钥)</p>
-<h4 id="导入公钥到认证文件-更改权限"><a href="#导入公钥到认证文件-更改权限" class="headerlink" title="导入公钥到认证文件,更改权限"></a>导入公钥到认证文件,更改权限</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 导入本机</span><br><span class="line">cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 导入要免密码登录的服务器,首先将公钥复制到服务器</span><br><span class="line">scp ~/.ssh/id_rsa.pub xxx@host:/home/xxx/id_rsa.pub</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 然后，将公钥导入到认证文件，这一步的操作在服务器上进行</span><br><span class="line">cat ~/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 在服务器上更改权限</span><br><span class="line">chmod 700 ~/.ssh</span><br><span class="line">chmod 600 ~/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
-<h4 id="测试，第一次登录可能需要yes确认，之后就可以直接登录了。"><a href="#测试，第一次登录可能需要yes确认，之后就可以直接登录了。" class="headerlink" title="测试，第一次登录可能需要yes确认，之后就可以直接登录了。"></a>测试，第一次登录可能需要<code>yes</code>确认，之后就可以直接登录了。</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh sam@192.168.1.2</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/01/sql/oracle/oracle临时表空间/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1155,6 +1440,150 @@
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/01/linux/SSH免密登录配置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/01/linux/SSH免密登录配置/" itemprop="url">SSH免密登录配置</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-01T14:29:44+08:00">2018-02-01</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/运维/" itemprop="url" rel="index"><span itemprop="name">运维</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="配置SSH无密码登录需要3步："><a href="#配置SSH无密码登录需要3步：" class="headerlink" title="配置SSH无密码登录需要3步："></a>配置SSH无密码登录需要3步：</h3><h4 id="生成公钥和私钥"><a href="#生成公钥和私钥" class="headerlink" title="生成公钥和私钥"></a>生成公钥和私钥</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa</span><br></pre></td></tr></table></figure>
+<p>　<br>默认在<code>~/.ssh</code>目录生成两个文件：<code>id_rsa</code>(私钥)、<code>id_rsa.pub</code>(公钥)</p>
+<h4 id="导入公钥到认证文件-更改权限"><a href="#导入公钥到认证文件-更改权限" class="headerlink" title="导入公钥到认证文件,更改权限"></a>导入公钥到认证文件,更改权限</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 导入本机</span><br><span class="line">cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 导入要免密码登录的服务器,首先将公钥复制到服务器</span><br><span class="line">scp ~/.ssh/id_rsa.pub xxx@host:/home/xxx/id_rsa.pub</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 然后，将公钥导入到认证文件，这一步的操作在服务器上进行</span><br><span class="line">cat ~/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 在服务器上更改权限</span><br><span class="line">chmod 700 ~/.ssh</span><br><span class="line">chmod 600 ~/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
+<h4 id="测试，第一次登录可能需要yes确认，之后就可以直接登录了。"><a href="#测试，第一次登录可能需要yes确认，之后就可以直接登录了。" class="headerlink" title="测试，第一次登录可能需要yes确认，之后就可以直接登录了。"></a>测试，第一次登录可能需要<code>yes</code>确认，之后就可以直接登录了。</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh sam@192.168.1.2</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -1202,7 +1631,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">26</span>
+                    <span class="site-state-item-count">29</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -1270,7 +1699,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">16</span>
+                      
+                    
+                    <span class="site-state-item-count">17</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
