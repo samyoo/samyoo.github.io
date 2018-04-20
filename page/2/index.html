@@ -279,6 +279,746 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/03/06/java/maven/maven配置nexus本地仓库/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/06/java/maven/maven配置nexus本地仓库/" itemprop="url">maven配置nexus本地仓库</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-06T11:29:44+08:00">2018-03-06</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="配置文件如下："><a href="#配置文件如下：" class="headerlink" title="配置文件如下："></a>配置文件如下：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;settings xmlns=&quot;http://maven.apache.org/SETTINGS/1.0.0&quot;</span><br><span class="line">          xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">          xsi:schemaLocation=&quot;http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd&quot;&gt;</span><br><span class="line">    &lt;!-- localRepository</span><br><span class="line">     | The path to the local repository maven will use to store artifacts.</span><br><span class="line">     |</span><br><span class="line">     | Default: $&#123;user.home&#125;/.m2/repository</span><br><span class="line">    &lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;</span><br><span class="line">    --&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- interactiveMode</span><br><span class="line">     | This will determine whether maven prompts you when it needs input. If set to false,</span><br><span class="line">     | maven will use a sensible default value, perhaps based on some other setting, for</span><br><span class="line">     | the parameter in question.</span><br><span class="line">     |</span><br><span class="line">     | Default: true</span><br><span class="line">    &lt;interactiveMode&gt;true&lt;/interactiveMode&gt;</span><br><span class="line">    --&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- offline</span><br><span class="line">     | Determines whether maven should attempt to connect to the network when executing a build.</span><br><span class="line">     | This will have an effect on artifact downloads, artifact deployment, and others.</span><br><span class="line">     |</span><br><span class="line">     | Default: false</span><br><span class="line">    &lt;offline&gt;false&lt;/offline&gt;</span><br><span class="line">    --&gt;</span><br><span class="line"></span><br><span class="line">    &lt;pluginGroups&gt;</span><br><span class="line">    &lt;/pluginGroups&gt;</span><br><span class="line"></span><br><span class="line">    &lt;proxies&gt;</span><br><span class="line">    &lt;/proxies&gt;</span><br><span class="line"></span><br><span class="line">    &lt;servers&gt;</span><br><span class="line">        &lt;server&gt;</span><br><span class="line">            &lt;id&gt;releases&lt;/id&gt;</span><br><span class="line">            &lt;username&gt;deployment&lt;/username&gt;</span><br><span class="line">            &lt;password&gt;12345678&lt;/password&gt;</span><br><span class="line">        &lt;/server&gt;</span><br><span class="line">        &lt;server&gt;</span><br><span class="line">            &lt;id&gt;snapshots&lt;/id&gt;</span><br><span class="line">            &lt;username&gt;deployment&lt;/username&gt;</span><br><span class="line">            &lt;password&gt;12345678&lt;/password&gt;</span><br><span class="line">        &lt;/server&gt;</span><br><span class="line">    &lt;/servers&gt;</span><br><span class="line"></span><br><span class="line">    &lt;mirrors&gt;</span><br><span class="line">        &lt;mirror&gt;</span><br><span class="line">            &lt;id&gt;public-nexus&lt;/id&gt;</span><br><span class="line">            &lt;name&gt;Human Readable Name for this Mirror.&lt;/name&gt;</span><br><span class="line">            &lt;url&gt;http://192.168.60.30:8081/nexus/content/groups/public/&lt;/url&gt;</span><br><span class="line">            &lt;mirrorOf&gt;*&lt;/mirrorOf&gt;</span><br><span class="line">        &lt;/mirror&gt;</span><br><span class="line">    &lt;/mirrors&gt;</span><br><span class="line"></span><br><span class="line">    &lt;profiles&gt;</span><br><span class="line">        &lt;profile&gt;</span><br><span class="line">            &lt;id&gt;jdk18&lt;/id&gt;</span><br><span class="line">            &lt;activation&gt;</span><br><span class="line">                &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;</span><br><span class="line">                &lt;jdk&gt;1.8&lt;/jdk&gt;</span><br><span class="line">            &lt;/activation&gt;</span><br><span class="line">            &lt;properties&gt;</span><br><span class="line">                &lt;maven.compiler.source&gt;1.8&lt;/maven.compiler.source&gt;</span><br><span class="line">                &lt;maven.compiler.target&gt;1.8&lt;/maven.compiler.target&gt;</span><br><span class="line">                &lt;maven.compiler.compilerVersion&gt;1.8&lt;/maven.compiler.compilerVersion&gt;</span><br><span class="line">            &lt;/properties&gt;</span><br><span class="line">        &lt;/profile&gt;</span><br><span class="line">        &lt;profile&gt;</span><br><span class="line">            &lt;id&gt;nexus-profile-iss&lt;/id&gt;</span><br><span class="line">            &lt;repositories&gt;</span><br><span class="line">                &lt;repository&gt;</span><br><span class="line">                    &lt;id&gt;nexus-iss&lt;/id&gt;</span><br><span class="line">                    &lt;url&gt;http://192.168.60.30:8081/nexus/content/groups/public/&lt;/url&gt;</span><br><span class="line">                    &lt;releases&gt;</span><br><span class="line">                        &lt;enabled&gt;true&lt;/enabled&gt;</span><br><span class="line">                    &lt;/releases&gt;</span><br><span class="line">                    &lt;snapshots&gt;</span><br><span class="line">                        &lt;enabled&gt;true&lt;/enabled&gt;</span><br><span class="line">                    &lt;/snapshots&gt;</span><br><span class="line">                &lt;/repository&gt;</span><br><span class="line">            &lt;/repositories&gt;</span><br><span class="line">            &lt;pluginRepositories&gt;</span><br><span class="line">                &lt;pluginRepository&gt;</span><br><span class="line">                    &lt;id&gt;nexus-iss&lt;/id&gt;</span><br><span class="line">                    &lt;url&gt;http://192.168.60.30:8081/nexus/content/groups/public/&lt;/url&gt;</span><br><span class="line">                    &lt;releases&gt;</span><br><span class="line">                        &lt;enabled&gt;true&lt;/enabled&gt;</span><br><span class="line">                    &lt;/releases&gt;</span><br><span class="line">                    &lt;snapshots&gt;</span><br><span class="line">                        &lt;enabled&gt;true&lt;/enabled&gt;</span><br><span class="line">                    &lt;/snapshots&gt;</span><br><span class="line">                &lt;/pluginRepository&gt;</span><br><span class="line">            &lt;/pluginRepositories&gt;</span><br><span class="line">        &lt;/profile&gt;</span><br><span class="line">    &lt;/profiles&gt;</span><br><span class="line"></span><br><span class="line">    &lt;activeProfiles&gt;</span><br><span class="line">        &lt;activeProfile&gt;jdk18&lt;/activeProfile&gt;</span><br><span class="line">        &lt;activeProfile&gt;nexus-profile-iss&lt;/activeProfile&gt;</span><br><span class="line">    &lt;/activeProfiles&gt;</span><br><span class="line">&lt;/settings&gt;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/03/06/java/mybaits/mybatis自动生成实体类/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/06/java/mybaits/mybatis自动生成实体类/" itemprop="url">mybatis自动生成实体类</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-06T11:29:44+08:00">2018-03-06</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="创建generatorConfig-xml"><a href="#创建generatorConfig-xml" class="headerlink" title="创建generatorConfig.xml"></a>创建<code>generatorConfig.xml</code></h3><p> 在idea 加上命令 mybatis-generator:generate -e</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line"><span class="meta">&lt;!DOCTYPE generatorConfiguration</span></span><br><span class="line"><span class="meta">        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"</span></span><br><span class="line"><span class="meta">        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd"&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">generatorConfiguration</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">context</span> <span class="attr">id</span>=<span class="string">"mysqlTables"</span> <span class="attr">targetRuntime</span>=<span class="string">"MyBatis3"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">jdbcConnection</span> <span class="attr">driverClass</span>=<span class="string">"com.mysql.jdbc.Driver"</span></span></span><br><span class="line"><span class="tag">                        <span class="attr">connectionURL</span>=<span class="string">"jdbc:mysql://localhost:3306/table"</span> <span class="attr">userId</span>=<span class="string">"root"</span></span></span><br><span class="line"><span class="tag">                        <span class="attr">password</span>=<span class="string">"root"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- 指定生成的类型为java类型，避免数据库中number等类型字段 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">javaTypeResolver</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"forceBigDecimals"</span> <span class="attr">value</span>=<span class="string">"false"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">javaTypeResolver</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- 生成model模型，对应的包，存放位置可以指定具体的路径,如/ProjectName/src，也可以使用MAVEN来自动生成 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">javaModelGenerator</span> <span class="attr">targetPackage</span>=<span class="string">"com.samhome.dao.dos"</span></span></span><br><span class="line"><span class="tag">                            <span class="attr">targetProject</span>=<span class="string">"MAVEN"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"enableSubPackages"</span> <span class="attr">value</span>=<span class="string">"true"</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"trimStrings"</span> <span class="attr">value</span>=<span class="string">"true"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">javaModelGenerator</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!--对应的xml mapper文件 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">sqlMapGenerator</span> <span class="attr">targetPackage</span>=<span class="string">"com.samhome.dao.xml"</span></span></span><br><span class="line"><span class="tag">                         <span class="attr">targetProject</span>=<span class="string">"MAVEN"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"enableSubPackages"</span> <span class="attr">value</span>=<span class="string">"true"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">sqlMapGenerator</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- 对应的dao接口 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">javaClientGenerator</span> <span class="attr">type</span>=<span class="string">"ANNOTATEDMAPPER"</span></span></span><br><span class="line"><span class="tag">                             <span class="attr">targetPackage</span>=<span class="string">"com.samhome.dao.mappers"</span> <span class="attr">targetProject</span>=<span class="string">"MAVEN"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"enableSubPackages"</span> <span class="attr">value</span>=<span class="string">"true"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">javaClientGenerator</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">table</span> <span class="attr">tableName</span>=<span class="string">"t_user"</span> <span class="attr">domainObjectName</span>=<span class="string">"UserDO"</span> <span class="attr">enableCountByExample</span>=<span class="string">"false"</span> <span class="attr">enableUpdateByExample</span>=<span class="string">"false"</span> <span class="attr">enableDeleteByExample</span>=<span class="string">"false"</span> <span class="attr">enableSelectByExample</span>=<span class="string">"false"</span> <span class="attr">selectByExampleQueryId</span>=<span class="string">"false"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;/<span class="name">context</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">generatorConfiguration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/03/06/js/数组reduce使用方法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/06/js/数组reduce使用方法/" itemprop="url">数组reduce使用方法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-06T11:29:44+08:00">2018-03-06</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/js/" itemprop="url" rel="index"><span itemprop="name">js</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在JS新特性中添加了<code>reduce()</code>方法十分好用，它可以将数组中的每一项通过叠加变成一项。<br>下面从一个简单的例子来说明：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span>  arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line">sum = arr.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">prev, cur, index, arr</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(prev, cur, index);</span><br><span class="line">    <span class="keyword">return</span> prev + cur;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(arr, sum);</span><br></pre></td></tr></table></figure></p>
+<p>输出结果：</p>
+<blockquote>
+<p>1 2 1<br>3 3 2<br>6 4 3<br>10 5 4<br>[1, 2, 3, 4, 5] 15</p>
+</blockquote>
+<p>我们先重新回顾一下reduce中回调函数的参数，这个回调函数中有4个参数，意思分别为</p>
+<blockquote>
+<p>prev: 第一项的值或者上一次叠加的结果值<br>cur: 当前会参与叠加的项<br>index： 当前值的索引<br>arr: 数组本身    </p>
+</blockquote>
+<p>首先我们要区分prev与cur这2个参数的区别，刚开始的时候我以为他们是一种类型的，可是后来我发现我理解错了。prev表示每次叠加之后的结果，类型可能与数组中的每一项不同，而cur则表示数组中参与叠加的当前项。在后边我们可以结合实例来理解这个地方。</p>
+<p>其次我们看到，上例中其实值遍历了4次，数组有五项。数组中的第一项被当做了prev的初始值，而遍历从第二项开始。</p>
+<p>我们看下面一个例子。<br>某同学的期末成绩如下表示<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> result = [</span><br><span class="line">    &#123;</span><br><span class="line">        subject: <span class="string">'math'</span>,</span><br><span class="line">        score: <span class="number">88</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        subject: <span class="string">'chinese'</span>,</span><br><span class="line">        score: <span class="number">95</span></span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        subject: <span class="string">'english'</span>,</span><br><span class="line">        score: <span class="number">80</span></span><br><span class="line">    &#125;</span><br><span class="line">];</span><br></pre></td></tr></table></figure></p>
+<p>如何求该同学的总成绩？</p>
+<p>很显然，利用for循环可以很简单得出结论</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> sum = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;result.length; i++) &#123;</span><br><span class="line">    sum += result[i].score;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但是我们的宗旨就是抛弃for循环，因此使用reduce来搞定这个问题</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> sum = result.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">prev, cur</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> cur.score + prev;</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<p>这个时候，我给reduce参数添加了第二个参数。通过打印我发现设置了这个参数之后，reduce遍历便已经从第一项开始了。</p>
+<p>这第二个参数就是设置prev的初始类型和初始值，比如为0，就表示prev的初始值为number类型，值为0，因此，reduce的最终结果也会是number类型。</p>
+<p>我们来给这个例子增加一点难度。假如该同学的总成绩中，各科所占的比重不同，分别为50%，30%，20%，我们应该如何求出最终的权重结果呢？</p>
+<p>解决方案如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> dis = &#123;</span><br><span class="line">    math: <span class="number">0.5</span>,</span><br><span class="line">    chinese: <span class="number">0.3</span>,</span><br><span class="line">    english: <span class="number">0.2</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> sum = result.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">prev, cur</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(prev);</span><br><span class="line">    <span class="keyword">return</span> cur.score + prev;</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> qsum = result.reduce(<span class="function"><span class="keyword">function</span>(<span class="params">prev, cur</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> cur.score * dis[cur.subject] + prev;</span><br><span class="line">&#125;, <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(sum, qsum);</span><br></pre></td></tr></table></figure></p>
+<p>再看另一个例子，如何知道一串字符串中每个字母出现的次数？</p>
+<p>我们可以运用reduce来解决这个问题。</p>
+<p>我们在reduce的第二个参数里面初始了回调函数第一个参数的类型和值，将字符串转化为数组，那么迭代的结果将是一个对象，对象的每一项key值就是字符串的字母。运行感受一下吧。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arrString = <span class="string">'abcdaabc'</span>;</span><br><span class="line"></span><br><span class="line">arrString.split(<span class="string">''</span>).reduce(<span class="function"><span class="keyword">function</span>(<span class="params">res, cur</span>) </span>&#123;</span><br><span class="line">    res[cur] ? res[cur] ++ : res[cur] = <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;, &#123;&#125;)</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/03/05/java/spring/jfinal整合spring session/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/05/java/spring/jfinal整合spring session/" itemprop="url">jfinal整合spring session</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-05T11:29:44+08:00">2018-03-05</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>先添加依赖包<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- spring session --&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.session<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-session<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.3.1.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.session<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-session-data-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.3.1.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!-- redis --&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-redis<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.3.1.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>然后添加SpringSession拦截器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/** spring session 拦截器</span></span><br><span class="line"><span class="comment"> * Created by sam on 4/9/18.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringSessionInterceprot</span> <span class="keyword">implements</span> <span class="title">Interceptor</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">intercept</span><span class="params">(Invocation inv)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        Controller c = inv.getController();</span><br><span class="line"></span><br><span class="line">        HttpSession session = c.getSession();</span><br><span class="line"></span><br><span class="line">        String sessionId = c.getSession().getId();</span><br><span class="line">       <span class="comment">// String sessionId = "71f1e122-18d5-4e54-a019-0ba8c4397be8";</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">//判断是否登录 ，没有登录 跳转页面</span></span><br><span class="line">        <span class="keyword">if</span>(!isLogin(sessionId,session))&#123;</span><br><span class="line">            c.redirect(<span class="string">"/login"</span>);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        inv.invoke();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 判断是否登录</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> sessionId</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isLogin</span><span class="params">(String sessionId,HttpSession session)</span></span>&#123;</span><br><span class="line">        Map&lt;Object,Object&gt; map =  getSession(sessionId);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//先判断session 是否过期</span></span><br><span class="line">        <span class="keyword">if</span>(!map.containsKey(<span class="string">"maxInactiveInterval"</span>)) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">        Integer maxInactiveInterval = (Integer) map.get(<span class="string">"maxInactiveInterval"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(maxInactiveInterval&gt;<span class="number">0</span>)&#123;</span><br><span class="line"></span><br><span class="line">            UserVO vo = (UserVO)map.get(<span class="string">"sessionAttr:LOGIN_USER"</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 在spring session里取值</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> sessionId</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> Map&lt;Object,Object&gt; <span class="title">getSession</span><span class="params">(String sessionId)</span></span>&#123;</span><br><span class="line">        String key = <span class="string">"spring:session:sessions:"</span>+sessionId;</span><br><span class="line">        Map&lt;Object,Object&gt; map = getRedis().boundHashOps(key).entries();</span><br><span class="line">        <span class="keyword">return</span> map;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> RedisOperations&lt;Object, Object&gt; <span class="title">getRedis</span><span class="params">()</span></span>&#123;</span><br><span class="line">        JedisShardInfo jsi = <span class="keyword">new</span> JedisShardInfo(ConfigKit.getStr(<span class="string">"session.redis.host"</span>));</span><br><span class="line">        JedisConnectionFactory jcf = <span class="keyword">new</span> JedisConnectionFactory(jsi);</span><br><span class="line">        <span class="keyword">return</span>  sessionRedisTemplate(jcf);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> RedisTemplate&lt;Object, Object&gt; <span class="title">sessionRedisTemplate</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">            RedisConnectionFactory connectionFactory)</span> </span>&#123;</span><br><span class="line">        RedisTemplate&lt;Object, Object&gt; template = <span class="keyword">new</span> RedisTemplate&lt;Object, Object&gt;();</span><br><span class="line">        template.setKeySerializer(<span class="keyword">new</span> StringRedisSerializer());</span><br><span class="line">        template.setHashKeySerializer(<span class="keyword">new</span> StringRedisSerializer());</span><br><span class="line">        template.setConnectionFactory(connectionFactory);</span><br><span class="line">        template.afterPropertiesSet();</span><br><span class="line">        <span class="keyword">return</span> template;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/03/05/java/spring/Spring-Cloud整合Spring-Session的注意点/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/05/java/spring/Spring-Cloud整合Spring-Session的注意点/" itemprop="url">Spring-Cloud整合Spring-Session的注意点</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-05T11:29:44+08:00">2018-03-05</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>zuul+feign+一个微服务的结构，然后想通过spring-session共享同一个session。通过简单的配置后，成功的运行了项目，但是发现zuul，feign，微服务中三处打印出来的sessionId都不相同。通过浏览器调试可以确定spring-session是其作用了。</p>
+<p>如果是tomcat的session，cookie的name应该是JSESSIONID，这里显示SESSION说明spring-session是其作用了，而且也可以在redis中找到对应的记录。那么产生三处session都不同的原因应该就是zuul转发给feign，feign调用微服务的时候都没有把cookie传过去。找到原因后，就有解决的思路了。</p>
+<p>通过查找spring-cloud的文档发现，zuul默认是屏蔽Cookie的，要想使用Cookie，要在application.yml中配置sensitiveHeaders并把它设为空，这是一个屏蔽的黑名单，默认不为空，会屏蔽Cookie，例子如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">zuul:</span><br><span class="line">  routes:</span><br><span class="line">    feign-a:</span><br><span class="line">      path: /feign-a/**</span><br><span class="line">      serviceId: fegin-service-a</span><br><span class="line">      sensitiveHeaders:</span><br></pre></td></tr></table></figure>
+<p>通过这个配置zuul已经可以把cookie传到feign中了，那么feign要如何把cookie传到微服务中呢?我们可以通过feign的RequestInterceptor接口来实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">public class FeignConfig &#123;</span><br><span class="line"></span><br><span class="line">    @Bean</span><br><span class="line">    public RequestInterceptor requestInterceptor() &#123;</span><br><span class="line">        return requestTemplate -&gt; &#123;</span><br><span class="line">            String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();</span><br><span class="line">            if (!Strings.isNullOrEmpty(sessionId)) &#123;</span><br><span class="line">                requestTemplate.header(&quot;Cookie&quot;, &quot;SESSION=&quot; + sessionId);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后还是出错了，报了找不到与线程绑定的request的异常。通过调试初步判断应该是feign整合了hystrix的锅。通过更改hystrix的默认策略为SEMAPHORE可以解决。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">hystrix:</span><br><span class="line">  command:</span><br><span class="line">    default:</span><br><span class="line">      execution:</span><br><span class="line">        isolation:</span><br><span class="line">          strategy: SEMAPHORE</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/03/05/java/spring/hibernate validator注解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -992,800 +1732,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/28/git/Git同步Fork代码/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sam guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sam Home">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/28/git/Git同步Fork代码/" itemprop="url">Git同步Fork代码</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-28T11:21:44+08:00">2018-02-28</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/git/" itemprop="url" rel="index"><span itemprop="name">git</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="给fork配置远程库"><a href="#给fork配置远程库" class="headerlink" title="给fork配置远程库"></a>给fork配置远程库</h3><p>使用<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure></p>
-<h3 id="查看远程状态"><a href="#查看远程状态" class="headerlink" title="查看远程状态"></a>查看远程状态</h3><p>确定一个将被同步给 fork 远程的上游仓库<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add upstream https://github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.git</span><br></pre></td></tr></table></figure></p>
-<p>再次查看状态确认是否配置成功。</p>
-<h3 id="同步fork"><a href="#同步fork" class="headerlink" title="同步fork"></a>同步fork</h3><p>从上游仓库 fetch 分支和提交点，提交给本地 master，并会被存储在一个本地分支 upstream/master<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git fetch upstream</span><br></pre></td></tr></table></figure></p>
-<h3 id="切换到本地主分支-如果不在的话"><a href="#切换到本地主分支-如果不在的话" class="headerlink" title="切换到本地主分支(如果不在的话)"></a>切换到本地主分支(如果不在的话)</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout master</span><br></pre></td></tr></table></figure>
-<h3 id="把-upstream-master-分支合并到本地-master-上，这样就完成了同步，并且不会丢掉本地修改的内容。"><a href="#把-upstream-master-分支合并到本地-master-上，这样就完成了同步，并且不会丢掉本地修改的内容。" class="headerlink" title="把 upstream/master 分支合并到本地 master 上，这样就完成了同步，并且不会丢掉本地修改的内容。"></a>把 upstream/master 分支合并到本地 master 上，这样就完成了同步，并且不会丢掉本地修改的内容。</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge upstream/master</span><br></pre></td></tr></table></figure>
-<h3 id="如果想更新到-GitHub-的-fork-上，直接"><a href="#如果想更新到-GitHub-的-fork-上，直接" class="headerlink" title="如果想更新到 GitHub 的 fork 上，直接"></a>如果想更新到 GitHub 的 fork 上，直接</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
-<p>就好了。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/28/java/java8中Collectors的使用方法和Function简介/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sam guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sam Home">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/28/java/java8中Collectors的使用方法和Function简介/" itemprop="url">java8中Collectors的使用方法和Function简介</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-28T09:29:44+08:00">2018-02-28</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Collectors-实现了接口-Collector-lt-T-A-R-gt"><a href="#Collectors-实现了接口-Collector-lt-T-A-R-gt" class="headerlink" title="Collectors 实现了接口 Collector&lt;T,A,R&gt;"></a>Collectors 实现了接口 <code>Collector&lt;T,A,R&gt;</code></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">T:需要进行reduce操作的元素类型 </span><br><span class="line">A:reduce操作的动态集合类型 </span><br><span class="line">R:reduce操作的结果类型</span><br></pre></td></tr></table></figure>
-<h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//将名字集合到list</span></span><br><span class="line">List&lt;String&gt; list = people.stream().map(Person::getName).collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//将名字集合到TreeSet</span></span><br><span class="line">Set&lt;String&gt; set = people.stream().map(Person::getName)</span><br><span class="line">                 .collect(Collectors.toCollection(TreeSet::<span class="keyword">new</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">//将名字转换为String,并连接为一个字符串</span></span><br><span class="line">String joined = things.stream()</span><br><span class="line">                      .map(Object::toString)</span><br><span class="line">                      .collect(Collectors.joining(<span class="string">", "</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">//计算员工的工资总额</span></span><br><span class="line"><span class="keyword">int</span> total = employees.stream()</span><br><span class="line">                     .collect(Collectors.summingInt(Employee::getSalary)));</span><br><span class="line"></span><br><span class="line"><span class="comment">//根据部门将员工分组：</span></span><br><span class="line">Map&lt;Department, List&lt;Employee&gt;&gt; byDept = employees.stream()</span><br><span class="line">                    .collect(Collectors.groupingBy(Employee::getDepartment));</span><br><span class="line"></span><br><span class="line"><span class="comment">//计算不同部门的员工工资总额</span></span><br><span class="line">Map&lt;Department, Integer&gt; totalByDept= employees.stream()</span><br><span class="line">                       .collect(Collectors.groupingBy(</span><br><span class="line">                        Employee::getDepartment, </span><br><span class="line">                        Collectors.summingInt(Employee::getSalary)));</span><br><span class="line"></span><br><span class="line"><span class="comment">//划分及格和不及格的学生</span></span><br><span class="line">Map&lt;Boolean, List&lt;Student&gt;&gt; passingFailing = students.stream()</span><br><span class="line">                 .collect(Collectors.partitioningBy(</span><br><span class="line">                         s -&gt; s.getGrade() &gt;= PASS_THRESHOLD));</span><br></pre></td></tr></table></figure>
-<h3 id="Function-lt-T-R-gt"><a href="#Function-lt-T-R-gt" class="headerlink" title="Function&lt;T, R&gt;"></a><code>Function&lt;T, R&gt;</code></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">T:函数的输入类型 </span><br><span class="line">R:函数的输出类型</span><br></pre></td></tr></table></figure>
-<p>也就是通过这个函数，可以将一个类型转换为另一个类型，比如下面的例子：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">//定义一个function 输入是String类型，输出是 EventInfo 类型，  EventInfo是一个类。           </span></span><br><span class="line">Function&lt;String, EventInfo&gt; times2 = fun -&gt; &#123; </span><br><span class="line">              EventInfo a = <span class="keyword">new</span> EventInfo(); </span><br><span class="line">              a.setName(fun); </span><br><span class="line">              <span class="keyword">return</span> a;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">String[] testintStrings=&#123;<span class="string">"1"</span>,<span class="string">"2"</span>,<span class="string">"3"</span>,<span class="string">"4"</span>&#125;; </span><br><span class="line"></span><br><span class="line"><span class="comment">//将String 的Array转换成map,调用times2函数进行转换</span></span><br><span class="line">Map&lt;String,EventInfo&gt; eventmap1=Stream.of(testintStrings)</span><br><span class="line">                        .collect(Collectors.toMap(</span><br><span class="line">                         inputvalue-&gt;inputvalue, </span><br><span class="line">                         inputvalue-&gt;times2.apply(inputvalue)));</span><br></pre></td></tr></table></figure></p>
-<p>如果<code>Collectors.toMap</code>的转换过程很简单，比如输入和输出类型相同，则不需要另外定义<code>Function</code>,例如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String,String&gt; eventmap2=Stream.of(testStrings)</span><br><span class="line">                  .collect(Collectors.toMap(</span><br><span class="line">                   inputvalue-&gt;inputvalue, </span><br><span class="line">                   inputvalue-&gt;(inputvalue+<span class="string">"a"</span>)));</span><br></pre></td></tr></table></figure></p>
-<h3 id="Java中有哪些函数式接口呢？"><a href="#Java中有哪些函数式接口呢？" class="headerlink" title="Java中有哪些函数式接口呢？"></a>Java中有哪些函数式接口呢？</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">java.lang.Runnable </span><br><span class="line">java.util.concurrent.Callable </span><br><span class="line">java.security.PrivilegedAction </span><br><span class="line">java.util.Comparator </span><br><span class="line">java.io.FileFilter </span><br><span class="line">java.nio.file.PathMatcher </span><br><span class="line">java.lang.reflect.InvocationHandler </span><br><span class="line">java.beans.PropertyChangeListener </span><br><span class="line">java.awt.event.ActionListener </span><br><span class="line">javax.swing.event.ChangeListener</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">java.util.function — 中定义了几组类型的函数式接口以及针对基本数据类型的子类。 </span><br><span class="line">Predicate — 传入一个参数，返回一个bool结果， 方法为boolean test(T t) </span><br><span class="line">Consumer — 传入一个参数，无返回值，纯消费。 方法为void accept(T t) </span><br><span class="line">Function — 传入一个参数，返回一个结果，方法为R apply(T t) </span><br><span class="line">Supplier — 无参数传入，返回一个结果，方法为T get() </span><br><span class="line">UnaryOperator — 一元操作符， 继承Function,传入参数的类型和返回类型相同。 </span><br><span class="line">BinaryOperator — 二元操作符， 传入的两个参数的类型和返回类型相同， 继承BiFunction</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/27/sql/mysql/mysql命令语句/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sam guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sam Home">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/27/sql/mysql/mysql命令语句/" itemprop="url">mysql生成数据字典</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-27T14:29:44+08:00">2018-02-27</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--分析mysql的实例的情况</span></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">processlist</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看表是否太大 </span></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">table</span> <span class="keyword">status</span> <span class="keyword">like</span> <span class="string">'t_xx'</span> ;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看引擎状态</span></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">engine</span> <span class="keyword">innodb</span> <span class="keyword">status</span> ;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查找当前等待事务：</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span>  performance_schema .events_waits_current;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查找事务</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> information_schema.innodb_trx;</span><br><span class="line"></span><br><span class="line"><span class="comment">--建库</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> <span class="string">`esr`</span> <span class="keyword">DEFAULT</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci; </span><br><span class="line"></span><br><span class="line"><span class="comment">-- 建所有权限用户</span></span><br><span class="line"><span class="keyword">grant</span> all <span class="keyword">privileges</span> <span class="keyword">on</span> *.* <span class="keyword">to</span> root@<span class="string">'%'</span> <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">'root'</span>;</span><br><span class="line"><span class="keyword">grant</span> all <span class="keyword">privileges</span> <span class="keyword">on</span> *.* <span class="keyword">to</span> esr@<span class="string">'192.168.%'</span> <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">'123'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 建查询权限用户</span></span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">SELECT</span> <span class="keyword">ON</span> <span class="string">`nutch`</span>.<span class="string">`t_wdt_order_goods`</span> <span class="keyword">TO</span> <span class="string">'phpw'</span>@<span class="string">'%'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 刷新权限</span></span><br><span class="line"><span class="keyword">flush</span> <span class="keyword">privileges</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment">-- 带条件导出SQL</span></span><br><span class="line">mysqldump -u root -p nutch tbname -w="id&gt;123456789" &gt; xxxx.sql;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 数据字典</span></span><br><span class="line"><span class="keyword">SELECT</span> TABLE_SCHEMA,TABLE_NAME,COLUMN_NAME,COLUMN_TYPE,COLUMN_KEY,COLUMN_COMMENT </span><br><span class="line"><span class="keyword">FROM</span> information_schema.columns <span class="keyword">WHERE</span> TABLE_SCHEMA=<span class="string">'nutch'</span> </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 创建function</span></span><br><span class="line">delimiter ;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">FUNCTION</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> fun_rand_key ;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">FUNCTION</span> fun_rand_key(iparam <span class="built_in">int</span>) <span class="keyword">RETURNs</span> <span class="built_in">int</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">   <span class="keyword">declare</span> i_return <span class="built_in">int</span>;</span><br><span class="line">   <span class="keyword">set</span> i_return =iparam + <span class="keyword">floor</span>(<span class="keyword">rand</span>()*<span class="number">100</span>);</span><br><span class="line">   return i_return;</span><br><span class="line"><span class="keyword">END</span>;</span><br><span class="line"> ;;</span><br><span class="line"></span><br><span class="line">delimiter ;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/27/java/Java8新特性之Stream/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sam guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sam Home">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/27/java/Java8新特性之Stream/" itemprop="url">Java8新特性之Stream</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-27T11:29:44+08:00">2018-02-27</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>这个包主要提供元素的streams函数操作，比如对collections的map,reduce.<br>例如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> sum = widgets.stream()</span><br><span class="line">                      .filter(b -&gt; b.getColor() == RED)</span><br><span class="line">                      .mapToInt(b -&gt; b.getWeight())</span><br><span class="line">                      .sum();</span><br></pre></td></tr></table></figure></p>
-<p>本例中的widgets是Stream的源，类型为Collection，通过filter-&gt;map-&gt;reduce操作获取red widget的sum weight.<br>除了基本的Stream,JAVA8还专门为基础类型int,long,double提供了<code>IntStream</code>,<code>LongStream</code>,<code>DoubleStream</code>.</p>
-<h3 id="Streams和collections的不同之处"><a href="#Streams和collections的不同之处" class="headerlink" title="Streams和collections的不同之处"></a>Streams和collections的不同之处</h3><ol>
-<li>Stream没有存储。即不是一个存储结构，而是通过管道操作从Array,IO channel等转换而来。</li>
-<li>Stream本质上是泛函。Streams上的操作不会修改源数据，比如filter操作只是将符合要求的数据放在一个新的Stream,而不是真的删除源数据。</li>
-<li>Laziness-seeking，懒查询。</li>
-<li>大小不受限制，collections 有大小限制，streams没有。比如，limit或者findfirst等Short-circuiting操作会在有限的时间内完成无限的大小的streams操作。</li>
-<li>不可逆的，streams中的元素只能被操作一次。就像流水一样，一去不复返。如果你希望在源数据中获取一个新的Stream,必须在源数据上重新开始。</li>
-</ol>
-<h3 id="Stream创建"><a href="#Stream创建" class="headerlink" title="Stream创建"></a>Stream创建</h3><p>怎样创建一个Stream呢，有下面几种方法：</p>
-<ul>
-<li>Collection的Stream()和paralleStream()方法。</li>
-<li>Arrays.stream(Object[])</li>
-<li>Stream 类的静态方法，比如:  </li>
-</ul>
-<blockquote>
-<p><code>Stream.of(Object[]),IntStream.range(int, int)</code><br><code>Stream.iterate(Object, UnaryOperator)</code></p>
-</blockquote>
-<ul>
-<li>File的lines操作， BufferedReader.lines();</li>
-<li>Files中的一些方法获取file path的stream.例如:</li>
-</ul>
-<blockquote>
-<p><code>static Stream&lt;Path&gt; list(Path dir)</code><br><code>static Stream&lt;Path&gt;  walk(Path start, FileVisitOption... options)</code></p>
-</blockquote>
-<ul>
-<li>Random.ints()返回IntStream </li>
-<li>JDK中也有很多方法产生Stream,比如</li>
-</ul>
-<blockquote>
-<p><code>BitSet.stream()</code><br><code>Pattern.splitAsStream(java.lang.CharSequence)</code><br><code>JarFile.stream()</code>   </p>
-</blockquote>
-<h5 id="1-接口"><a href="#1-接口" class="headerlink" title="1.接口"></a>1.接口</h5><blockquote>
-<p><code>BaseStream&lt;T,S extends BaseStream&lt;T,S&gt;&gt;</code>  </p>
-</blockquote>
-<p>Streams的Base interface,支持各种并行和线性聚合操作。<br><code>Collector&lt;T,A,R&gt;</code>，可以将元素聚集在一个容器中，容器类型可变，比如List,Map. 是一个Stream处理完毕之后的结束操作。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">DoubleStream ，处理double类型的stream </span><br><span class="line">DoubleStream.Builder, 可变的builder。 </span><br><span class="line">IntStream，处理int类型的stream. </span><br><span class="line">IntStream.Builder, 可变的builder </span><br><span class="line">LongStream,处理Long类型的Stream. </span><br><span class="line">LongStream.Builder,可变的builder</span><br><span class="line"></span><br><span class="line">Stream&lt;T&gt; -–数据流，支持并行和线性聚合操作。 </span><br><span class="line">Stream.Builder&lt;T&gt;—-Stream的可变builder.</span><br></pre></td></tr></table></figure></p>
-<h5 id="2-类"><a href="#2-类" class="headerlink" title="2.类"></a>2.类</h5><p>执行Collector reduce操作的类，比如将元素聚合为collection,list等。<br>StreamSupport，创建和处理Stream的低级工具。</p>
-<h5 id="3-Enum"><a href="#3-Enum" class="headerlink" title="3.Enum"></a>3.Enum</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Collector.Characteristics—Collector的属性，可以用于优化reduce 操作。 </span><br><span class="line">Collector.Characteristics CONCURRENT：表示collector的result container可以被多个线程同时处理。 </span><br><span class="line">Collector.Characteristics UNORDERED：collection操作不保证操作元素的原有顺序 </span><br><span class="line">Collector.Characteristics IDENTITY_FINISH：类型转换时不会检查</span><br></pre></td></tr></table></figure>
-<h3 id="Stream的操作和管道"><a href="#Stream的操作和管道" class="headerlink" title="Stream的操作和管道"></a>Stream的操作和管道</h3><p>Stream操作是管道操作，操作分为中间操作和结束操作两种。整个管道操作的流程为数据源-&gt;中间操作-&gt;结束操作。<br><strong>中间操作</strong>比如：<code>Stream.filter</code>、<code>Stream.map</code>,可以有0个或者多个中间操作。<br><strong>结束操作</strong>比如：<code>Sream.foreach</code>、<code>Stream.reduce</code>，<code>Stream.collect</code>,结束操作是必须的。<br>中间操作返回的仍然是stream,这些操作经常是“懒惰的”。比如filter操作，并非真的对源数据进行过滤，而是重新创建一个Stream。而且当多个中间操作时，不是真的每次都去遍历源数据，而是在结束操作时，才会去遍历源数据，从而执行这些中间操作。在遍历中，操作的懒惰性表现在，并不是每次都是遍历所有的数据，比如“找出长度大于1000的第一个String”,找到之后就会返回。</p>
-<p>结束操作的目的是将Stream转换为想要的结果或者结构。当结束操作之后，<strong>当前管道结束，不可以再重复使用。如果你仍然想操作源数据，那你必须创建一个新的Stream。</strong></p>
-<p>中间操作又分为<strong>无状态</strong>和<strong>有状态</strong>两种。比如map和filter是无状态操作，也就是各元素间的操作是无关的，可单独进行。而distinct和sorted 是有状态操作，在操作时需要用到前元素，也就是元素之间的处理是相关的。<br>有状态的操作必须全部执行完毕的时候才能装入结果中。</p>
-<h5 id="1-并行操作"><a href="#1-并行操作" class="headerlink" title="1.并行操作"></a>1.并行操作</h5><p>JDK的默认操作都是线性的，或者说单线程的。并行操作可以通过Collection.parallelStream()和BaseStream.parallel()实现。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> sumOfWeights = widgets.parallelStream()</span><br><span class="line">                               .filter(b -&gt; b.getColor() == RED)</span><br><span class="line">                               .mapToInt(b -&gt; b.getWeight())</span><br><span class="line">                               .sum();</span><br></pre></td></tr></table></figure></p>
-<p>检查一个Stream的执行方式可以调用 isParallel() 方法。</p>
-<p>但并不是所有的数据都是可以使用并行操作的。要执行的操作必须是可以并行执行的，也就是多个线程操作之后，和顺序执行的结果是一致的，即线程安全。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>[] wordLength = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">12</span>];</span><br><span class="line"></span><br><span class="line">Stream.of(<span class="string">"It"</span>, <span class="string">"is"</span>, <span class="string">"your"</span>, <span class="string">"responsibility"</span>).parallel().forEach(s -&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (s.length() &lt; <span class="number">12</span>) wordLength[s.length()]++;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>比如上面的wordlength操作就是非线程安全的。</p>
-<h5 id="2-非干扰性"><a href="#2-非干扰性" class="headerlink" title="2.非干扰性"></a>2.非干扰性</h5><p>通常在结束操作之前，源数据都是可以修改的。除了一些Concurrent数据，还有iterator,spliterator操作。<br>下面的例子就是正确的：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; l = <span class="keyword">new</span> ArrayList(Arrays.asList(<span class="string">"one"</span>, <span class="string">"two"</span>));</span><br><span class="line">     Stream&lt;String&gt; sl = l.stream();</span><br><span class="line">     l.add(<span class="string">"three"</span>);</span><br><span class="line">     String s = sl.collect(joining(<span class="string">" "</span>));</span><br></pre></td></tr></table></figure>
-<h5 id="3-无状态的行为"><a href="#3-无状态的行为" class="headerlink" title="3.无状态的行为"></a>3.无状态的行为</h5><p>在streams操作中使用无状态的行为，即操作的结果不受其他状态的影响，就比如上面提高的parallel操作要考虑多线程的行为，是否有线程安全问题。</p>
-<h5 id="4-collect-reduce操作通常是线程安全的"><a href="#4-collect-reduce操作通常是线程安全的" class="headerlink" title="4.collect,reduce操作通常是线程安全的."></a>4.collect,reduce操作通常是线程安全的.</h5><h5 id="5-顺序"><a href="#5-顺序" class="headerlink" title="5.顺序"></a>5.顺序</h5><p>对于有顺序的源数据，比如list,set,Stream操作之后仍然会按照顺序排（线性操作）。<br>如果是非固定顺序的数据源，则不保证其最后处理的顺序。<br>对于线性Streams,源的固定顺序对性能没有特别影响。<br>对于并行Streams,不强调顺序的话显然性能会更好。比如filter,distinct,groupingBy操作，非顺序操作的效率就更好.<br>另外，如果数据本身是固定顺序的，但是开发者本身不在意是否按顺序处理，那么可以通过unordered()处理之后再操作，会提高某些有状态的并行操作和结束操作的效率。</p>
-<p>下面穿插一些线程安全的操作例子：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; datalist=<span class="keyword">new</span> ArrayList&lt;&gt;(<span class="number">1000</span>);</span><br><span class="line">List&lt;Integer&gt; datalist_collect=<span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"><span class="comment">//无状态的并行操作，即元素的操作和其他元素状态无关，线程安全</span></span><br><span class="line">        <span class="keyword">long</span> sum = IntStream.range(<span class="number">0</span>,<span class="number">1000</span>).parallel().filter(s-&gt;s%<span class="number">2</span>==<span class="number">0</span>).count();</span><br><span class="line">        System.out.println(<span class="string">"并行:"</span>+sum);</span><br><span class="line"><span class="comment">//datalist为非线程安全的，因此属于有状态并行操作，非线程安全     IntStream.range(0,1000).parallel().forEach(data-&gt;datalist.add(data));</span></span><br><span class="line">        System.out.println(<span class="string">"并行foreach:"</span>+datalist.size());</span><br><span class="line"></span><br><span class="line"><span class="comment">//collect操作线程安全</span></span><br><span class="line">datalist_collect=IntStream.range(<span class="number">0</span>,<span class="number">1000</span>).parallel().collect(ArrayList::<span class="keyword">new</span>, (c,e)-&gt;c.add(e), (c1,c2)-&gt;c1.addAll(c2));</span><br><span class="line">        System.out.println(<span class="string">"并行collect:"</span>+datalist_collect.size());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> sum2 = IntStream.range(<span class="number">0</span>,<span class="number">1000</span>).filter(s-&gt;s%<span class="number">2</span>==<span class="number">0</span>).count();</span><br><span class="line">            System.out.println(<span class="string">"串行:"</span>+sum2);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        List&lt;Integer&gt; intlist=IntStream.range(<span class="number">0</span>,<span class="number">10</span>).collect(ArrayList::<span class="keyword">new</span>, (c,e)-&gt;c.add(e), (c1,c2)-&gt;c1.addAll(c2));</span><br><span class="line">        System.out.println(<span class="string">"并行数据开始："</span>);</span><br><span class="line">  <span class="comment">//并行操作时无顺序    intlist.parallelStream().map(e-&gt;e+1).forEach(System.out::println);</span></span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"串行数据开始："</span>);</span><br><span class="line"><span class="comment">//串行操作保证顺序</span></span><br><span class="line">        intlist.stream().forEach(System.out::println);</span><br><span class="line">        System.out.println(<span class="string">"串行数据结束："</span>);</span><br></pre></td></tr></table></figure></p>
-<p>运行结果如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">并行:500</span><br><span class="line">并行foreach:980</span><br><span class="line">并行collect:1000</span><br><span class="line">串行:500</span><br><span class="line">并行数据开始：</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">10</span><br><span class="line">6</span><br><span class="line">5</span><br><span class="line">4</span><br><span class="line">1</span><br><span class="line">9</span><br><span class="line">3</span><br><span class="line">2</span><br><span class="line">串行数据开始：</span><br><span class="line">0</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">串行数据结束</span><br></pre></td></tr></table></figure>
-<h5 id="6-Reduction-操作"><a href="#6-Reduction-操作" class="headerlink" title="6.Reduction 操作"></a>6.Reduction 操作</h5><p>Reduction操作将元素通过合并操作还原为一个result,比如总数，最大值，元素存入list等。<br>Reduction操作的函数有很多，比如 reduce(),collect(),sum(),max(),count()等。<br>Reduction操作不仅看起来简洁，而且可以使用并行来实现，效率高，不存在效率安全问题，比如<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> x : numbers) &#123;</span><br><span class="line">       sum += x;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//改写为</span></span><br><span class="line"><span class="keyword">int</span> sum = numbers.parallelStream().reduce(<span class="number">0</span>, Integer::sum);</span><br></pre></td></tr></table></figure></p>
-<p>Reduce()定义1：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">T <span class="title">reduce</span><span class="params">(T identity,</span></span></span><br><span class="line"><span class="function"><span class="params">         BinaryOperator&lt;T&gt; accumulator)</span></span></span><br></pre></td></tr></table></figure></p>
-<p>该方法使用提供的identity和accumulator来获取result.等同于下面的写法，其实identity就是计算的初始值：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">T result = identity;</span><br><span class="line">     <span class="keyword">for</span> (T element : <span class="keyword">this</span> stream)</span><br><span class="line">         result = accumulator.apply(result, element)</span><br><span class="line">     <span class="keyword">return</span> result;</span><br></pre></td></tr></table></figure></p>
-<p>但于for循环不同的是，reduce操作不局限于线性运行。但对于同一个对象T,其accumulator的运算结果必须相同。</p>
-<p>Reduce()定义2：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Optional&lt;T&gt; <span class="title">reduce</span><span class="params">(BinaryOperator&lt;T&gt; accumulator)</span></span></span><br><span class="line"><span class="function"><span class="comment">//这个操作等同于：</span></span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> foundAny </span>= <span class="keyword">false</span>;</span><br><span class="line">     T result = <span class="keyword">null</span>;</span><br><span class="line">     <span class="keyword">for</span> (T element : <span class="keyword">this</span> stream) &#123;</span><br><span class="line">         <span class="keyword">if</span> (!foundAny) &#123;</span><br><span class="line">             foundAny = <span class="keyword">true</span>;</span><br><span class="line">             result = element;</span><br><span class="line">         &#125;</span><br><span class="line">         <span class="keyword">else</span></span><br><span class="line">             result = accumulator.apply(result, element);</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span> foundAny ? Optional.of(result) : Optional.empty();</span><br></pre></td></tr></table></figure></p>
-<p>Reduce()定义3：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;U&gt; <span class="function">U <span class="title">reduce</span><span class="params">(U identity,</span></span></span><br><span class="line"><span class="function"><span class="params">             BiFunction&lt;U,? <span class="keyword">super</span> T,U&gt; accumulator,</span></span></span><br><span class="line"><span class="function"><span class="params">             BinaryOperator&lt;U&gt; combiner)</span></span></span><br><span class="line"><span class="function"><span class="comment">//这个操作等同于：</span></span></span><br><span class="line"><span class="function"> U result </span>= identity;</span><br><span class="line">     <span class="keyword">for</span> (T element : <span class="keyword">this</span> stream)</span><br><span class="line">         result = accumulator.apply(result, element)</span><br><span class="line">     <span class="keyword">return</span> result;</span><br></pre></td></tr></table></figure>
-<p>此方法通常用于将map和reduce操作的结合来使用。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/27/java/Java8的lambda表达式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sam guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sam Home">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/27/java/Java8的lambda表达式/" itemprop="url">Java8的lambda表达式</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-27T10:29:44+08:00">2018-02-27</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="为什么使用lambda表达式？"><a href="#为什么使用lambda表达式？" class="headerlink" title="为什么使用lambda表达式？"></a>为什么使用lambda表达式？</h3><blockquote>
-<p>Lambda表达式允许将函数作为方法的参数，或者将code作为数据。使得代码简洁，可读性较高。</p>
-</blockquote>
-<h3 id="Lambda表达式的格式"><a href="#Lambda表达式的格式" class="headerlink" title="Lambda表达式的格式"></a>Lambda表达式的格式</h3><blockquote>
-<p>（attr1,attr2,…..）-&gt;函数体</p>
-</blockquote>
-<p>左边是参数，当参数为1个时，可以没有括号，比如：<code>e-&gt;e+2</code><br>当参数为0个时，用括号表示,比如:<code>()-&gt;System.out.println(&quot;表达式&quot;)</code></p>
-<p>如果函数体为一行，那么就没有必须显示的使用return语句，比如，下面的两个代码是等价的：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Arrays.asList( <span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"d"</span> ).sort( ( e1, e2 ) -&gt; e1.compareTo( e2 ) );</span><br><span class="line">Arrays.asList( <span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"d"</span> ).sort( ( e1, e2 ) -&gt; &#123;</span><br><span class="line">    <span class="keyword">int</span> result = e1.compareTo( e2 );</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125; );</span><br></pre></td></tr></table></figure></p>
-<p>如果函数体为多行，则需要将函数体用花括号”{ }”括起来，表达式用分号结尾。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Arrays.asList( <span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"d"</span> ).sort( ( e1, e2 ) -&gt; &#123;</span><br><span class="line">    <span class="keyword">int</span> result = e1.compareTo( e2 );</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125; );</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1828,7 +1779,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-count">34</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>

@@ -279,6 +279,795 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/28/git/Git同步Fork代码/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/28/git/Git同步Fork代码/" itemprop="url">Git同步Fork代码</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-28T11:21:44+08:00">2018-02-28</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/git/" itemprop="url" rel="index"><span itemprop="name">git</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="给fork配置远程库"><a href="#给fork配置远程库" class="headerlink" title="给fork配置远程库"></a>给fork配置远程库</h3><p>使用<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure></p>
+<h3 id="查看远程状态"><a href="#查看远程状态" class="headerlink" title="查看远程状态"></a>查看远程状态</h3><p>确定一个将被同步给 fork 远程的上游仓库<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add upstream https://github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.git</span><br></pre></td></tr></table></figure></p>
+<p>再次查看状态确认是否配置成功。</p>
+<h3 id="同步fork"><a href="#同步fork" class="headerlink" title="同步fork"></a>同步fork</h3><p>从上游仓库 fetch 分支和提交点，提交给本地 master，并会被存储在一个本地分支 upstream/master<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git fetch upstream</span><br></pre></td></tr></table></figure></p>
+<h3 id="切换到本地主分支-如果不在的话"><a href="#切换到本地主分支-如果不在的话" class="headerlink" title="切换到本地主分支(如果不在的话)"></a>切换到本地主分支(如果不在的话)</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout master</span><br></pre></td></tr></table></figure>
+<h3 id="把-upstream-master-分支合并到本地-master-上，这样就完成了同步，并且不会丢掉本地修改的内容。"><a href="#把-upstream-master-分支合并到本地-master-上，这样就完成了同步，并且不会丢掉本地修改的内容。" class="headerlink" title="把 upstream/master 分支合并到本地 master 上，这样就完成了同步，并且不会丢掉本地修改的内容。"></a>把 upstream/master 分支合并到本地 master 上，这样就完成了同步，并且不会丢掉本地修改的内容。</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge upstream/master</span><br></pre></td></tr></table></figure>
+<h3 id="如果想更新到-GitHub-的-fork-上，直接"><a href="#如果想更新到-GitHub-的-fork-上，直接" class="headerlink" title="如果想更新到 GitHub 的 fork 上，直接"></a>如果想更新到 GitHub 的 fork 上，直接</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
+<p>就好了。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/28/java/java8中Collectors的使用方法和Function简介/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/28/java/java8中Collectors的使用方法和Function简介/" itemprop="url">java8中Collectors的使用方法和Function简介</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-28T09:29:44+08:00">2018-02-28</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Collectors-实现了接口-Collector-lt-T-A-R-gt"><a href="#Collectors-实现了接口-Collector-lt-T-A-R-gt" class="headerlink" title="Collectors 实现了接口 Collector&lt;T,A,R&gt;"></a>Collectors 实现了接口 <code>Collector&lt;T,A,R&gt;</code></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">T:需要进行reduce操作的元素类型 </span><br><span class="line">A:reduce操作的动态集合类型 </span><br><span class="line">R:reduce操作的结果类型</span><br></pre></td></tr></table></figure>
+<h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//将名字集合到list</span></span><br><span class="line">List&lt;String&gt; list = people.stream().map(Person::getName).collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//将名字集合到TreeSet</span></span><br><span class="line">Set&lt;String&gt; set = people.stream().map(Person::getName)</span><br><span class="line">                 .collect(Collectors.toCollection(TreeSet::<span class="keyword">new</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">//将名字转换为String,并连接为一个字符串</span></span><br><span class="line">String joined = things.stream()</span><br><span class="line">                      .map(Object::toString)</span><br><span class="line">                      .collect(Collectors.joining(<span class="string">", "</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">//计算员工的工资总额</span></span><br><span class="line"><span class="keyword">int</span> total = employees.stream()</span><br><span class="line">                     .collect(Collectors.summingInt(Employee::getSalary)));</span><br><span class="line"></span><br><span class="line"><span class="comment">//根据部门将员工分组：</span></span><br><span class="line">Map&lt;Department, List&lt;Employee&gt;&gt; byDept = employees.stream()</span><br><span class="line">                    .collect(Collectors.groupingBy(Employee::getDepartment));</span><br><span class="line"></span><br><span class="line"><span class="comment">//计算不同部门的员工工资总额</span></span><br><span class="line">Map&lt;Department, Integer&gt; totalByDept= employees.stream()</span><br><span class="line">                       .collect(Collectors.groupingBy(</span><br><span class="line">                        Employee::getDepartment, </span><br><span class="line">                        Collectors.summingInt(Employee::getSalary)));</span><br><span class="line"></span><br><span class="line"><span class="comment">//划分及格和不及格的学生</span></span><br><span class="line">Map&lt;Boolean, List&lt;Student&gt;&gt; passingFailing = students.stream()</span><br><span class="line">                 .collect(Collectors.partitioningBy(</span><br><span class="line">                         s -&gt; s.getGrade() &gt;= PASS_THRESHOLD));</span><br></pre></td></tr></table></figure>
+<h3 id="Function-lt-T-R-gt"><a href="#Function-lt-T-R-gt" class="headerlink" title="Function&lt;T, R&gt;"></a><code>Function&lt;T, R&gt;</code></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">T:函数的输入类型 </span><br><span class="line">R:函数的输出类型</span><br></pre></td></tr></table></figure>
+<p>也就是通过这个函数，可以将一个类型转换为另一个类型，比如下面的例子：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">//定义一个function 输入是String类型，输出是 EventInfo 类型，  EventInfo是一个类。           </span></span><br><span class="line">Function&lt;String, EventInfo&gt; times2 = fun -&gt; &#123; </span><br><span class="line">              EventInfo a = <span class="keyword">new</span> EventInfo(); </span><br><span class="line">              a.setName(fun); </span><br><span class="line">              <span class="keyword">return</span> a;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">String[] testintStrings=&#123;<span class="string">"1"</span>,<span class="string">"2"</span>,<span class="string">"3"</span>,<span class="string">"4"</span>&#125;; </span><br><span class="line"></span><br><span class="line"><span class="comment">//将String 的Array转换成map,调用times2函数进行转换</span></span><br><span class="line">Map&lt;String,EventInfo&gt; eventmap1=Stream.of(testintStrings)</span><br><span class="line">                        .collect(Collectors.toMap(</span><br><span class="line">                         inputvalue-&gt;inputvalue, </span><br><span class="line">                         inputvalue-&gt;times2.apply(inputvalue)));</span><br></pre></td></tr></table></figure></p>
+<p>如果<code>Collectors.toMap</code>的转换过程很简单，比如输入和输出类型相同，则不需要另外定义<code>Function</code>,例如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String,String&gt; eventmap2=Stream.of(testStrings)</span><br><span class="line">                  .collect(Collectors.toMap(</span><br><span class="line">                   inputvalue-&gt;inputvalue, </span><br><span class="line">                   inputvalue-&gt;(inputvalue+<span class="string">"a"</span>)));</span><br></pre></td></tr></table></figure></p>
+<h3 id="Java中有哪些函数式接口呢？"><a href="#Java中有哪些函数式接口呢？" class="headerlink" title="Java中有哪些函数式接口呢？"></a>Java中有哪些函数式接口呢？</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">java.lang.Runnable </span><br><span class="line">java.util.concurrent.Callable </span><br><span class="line">java.security.PrivilegedAction </span><br><span class="line">java.util.Comparator </span><br><span class="line">java.io.FileFilter </span><br><span class="line">java.nio.file.PathMatcher </span><br><span class="line">java.lang.reflect.InvocationHandler </span><br><span class="line">java.beans.PropertyChangeListener </span><br><span class="line">java.awt.event.ActionListener </span><br><span class="line">javax.swing.event.ChangeListener</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">java.util.function — 中定义了几组类型的函数式接口以及针对基本数据类型的子类。 </span><br><span class="line">Predicate — 传入一个参数，返回一个bool结果， 方法为boolean test(T t) </span><br><span class="line">Consumer — 传入一个参数，无返回值，纯消费。 方法为void accept(T t) </span><br><span class="line">Function — 传入一个参数，返回一个结果，方法为R apply(T t) </span><br><span class="line">Supplier — 无参数传入，返回一个结果，方法为T get() </span><br><span class="line">UnaryOperator — 一元操作符， 继承Function,传入参数的类型和返回类型相同。 </span><br><span class="line">BinaryOperator — 二元操作符， 传入的两个参数的类型和返回类型相同， 继承BiFunction</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/27/sql/mysql/mysql命令语句/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/27/sql/mysql/mysql命令语句/" itemprop="url">mysql生成数据字典</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-27T14:29:44+08:00">2018-02-27</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--分析mysql的实例的情况</span></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">processlist</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看表是否太大 </span></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">table</span> <span class="keyword">status</span> <span class="keyword">like</span> <span class="string">'t_xx'</span> ;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查看引擎状态</span></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">engine</span> <span class="keyword">innodb</span> <span class="keyword">status</span> ;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查找当前等待事务：</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span>  performance_schema .events_waits_current;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 查找事务</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> information_schema.innodb_trx;</span><br><span class="line"></span><br><span class="line"><span class="comment">--建库</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> <span class="string">`esr`</span> <span class="keyword">DEFAULT</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci; </span><br><span class="line"></span><br><span class="line"><span class="comment">-- 建所有权限用户</span></span><br><span class="line"><span class="keyword">grant</span> all <span class="keyword">privileges</span> <span class="keyword">on</span> *.* <span class="keyword">to</span> root@<span class="string">'%'</span> <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">'root'</span>;</span><br><span class="line"><span class="keyword">grant</span> all <span class="keyword">privileges</span> <span class="keyword">on</span> *.* <span class="keyword">to</span> esr@<span class="string">'192.168.%'</span> <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">'123'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 建查询权限用户</span></span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">SELECT</span> <span class="keyword">ON</span> <span class="string">`nutch`</span>.<span class="string">`t_wdt_order_goods`</span> <span class="keyword">TO</span> <span class="string">'phpw'</span>@<span class="string">'%'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 刷新权限</span></span><br><span class="line"><span class="keyword">flush</span> <span class="keyword">privileges</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment">-- 带条件导出SQL</span></span><br><span class="line">mysqldump -u root -p nutch tbname -w="id&gt;123456789" &gt; xxxx.sql;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 数据字典</span></span><br><span class="line"><span class="keyword">SELECT</span> TABLE_SCHEMA,TABLE_NAME,COLUMN_NAME,COLUMN_TYPE,COLUMN_KEY,COLUMN_COMMENT </span><br><span class="line"><span class="keyword">FROM</span> information_schema.columns <span class="keyword">WHERE</span> TABLE_SCHEMA=<span class="string">'nutch'</span> </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 创建function</span></span><br><span class="line">delimiter ;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">FUNCTION</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> fun_rand_key ;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">FUNCTION</span> fun_rand_key(iparam <span class="built_in">int</span>) <span class="keyword">RETURNs</span> <span class="built_in">int</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">   <span class="keyword">declare</span> i_return <span class="built_in">int</span>;</span><br><span class="line">   <span class="keyword">set</span> i_return =iparam + <span class="keyword">floor</span>(<span class="keyword">rand</span>()*<span class="number">100</span>);</span><br><span class="line">   return i_return;</span><br><span class="line"><span class="keyword">END</span>;</span><br><span class="line"> ;;</span><br><span class="line"></span><br><span class="line">delimiter ;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">--  mysql 生成一段连续的日期</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="keyword">num</span> (i <span class="built_in">int</span>);  </span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="keyword">num</span> (i) <span class="keyword">VALUES</span> (<span class="number">0</span>), (<span class="number">1</span>), (<span class="number">2</span>), (<span class="number">3</span>), (<span class="number">4</span>), (<span class="number">5</span>), (<span class="number">6</span>), (<span class="number">7</span>), (<span class="number">8</span>), (<span class="number">9</span>);  </span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> adddate(<span class="string">'2012-09-01'</span>, numlist.id) <span class="keyword">as</span> <span class="string">`date`</span> <span class="keyword">from</span> </span><br><span class="line">(<span class="keyword">SELECT</span> n1.i + n10.i*<span class="number">10</span> + n100.i*<span class="number">100</span> <span class="keyword">AS</span> <span class="keyword">id</span> <span class="keyword">FROM</span> a_num n1 <span class="keyword">cross</span> <span class="keyword">join</span> a_num <span class="keyword">as</span> n10 <span class="keyword">cross</span> <span class="keyword">join</span> <span class="keyword">num</span> <span class="keyword">as</span> n100) <span class="keyword">as</span> numlist </span><br><span class="line"><span class="keyword">where</span> adddate(<span class="string">'2012-09-01'</span>, numlist.id) &lt;= <span class="string">'2012-09-10'</span>;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/27/java/Java8新特性之Stream/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/27/java/Java8新特性之Stream/" itemprop="url">Java8新特性之Stream</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-27T11:29:44+08:00">2018-02-27</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>这个包主要提供元素的streams函数操作，比如对collections的map,reduce.<br>例如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> sum = widgets.stream()</span><br><span class="line">                      .filter(b -&gt; b.getColor() == RED)</span><br><span class="line">                      .mapToInt(b -&gt; b.getWeight())</span><br><span class="line">                      .sum();</span><br></pre></td></tr></table></figure></p>
+<p>本例中的widgets是Stream的源，类型为Collection，通过filter-&gt;map-&gt;reduce操作获取red widget的sum weight.<br>除了基本的Stream,JAVA8还专门为基础类型int,long,double提供了<code>IntStream</code>,<code>LongStream</code>,<code>DoubleStream</code>.</p>
+<h3 id="Streams和collections的不同之处"><a href="#Streams和collections的不同之处" class="headerlink" title="Streams和collections的不同之处"></a>Streams和collections的不同之处</h3><ol>
+<li>Stream没有存储。即不是一个存储结构，而是通过管道操作从Array,IO channel等转换而来。</li>
+<li>Stream本质上是泛函。Streams上的操作不会修改源数据，比如filter操作只是将符合要求的数据放在一个新的Stream,而不是真的删除源数据。</li>
+<li>Laziness-seeking，懒查询。</li>
+<li>大小不受限制，collections 有大小限制，streams没有。比如，limit或者findfirst等Short-circuiting操作会在有限的时间内完成无限的大小的streams操作。</li>
+<li>不可逆的，streams中的元素只能被操作一次。就像流水一样，一去不复返。如果你希望在源数据中获取一个新的Stream,必须在源数据上重新开始。</li>
+</ol>
+<h3 id="Stream创建"><a href="#Stream创建" class="headerlink" title="Stream创建"></a>Stream创建</h3><p>怎样创建一个Stream呢，有下面几种方法：</p>
+<ul>
+<li>Collection的Stream()和paralleStream()方法。</li>
+<li>Arrays.stream(Object[])</li>
+<li>Stream 类的静态方法，比如:  </li>
+</ul>
+<blockquote>
+<p><code>Stream.of(Object[]),IntStream.range(int, int)</code><br><code>Stream.iterate(Object, UnaryOperator)</code></p>
+</blockquote>
+<ul>
+<li>File的lines操作， BufferedReader.lines();</li>
+<li>Files中的一些方法获取file path的stream.例如:</li>
+</ul>
+<blockquote>
+<p><code>static Stream&lt;Path&gt; list(Path dir)</code><br><code>static Stream&lt;Path&gt;  walk(Path start, FileVisitOption... options)</code></p>
+</blockquote>
+<ul>
+<li>Random.ints()返回IntStream </li>
+<li>JDK中也有很多方法产生Stream,比如</li>
+</ul>
+<blockquote>
+<p><code>BitSet.stream()</code><br><code>Pattern.splitAsStream(java.lang.CharSequence)</code><br><code>JarFile.stream()</code>   </p>
+</blockquote>
+<h5 id="1-接口"><a href="#1-接口" class="headerlink" title="1.接口"></a>1.接口</h5><blockquote>
+<p><code>BaseStream&lt;T,S extends BaseStream&lt;T,S&gt;&gt;</code>  </p>
+</blockquote>
+<p>Streams的Base interface,支持各种并行和线性聚合操作。<br><code>Collector&lt;T,A,R&gt;</code>，可以将元素聚集在一个容器中，容器类型可变，比如List,Map. 是一个Stream处理完毕之后的结束操作。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">DoubleStream ，处理double类型的stream </span><br><span class="line">DoubleStream.Builder, 可变的builder。 </span><br><span class="line">IntStream，处理int类型的stream. </span><br><span class="line">IntStream.Builder, 可变的builder </span><br><span class="line">LongStream,处理Long类型的Stream. </span><br><span class="line">LongStream.Builder,可变的builder</span><br><span class="line"></span><br><span class="line">Stream&lt;T&gt; -–数据流，支持并行和线性聚合操作。 </span><br><span class="line">Stream.Builder&lt;T&gt;—-Stream的可变builder.</span><br></pre></td></tr></table></figure></p>
+<h5 id="2-类"><a href="#2-类" class="headerlink" title="2.类"></a>2.类</h5><p>执行Collector reduce操作的类，比如将元素聚合为collection,list等。<br>StreamSupport，创建和处理Stream的低级工具。</p>
+<h5 id="3-Enum"><a href="#3-Enum" class="headerlink" title="3.Enum"></a>3.Enum</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Collector.Characteristics—Collector的属性，可以用于优化reduce 操作。 </span><br><span class="line">Collector.Characteristics CONCURRENT：表示collector的result container可以被多个线程同时处理。 </span><br><span class="line">Collector.Characteristics UNORDERED：collection操作不保证操作元素的原有顺序 </span><br><span class="line">Collector.Characteristics IDENTITY_FINISH：类型转换时不会检查</span><br></pre></td></tr></table></figure>
+<h3 id="Stream的操作和管道"><a href="#Stream的操作和管道" class="headerlink" title="Stream的操作和管道"></a>Stream的操作和管道</h3><p>Stream操作是管道操作，操作分为中间操作和结束操作两种。整个管道操作的流程为数据源-&gt;中间操作-&gt;结束操作。<br><strong>中间操作</strong>比如：<code>Stream.filter</code>、<code>Stream.map</code>,可以有0个或者多个中间操作。<br><strong>结束操作</strong>比如：<code>Sream.foreach</code>、<code>Stream.reduce</code>，<code>Stream.collect</code>,结束操作是必须的。<br>中间操作返回的仍然是stream,这些操作经常是“懒惰的”。比如filter操作，并非真的对源数据进行过滤，而是重新创建一个Stream。而且当多个中间操作时，不是真的每次都去遍历源数据，而是在结束操作时，才会去遍历源数据，从而执行这些中间操作。在遍历中，操作的懒惰性表现在，并不是每次都是遍历所有的数据，比如“找出长度大于1000的第一个String”,找到之后就会返回。</p>
+<p>结束操作的目的是将Stream转换为想要的结果或者结构。当结束操作之后，<strong>当前管道结束，不可以再重复使用。如果你仍然想操作源数据，那你必须创建一个新的Stream。</strong></p>
+<p>中间操作又分为<strong>无状态</strong>和<strong>有状态</strong>两种。比如map和filter是无状态操作，也就是各元素间的操作是无关的，可单独进行。而distinct和sorted 是有状态操作，在操作时需要用到前元素，也就是元素之间的处理是相关的。<br>有状态的操作必须全部执行完毕的时候才能装入结果中。</p>
+<h5 id="1-并行操作"><a href="#1-并行操作" class="headerlink" title="1.并行操作"></a>1.并行操作</h5><p>JDK的默认操作都是线性的，或者说单线程的。并行操作可以通过Collection.parallelStream()和BaseStream.parallel()实现。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> sumOfWeights = widgets.parallelStream()</span><br><span class="line">                               .filter(b -&gt; b.getColor() == RED)</span><br><span class="line">                               .mapToInt(b -&gt; b.getWeight())</span><br><span class="line">                               .sum();</span><br></pre></td></tr></table></figure></p>
+<p>检查一个Stream的执行方式可以调用 isParallel() 方法。</p>
+<p>但并不是所有的数据都是可以使用并行操作的。要执行的操作必须是可以并行执行的，也就是多个线程操作之后，和顺序执行的结果是一致的，即线程安全。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>[] wordLength = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">12</span>];</span><br><span class="line"></span><br><span class="line">Stream.of(<span class="string">"It"</span>, <span class="string">"is"</span>, <span class="string">"your"</span>, <span class="string">"responsibility"</span>).parallel().forEach(s -&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (s.length() &lt; <span class="number">12</span>) wordLength[s.length()]++;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>比如上面的wordlength操作就是非线程安全的。</p>
+<h5 id="2-非干扰性"><a href="#2-非干扰性" class="headerlink" title="2.非干扰性"></a>2.非干扰性</h5><p>通常在结束操作之前，源数据都是可以修改的。除了一些Concurrent数据，还有iterator,spliterator操作。<br>下面的例子就是正确的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; l = <span class="keyword">new</span> ArrayList(Arrays.asList(<span class="string">"one"</span>, <span class="string">"two"</span>));</span><br><span class="line">     Stream&lt;String&gt; sl = l.stream();</span><br><span class="line">     l.add(<span class="string">"three"</span>);</span><br><span class="line">     String s = sl.collect(joining(<span class="string">" "</span>));</span><br></pre></td></tr></table></figure>
+<h5 id="3-无状态的行为"><a href="#3-无状态的行为" class="headerlink" title="3.无状态的行为"></a>3.无状态的行为</h5><p>在streams操作中使用无状态的行为，即操作的结果不受其他状态的影响，就比如上面提高的parallel操作要考虑多线程的行为，是否有线程安全问题。</p>
+<h5 id="4-collect-reduce操作通常是线程安全的"><a href="#4-collect-reduce操作通常是线程安全的" class="headerlink" title="4.collect,reduce操作通常是线程安全的."></a>4.collect,reduce操作通常是线程安全的.</h5><h5 id="5-顺序"><a href="#5-顺序" class="headerlink" title="5.顺序"></a>5.顺序</h5><p>对于有顺序的源数据，比如list,set,Stream操作之后仍然会按照顺序排（线性操作）。<br>如果是非固定顺序的数据源，则不保证其最后处理的顺序。<br>对于线性Streams,源的固定顺序对性能没有特别影响。<br>对于并行Streams,不强调顺序的话显然性能会更好。比如filter,distinct,groupingBy操作，非顺序操作的效率就更好.<br>另外，如果数据本身是固定顺序的，但是开发者本身不在意是否按顺序处理，那么可以通过unordered()处理之后再操作，会提高某些有状态的并行操作和结束操作的效率。</p>
+<p>下面穿插一些线程安全的操作例子：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; datalist=<span class="keyword">new</span> ArrayList&lt;&gt;(<span class="number">1000</span>);</span><br><span class="line">List&lt;Integer&gt; datalist_collect=<span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"><span class="comment">//无状态的并行操作，即元素的操作和其他元素状态无关，线程安全</span></span><br><span class="line">        <span class="keyword">long</span> sum = IntStream.range(<span class="number">0</span>,<span class="number">1000</span>).parallel().filter(s-&gt;s%<span class="number">2</span>==<span class="number">0</span>).count();</span><br><span class="line">        System.out.println(<span class="string">"并行:"</span>+sum);</span><br><span class="line"><span class="comment">//datalist为非线程安全的，因此属于有状态并行操作，非线程安全     IntStream.range(0,1000).parallel().forEach(data-&gt;datalist.add(data));</span></span><br><span class="line">        System.out.println(<span class="string">"并行foreach:"</span>+datalist.size());</span><br><span class="line"></span><br><span class="line"><span class="comment">//collect操作线程安全</span></span><br><span class="line">datalist_collect=IntStream.range(<span class="number">0</span>,<span class="number">1000</span>).parallel().collect(ArrayList::<span class="keyword">new</span>, (c,e)-&gt;c.add(e), (c1,c2)-&gt;c1.addAll(c2));</span><br><span class="line">        System.out.println(<span class="string">"并行collect:"</span>+datalist_collect.size());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> sum2 = IntStream.range(<span class="number">0</span>,<span class="number">1000</span>).filter(s-&gt;s%<span class="number">2</span>==<span class="number">0</span>).count();</span><br><span class="line">            System.out.println(<span class="string">"串行:"</span>+sum2);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        List&lt;Integer&gt; intlist=IntStream.range(<span class="number">0</span>,<span class="number">10</span>).collect(ArrayList::<span class="keyword">new</span>, (c,e)-&gt;c.add(e), (c1,c2)-&gt;c1.addAll(c2));</span><br><span class="line">        System.out.println(<span class="string">"并行数据开始："</span>);</span><br><span class="line">  <span class="comment">//并行操作时无顺序    intlist.parallelStream().map(e-&gt;e+1).forEach(System.out::println);</span></span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"串行数据开始："</span>);</span><br><span class="line"><span class="comment">//串行操作保证顺序</span></span><br><span class="line">        intlist.stream().forEach(System.out::println);</span><br><span class="line">        System.out.println(<span class="string">"串行数据结束："</span>);</span><br></pre></td></tr></table></figure></p>
+<p>运行结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">并行:500</span><br><span class="line">并行foreach:980</span><br><span class="line">并行collect:1000</span><br><span class="line">串行:500</span><br><span class="line">并行数据开始：</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">10</span><br><span class="line">6</span><br><span class="line">5</span><br><span class="line">4</span><br><span class="line">1</span><br><span class="line">9</span><br><span class="line">3</span><br><span class="line">2</span><br><span class="line">串行数据开始：</span><br><span class="line">0</span><br><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">串行数据结束</span><br></pre></td></tr></table></figure>
+<h5 id="6-Reduction-操作"><a href="#6-Reduction-操作" class="headerlink" title="6.Reduction 操作"></a>6.Reduction 操作</h5><p>Reduction操作将元素通过合并操作还原为一个result,比如总数，最大值，元素存入list等。<br>Reduction操作的函数有很多，比如 reduce(),collect(),sum(),max(),count()等。<br>Reduction操作不仅看起来简洁，而且可以使用并行来实现，效率高，不存在效率安全问题，比如<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> x : numbers) &#123;</span><br><span class="line">       sum += x;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//改写为</span></span><br><span class="line"><span class="keyword">int</span> sum = numbers.parallelStream().reduce(<span class="number">0</span>, Integer::sum);</span><br></pre></td></tr></table></figure></p>
+<p>Reduce()定义1：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">T <span class="title">reduce</span><span class="params">(T identity,</span></span></span><br><span class="line"><span class="function"><span class="params">         BinaryOperator&lt;T&gt; accumulator)</span></span></span><br></pre></td></tr></table></figure></p>
+<p>该方法使用提供的identity和accumulator来获取result.等同于下面的写法，其实identity就是计算的初始值：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">T result = identity;</span><br><span class="line">     <span class="keyword">for</span> (T element : <span class="keyword">this</span> stream)</span><br><span class="line">         result = accumulator.apply(result, element)</span><br><span class="line">     <span class="keyword">return</span> result;</span><br></pre></td></tr></table></figure></p>
+<p>但于for循环不同的是，reduce操作不局限于线性运行。但对于同一个对象T,其accumulator的运算结果必须相同。</p>
+<p>Reduce()定义2：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Optional&lt;T&gt; <span class="title">reduce</span><span class="params">(BinaryOperator&lt;T&gt; accumulator)</span></span></span><br><span class="line"><span class="function"><span class="comment">//这个操作等同于：</span></span></span><br><span class="line"><span class="function"><span class="keyword">boolean</span> foundAny </span>= <span class="keyword">false</span>;</span><br><span class="line">     T result = <span class="keyword">null</span>;</span><br><span class="line">     <span class="keyword">for</span> (T element : <span class="keyword">this</span> stream) &#123;</span><br><span class="line">         <span class="keyword">if</span> (!foundAny) &#123;</span><br><span class="line">             foundAny = <span class="keyword">true</span>;</span><br><span class="line">             result = element;</span><br><span class="line">         &#125;</span><br><span class="line">         <span class="keyword">else</span></span><br><span class="line">             result = accumulator.apply(result, element);</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span> foundAny ? Optional.of(result) : Optional.empty();</span><br></pre></td></tr></table></figure></p>
+<p>Reduce()定义3：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;U&gt; <span class="function">U <span class="title">reduce</span><span class="params">(U identity,</span></span></span><br><span class="line"><span class="function"><span class="params">             BiFunction&lt;U,? <span class="keyword">super</span> T,U&gt; accumulator,</span></span></span><br><span class="line"><span class="function"><span class="params">             BinaryOperator&lt;U&gt; combiner)</span></span></span><br><span class="line"><span class="function"><span class="comment">//这个操作等同于：</span></span></span><br><span class="line"><span class="function"> U result </span>= identity;</span><br><span class="line">     <span class="keyword">for</span> (T element : <span class="keyword">this</span> stream)</span><br><span class="line">         result = accumulator.apply(result, element)</span><br><span class="line">     <span class="keyword">return</span> result;</span><br></pre></td></tr></table></figure>
+<p>此方法通常用于将map和reduce操作的结合来使用。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/27/java/Java8的lambda表达式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/27/java/Java8的lambda表达式/" itemprop="url">Java8的lambda表达式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-27T10:29:44+08:00">2018-02-27</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="为什么使用lambda表达式？"><a href="#为什么使用lambda表达式？" class="headerlink" title="为什么使用lambda表达式？"></a>为什么使用lambda表达式？</h3><blockquote>
+<p>Lambda表达式允许将函数作为方法的参数，或者将code作为数据。使得代码简洁，可读性较高。</p>
+</blockquote>
+<h3 id="Lambda表达式的格式"><a href="#Lambda表达式的格式" class="headerlink" title="Lambda表达式的格式"></a>Lambda表达式的格式</h3><blockquote>
+<p>（attr1,attr2,…..）-&gt;函数体</p>
+</blockquote>
+<p>左边是参数，当参数为1个时，可以没有括号，比如：<code>e-&gt;e+2</code><br>当参数为0个时，用括号表示,比如:<code>()-&gt;System.out.println(&quot;表达式&quot;)</code></p>
+<p>如果函数体为一行，那么就没有必须显示的使用return语句，比如，下面的两个代码是等价的：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Arrays.asList( <span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"d"</span> ).sort( ( e1, e2 ) -&gt; e1.compareTo( e2 ) );</span><br><span class="line">Arrays.asList( <span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"d"</span> ).sort( ( e1, e2 ) -&gt; &#123;</span><br><span class="line">    <span class="keyword">int</span> result = e1.compareTo( e2 );</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125; );</span><br></pre></td></tr></table></figure></p>
+<p>如果函数体为多行，则需要将函数体用花括号”{ }”括起来，表达式用分号结尾。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Arrays.asList( <span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"d"</span> ).sort( ( e1, e2 ) -&gt; &#123;</span><br><span class="line">    <span class="keyword">int</span> result = e1.compareTo( e2 );</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125; );</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/26/sql/mysql/mysql分组取最大N条记录/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1001,594 +1790,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/22/linux/ubuntu/systemd配置tomcat开机自启动/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sam guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sam Home">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/22/linux/ubuntu/systemd配置tomcat开机自启动/" itemprop="url">systemd配置tomcat开机自启动</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-22T14:29:44+08:00">2018-02-22</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/运维/" itemprop="url" rel="index"><span itemprop="name">运维</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="添加Tomcat启动参数配置"><a href="#添加Tomcat启动参数配置" class="headerlink" title="添加Tomcat启动参数配置"></a>添加Tomcat启动参数配置</h3><p><code>catalina.sh</code>在执行的时候会调用同级路径下的<code>setenv.sh</code>来设置额外的环境变量，因此需要在<code>/opt/tomcat/bin</code>路径下创建<code>setenv.sh</code>文件。<br><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">export JAVA_HOME=/opt/jdk</span><br><span class="line">export JRE_HOME=$JAVA_HOME/jre</span><br><span class="line"></span><br><span class="line">export CATALINA_HOME=/opt/tomcat</span><br><span class="line">export CATALINA_BASE=/opt/tomcat</span><br><span class="line"><span class="comment">#设置Tomcat的PID文件</span></span><br><span class="line"><span class="attr">CATALINA_PID</span>=<span class="string">"$CATALINA_BASE/tomcat.pid"</span></span><br><span class="line"><span class="comment">#添加JVM选项</span></span><br><span class="line"><span class="attr">JAVA_OPTS</span>=<span class="string">"-server -XX:PermSize=256M -XX:MaxPermSize=1024m -Xms512M -Xmx1024M -XX:MaxNewSize=256m -Duser.timezone=GMT+08"</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="编写tomcat-service文件"><a href="#编写tomcat-service文件" class="headerlink" title="编写tomcat.service文件"></a>编写tomcat.service文件</h3><p>在<code>/usr/lib/systemd/system</code>路径下添加<code>tomcat.service</code>文件。<br><strong>注意：文件中目录路径必须是绝对路径</strong></p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="attr">Description</span>=Tomcat8</span><br><span class="line"><span class="attr">After</span>=syslog.target network.target remote-fs.target nss-lookup.target</span><br><span class="line"></span><br><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">Type</span>=forking</span><br><span class="line"><span class="attr">PIDFile</span>=/opt/tomcat/tomcat.pid</span><br><span class="line"><span class="attr">ExecStart</span>=/opt/tomcat/bin/startup.sh</span><br><span class="line"><span class="attr">ExecReload</span>=/opt/tomcat/bin/shutdown.sh</span><br><span class="line"><span class="attr">ExecStop</span>=/opt/tomcat/bin/shutdown.sh</span><br><span class="line"><span class="attr">PrivateTmp</span>=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="section">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span>=multi-user.target</span><br></pre></td></tr></table></figure>
-<ul>
-<li><code>[unit]</code>配置了服务的描述，规定了在network启动之后执行， </li>
-<li><code>[service]</code>配置服务的pid，服务的启动，停止，重启 </li>
-<li><code>[install]</code>配置了使用用户</li>
-</ul>
-<h3 id="测试脚本"><a href="#测试脚本" class="headerlink" title="测试脚本"></a>测试脚本</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">systemctl enable tomcat  # 设置开机自启动</span><br><span class="line">Created symlink from /etc/systemd/system/multi-user.target.wants/tomcat.service   </span><br><span class="line">to /usr/lib/systemd/system/tomcat.service.       # 自动创建软连接</span><br><span class="line"></span><br><span class="line">systemctl disable tomcat # 禁用开机启动</span><br><span class="line">systemctl daemon-reload # 刷新配置</span><br><span class="line"></span><br><span class="line">systemctl start tomcat  # 启动tomcat服务</span><br><span class="line">systemctl status tomcat # 查看tomcat服务状态</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/02/sql/oracle/oracle备份还原/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sam guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sam Home">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/02/sql/oracle/oracle备份还原/" itemprop="url">oracle备份还原</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-02T14:29:44+08:00">2018-02-02</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="查看表结构"><a href="#查看表结构" class="headerlink" title="查看表结构"></a>查看表结构</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> dbms_metadata.get_ddl(<span class="string">'TABLE'</span>,<span class="string">'TABLE_NAME'</span>) <span class="keyword">from</span> dual;</span><br><span class="line"></span><br><span class="line">DBMS_METADATA.GET_DDL (</span><br><span class="line">object_type     IN VARCHAR2,</span><br><span class="line">name            IN VARCHAR2,</span><br><span class="line">schema          IN VARCHAR2 DEFAULT NULL,</span><br><span class="line">version         IN VARCHAR2 DEFAULT 'COMPATIBLE',</span><br><span class="line">model           IN VARCHAR2 DEFAULT 'ORACLE',</span><br><span class="line">transform       IN VARCHAR2 DEFAULT 'DDL')</span><br><span class="line">RETURN CLOB;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> DBMS_METADATA.GET_DDL(<span class="string">'TABLE'</span>,<span class="string">'EMP'</span>,<span class="string">'SCOTT'</span>)</span><br><span class="line"><span class="keyword">FROM</span> DUAL;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> DBMS_METADATA.GET_DDL(<span class="string">'INDEX'</span>,<span class="string">'IDX_EMP'</span>,<span class="string">'SCOTT'</span>)</span><br><span class="line"><span class="keyword">FROM</span> DUAL;</span><br></pre></td></tr></table></figure>
-<h3 id="备份"><a href="#备份" class="headerlink" title="备份"></a>备份</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">declare</span></span><br><span class="line">          h1   <span class="built_in">NUMBER</span>;</span><br><span class="line">          l1   varchar2(20);</span><br><span class="line">         <span class="keyword">begin</span></span><br><span class="line">             h1 := dbms_datapump.open (operation =&gt; <span class="string">'EXPORT'</span>, job_mode =&gt; <span class="string">'SCHEMA'</span>, job_name =&gt; <span class="string">'JOB_EXP1'</span>, <span class="keyword">version</span> =&gt; <span class="string">'COMPATIBLE'</span>); </span><br><span class="line">           dbms_datapump.set_parallel(handle =&gt; h1, degree =&gt; 1); </span><br><span class="line">           dbms_datapump.add_file(handle =&gt; h1, filename =&gt; 'EXPDAT.LOG', directory =&gt; 'DATA_PUMP_DIR', filetype =&gt; 3); </span><br><span class="line">           dbms_datapump.set_parameter(handle =&gt; h1, name =&gt; 'KEEP_MASTER', value =&gt; 0); </span><br><span class="line">           dbms_datapump.metadata_filter(handle =&gt; h1, name =&gt; 'SCHEMA_EXPR', value =&gt; 'IN(''sam_300'')'); </span><br><span class="line">           dbms_datapump.add_file(handle =&gt; h1, filename =&gt; 'sam_300_DB.DMP', directory =&gt; 'DATA_PUMP_DIR', filetype =&gt; 1); </span><br><span class="line">           dbms_datapump.set_parameter(handle =&gt; h1, name =&gt; 'INCLUDE_METADATA', value =&gt; 1); </span><br><span class="line">           dbms_datapump.set_parameter(handle =&gt; h1, name =&gt; 'DATA_ACCESS_METHOD', value =&gt; 'AUTOMATIC'); </span><br><span class="line">           dbms_datapump.set_parameter(handle =&gt; h1, name =&gt; 'ESTIMATE', value =&gt; 'BLOCKS'); </span><br><span class="line">           dbms_datapump.start_job(handle =&gt; h1, skip_current =&gt; 0, abort_step =&gt; 0); </span><br><span class="line">           dbms_datapump.wait_for_job(handle =&gt; h1, job_state =&gt; l1);</span><br><span class="line">           dbms_datapump.detach(handle =&gt; h1); </span><br><span class="line">        <span class="keyword">end</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 2、注意：</span></span><br><span class="line">A、 'IN(''CHY'')' 中的CHY为PL\SQL登陆的用户名，待备份的用户，注意用大写。</span><br><span class="line">B、filename =&gt; 'CHYDB.DMP'中的CHYDB是指定的备份出的dmp文件名称，注意用大写。</span><br><span class="line"><span class="comment">-- 3、待plsql中执行完成，从下面查询获取备份文件的路径，并将dmp文件可以拷贝出来</span></span><br><span class="line"><span class="keyword">SELECT</span> directory_path <span class="keyword">FROM</span> dba_directories <span class="keyword">WHERE</span> directory_name=<span class="string">'DATA_PUMP_DIR'</span>;</span><br></pre></td></tr></table></figure>
-<h3 id="还原"><a href="#还原" class="headerlink" title="还原"></a>还原</h3><h4 id="在新装好的oracle里，用plsql以system登录先创建用户"><a href="#在新装好的oracle里，用plsql以system登录先创建用户" class="headerlink" title="在新装好的oracle里，用plsql以system登录先创建用户"></a>在新装好的oracle里，用plsql以system登录先创建用户</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*创建用户分为四步 */</span></span><br><span class="line"><span class="comment">/*第1步：创建临时表空间  */</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">temporary</span> <span class="keyword">tablespace</span> user_temp  </span><br><span class="line">tempfile <span class="string">'D:\orcldata\user_temp.dbf'</span> </span><br><span class="line"><span class="keyword">size</span> <span class="number">50</span>m  </span><br><span class="line"><span class="keyword">autoextend</span> <span class="keyword">on</span>  </span><br><span class="line"><span class="keyword">next</span> <span class="number">50</span>m <span class="keyword">maxsize</span> <span class="number">20480</span>m  </span><br><span class="line"><span class="keyword">extent</span> <span class="keyword">management</span> <span class="keyword">local</span>;  </span><br><span class="line"> </span><br><span class="line"><span class="comment">/*第2步：创建数据表空间  */</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">tablespace</span> <span class="keyword">user_data</span>  </span><br><span class="line"><span class="keyword">logging</span>  </span><br><span class="line"><span class="keyword">datafile</span> <span class="string">'D:\orcldata\user_data.dbf'</span> </span><br><span class="line"><span class="keyword">size</span> <span class="number">50</span>m  </span><br><span class="line"><span class="keyword">autoextend</span> <span class="keyword">on</span>  </span><br><span class="line"><span class="keyword">next</span> <span class="number">50</span>m <span class="keyword">maxsize</span> <span class="number">20480</span>m  </span><br><span class="line"><span class="keyword">extent</span> <span class="keyword">management</span> <span class="keyword">local</span>;  </span><br><span class="line"> </span><br><span class="line"><span class="comment">/*第3步：创建用户并指定表空间  */</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> sam_300 <span class="keyword">identified</span> <span class="keyword">by</span> sam123  </span><br><span class="line"><span class="keyword">default</span> <span class="keyword">tablespace</span> <span class="keyword">user_data</span>  </span><br><span class="line"><span class="keyword">temporary</span> <span class="keyword">tablespace</span> user_temp;  </span><br><span class="line"> </span><br><span class="line"><span class="comment">/*第4步：给用户授予权限  */</span></span><br><span class="line"><span class="keyword">grant</span> <span class="keyword">connect</span>,<span class="keyword">resource</span>,dba <span class="keyword">to</span> sam_300;</span><br></pre></td></tr></table></figure>
-<h4 id="、然后创建目录别名"><a href="#、然后创建目录别名" class="headerlink" title="、然后创建目录别名"></a>、然后创建目录别名</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">or</span> <span class="keyword">replace</span> <span class="keyword">directory</span> orabak  <span class="keyword">as</span>  <span class="string">'d://orclbak'</span>;</span><br></pre></td></tr></table></figure>
-<h4 id="打开CMD命令程序运行-由于安装的服务器系统是中文的所以要设置字符集"><a href="#打开CMD命令程序运行-由于安装的服务器系统是中文的所以要设置字符集" class="headerlink" title="打开CMD命令程序运行,由于安装的服务器系统是中文的所以要设置字符集"></a>打开CMD命令程序运行,由于安装的服务器系统是中文的所以要设置字符集</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> NLS_LANG=AMERICAN_AMERICA.UTF8</span><br><span class="line"></span><br><span class="line"><span class="comment">/*修改dmp文件名和日志名（备份要在d://orclbak）*/</span></span><br><span class="line"><span class="comment">/*语句二选一*/</span></span><br><span class="line"><span class="comment">/*用户名都是sam_300*/</span></span><br><span class="line">impdp <span class="keyword">system</span>/sam123 <span class="keyword">directory</span>=orabak <span class="keyword">dumpfile</span>=sam_300_EXPDP_2017<span class="number">-05</span><span class="number">-14</span>_BAK.DMP <span class="keyword">logfile</span>=impdp_sam_300_EXPDP_2017<span class="number">-05</span><span class="number">-14.</span><span class="keyword">log</span> schemas=sam_300 transform=<span class="keyword">oid</span>:n</span><br><span class="line"><span class="comment">/*用户名是其他，还要修改新用户名*/</span></span><br><span class="line">impdp <span class="keyword">system</span>/sam123 <span class="keyword">directory</span>=orabak <span class="keyword">dumpfile</span>=sam_300_EXPDP_2017<span class="number">-05</span><span class="number">-14</span>_BAK.DMP <span class="keyword">logfile</span>=impdp_sam_300_EXPDP_2017<span class="number">-05</span><span class="number">-14.</span><span class="keyword">log</span> remap_schema=sam_300:sam_300_2 transform=<span class="keyword">oid</span>:n</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/01/sql/oracle/oracle临时表空间/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sam guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sam Home">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/01/sql/oracle/oracle临时表空间/" itemprop="url">oracle临时表空间</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-01T14:29:44+08:00">2018-02-01</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="查询临时表空间的空闲程度："><a href="#查询临时表空间的空闲程度：" class="headerlink" title="查询临时表空间的空闲程度："></a>查询临时表空间的空闲程度：</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="string">'the '</span> || <span class="keyword">name</span> || <span class="string">' temp tablespaces '</span> || tablespace_name ||</span><br><span class="line">       <span class="string">' idle '</span> ||</span><br><span class="line">       <span class="keyword">round</span>(<span class="number">100</span> - (s.tot_used_blocks / s.total_blocks) * <span class="number">100</span>, <span class="number">3</span>) ||</span><br><span class="line">       <span class="string">'% at '</span> || to_char(<span class="keyword">sysdate</span>, <span class="string">'yyyymmddhh24miss'</span>)</span><br><span class="line">  <span class="keyword">from</span> (<span class="keyword">select</span> d.tablespace_name tablespace_name,</span><br><span class="line">               nvl(<span class="keyword">sum</span>(used_blocks), <span class="number">0</span>) tot_used_blocks,</span><br><span class="line">               <span class="keyword">sum</span>(blocks) total_blocks</span><br><span class="line">          <span class="keyword">from</span> v$sort_segment v, dba_temp_files d</span><br><span class="line">         <span class="keyword">where</span> d.tablespace_name = v.tablespace_name(+)</span><br><span class="line">         <span class="keyword">group</span> <span class="keyword">by</span> d.tablespace_name) s,</span><br><span class="line">       v$<span class="keyword">database</span>;</span><br></pre></td></tr></table></figure>
-<h3 id="有必要时创建一个新的临时表空间"><a href="#有必要时创建一个新的临时表空间" class="headerlink" title="有必要时创建一个新的临时表空间"></a>有必要时创建一个新的临时表空间</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">temporary</span> <span class="keyword">tablespace</span> TEMP04 TEMPFILE </span><br><span class="line"><span class="string">'D:\APP\ADMINISTRATOR\ORADATA\ORCL\TEMP04_01.DBF'</span> <span class="keyword">SIZE</span> <span class="number">32767</span>M </span><br><span class="line"><span class="keyword">REUSE</span> <span class="keyword">AUTOEXTEND</span> <span class="keyword">ON</span> <span class="keyword">NEXT</span> <span class="number">128</span>M <span class="keyword">MAXSIZE</span> <span class="keyword">UNLIMITED</span>;</span><br></pre></td></tr></table></figure>
-<h3 id="有必要时增加临时表空间文件"><a href="#有必要时增加临时表空间文件" class="headerlink" title="有必要时增加临时表空间文件"></a>有必要时增加临时表空间文件</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLESPACE</span> TEMP04 <span class="keyword">ADD</span> TEMPFILE <span class="string">'D:\APP\ADMINISTRATOR\ORADATA\ORCL\TEMP04_02.DBF'</span> </span><br><span class="line"> <span class="keyword">SIZE</span> <span class="number">32767</span>M  <span class="keyword">AUTOEXTEND</span> <span class="keyword">ON</span> <span class="keyword">NEXT</span> <span class="number">128</span>M <span class="keyword">MAXSIZE</span> <span class="keyword">unlimited</span>;</span><br></pre></td></tr></table></figure>
-<h3 id="有必要时更改默认临时表空间"><a href="#有必要时更改默认临时表空间" class="headerlink" title="有必要时更改默认临时表空间"></a>有必要时更改默认临时表空间</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">database</span> <span class="keyword">default</span> <span class="keyword">temporary</span> <span class="keyword">tablespace</span> TEMP04;</span><br></pre></td></tr></table></figure>
-<h3 id="有必要时删除原有临时表空间"><a href="#有必要时删除原有临时表空间" class="headerlink" title="有必要时删除原有临时表空间"></a>有必要时删除原有临时表空间</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">tablespace</span> TEMP03 <span class="keyword">including</span> <span class="keyword">contents</span> <span class="keyword">and</span> <span class="keyword">datafiles</span>;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/01/linux/SSH免密登录配置/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Sam guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Sam Home">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/01/linux/SSH免密登录配置/" itemprop="url">SSH免密登录配置</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-01T14:29:44+08:00">2018-02-01</time>
-            
-
-            
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/运维/" itemprop="url" rel="index"><span itemprop="name">运维</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="配置SSH无密码登录需要3步："><a href="#配置SSH无密码登录需要3步：" class="headerlink" title="配置SSH无密码登录需要3步："></a>配置SSH无密码登录需要3步：</h3><h4 id="生成公钥和私钥"><a href="#生成公钥和私钥" class="headerlink" title="生成公钥和私钥"></a>生成公钥和私钥</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa</span><br></pre></td></tr></table></figure>
-<p>　<br>默认在<code>~/.ssh</code>目录生成两个文件：<code>id_rsa</code>(私钥)、<code>id_rsa.pub</code>(公钥)</p>
-<h4 id="导入公钥到认证文件-更改权限"><a href="#导入公钥到认证文件-更改权限" class="headerlink" title="导入公钥到认证文件,更改权限"></a>导入公钥到认证文件,更改权限</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 导入本机</span><br><span class="line">cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 导入要免密码登录的服务器,首先将公钥复制到服务器</span><br><span class="line">scp ~/.ssh/id_rsa.pub xxx@host:/home/xxx/id_rsa.pub</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 然后，将公钥导入到认证文件，这一步的操作在服务器上进行</span><br><span class="line">cat ~/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 在服务器上更改权限</span><br><span class="line">chmod 700 ~/.ssh</span><br><span class="line">chmod 600 ~/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
-<h4 id="测试，第一次登录可能需要yes确认，之后就可以直接登录了。"><a href="#测试，第一次登录可能需要yes确认，之后就可以直接登录了。" class="headerlink" title="测试，第一次登录可能需要yes确认，之后就可以直接登录了。"></a>测试，第一次登录可能需要<code>yes</code>确认，之后就可以直接登录了。</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh sam@192.168.1.2</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1631,7 +1837,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-count">34</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
