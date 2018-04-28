@@ -573,6 +573,150 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/01/linux/SSH免密登录配置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Sam guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sam Home">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/01/linux/SSH免密登录配置/" itemprop="url">SSH免密登录配置</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-01T14:29:44+08:00">2018-02-01</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/运维/" itemprop="url" rel="index"><span itemprop="name">运维</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="配置SSH无密码登录需要3步："><a href="#配置SSH无密码登录需要3步：" class="headerlink" title="配置SSH无密码登录需要3步："></a>配置SSH无密码登录需要3步：</h3><h4 id="生成公钥和私钥"><a href="#生成公钥和私钥" class="headerlink" title="生成公钥和私钥"></a>生成公钥和私钥</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa</span><br></pre></td></tr></table></figure>
+<p>　<br>默认在<code>~/.ssh</code>目录生成两个文件：<code>id_rsa</code>(私钥)、<code>id_rsa.pub</code>(公钥)</p>
+<h4 id="导入公钥到认证文件-更改权限"><a href="#导入公钥到认证文件-更改权限" class="headerlink" title="导入公钥到认证文件,更改权限"></a>导入公钥到认证文件,更改权限</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 导入本机</span><br><span class="line">cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 导入要免密码登录的服务器,首先将公钥复制到服务器</span><br><span class="line">scp ~/.ssh/id_rsa.pub xxx@host:/home/xxx/id_rsa.pub</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 然后，将公钥导入到认证文件，这一步的操作在服务器上进行</span><br><span class="line">cat ~/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 在服务器上更改权限</span><br><span class="line">chmod 700 ~/.ssh</span><br><span class="line">chmod 600 ~/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
+<h4 id="测试，第一次登录可能需要yes确认，之后就可以直接登录了。"><a href="#测试，第一次登录可能需要yes确认，之后就可以直接登录了。" class="headerlink" title="测试，第一次登录可能需要yes确认，之后就可以直接登录了。"></a>测试，第一次登录可能需要<code>yes</code>确认，之后就可以直接登录了。</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh sam@192.168.1.2</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/01/sql/oracle/oracle临时表空间/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -718,7 +862,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/01/linux/SSH免密登录配置/">
+    <link itemprop="mainEntityOfPage" href="http://samhome.cn/2018/02/01/linux/fabric管理多台服务器/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Sam guo">
@@ -737,7 +881,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/02/01/linux/SSH免密登录配置/" itemprop="url">SSH免密登录配置</a></h1>
+                <a class="post-title-link" href="/2018/02/01/linux/fabric管理多台服务器/" itemprop="url">fabric管理多台服务器</a></h1>
         
 
         <div class="post-meta">
@@ -806,10 +950,9 @@
       
         
           
-            <h3 id="配置SSH无密码登录需要3步："><a href="#配置SSH无密码登录需要3步：" class="headerlink" title="配置SSH无密码登录需要3步："></a>配置SSH无密码登录需要3步：</h3><h4 id="生成公钥和私钥"><a href="#生成公钥和私钥" class="headerlink" title="生成公钥和私钥"></a>生成公钥和私钥</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa</span><br></pre></td></tr></table></figure>
-<p>　<br>默认在<code>~/.ssh</code>目录生成两个文件：<code>id_rsa</code>(私钥)、<code>id_rsa.pub</code>(公钥)</p>
-<h4 id="导入公钥到认证文件-更改权限"><a href="#导入公钥到认证文件-更改权限" class="headerlink" title="导入公钥到认证文件,更改权限"></a>导入公钥到认证文件,更改权限</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 导入本机</span><br><span class="line">cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 导入要免密码登录的服务器,首先将公钥复制到服务器</span><br><span class="line">scp ~/.ssh/id_rsa.pub xxx@host:/home/xxx/id_rsa.pub</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 然后，将公钥导入到认证文件，这一步的操作在服务器上进行</span><br><span class="line">cat ~/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 在服务器上更改权限</span><br><span class="line">chmod 700 ~/.ssh</span><br><span class="line">chmod 600 ~/.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
-<h4 id="测试，第一次登录可能需要yes确认，之后就可以直接登录了。"><a href="#测试，第一次登录可能需要yes确认，之后就可以直接登录了。" class="headerlink" title="测试，第一次登录可能需要yes确认，之后就可以直接登录了。"></a>测试，第一次登录可能需要<code>yes</code>确认，之后就可以直接登录了。</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh sam@192.168.1.2</span><br></pre></td></tr></table></figure>
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fab -f fab.py -u root -p root myip</span><br></pre></td></tr></table></figure>
+<p>脚本如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python</span><br><span class="line"># encoding: utf-8</span><br><span class="line">from fabric.api import local,cd,run,env</span><br><span class="line">env.hosts=[&apos;esr@192.168.1.3&apos;,&apos;esr@192.168.1.4&apos;] #ssh要用到的参数</span><br><span class="line">env.password = &apos;123456&apos;</span><br><span class="line"></span><br><span class="line">def update():</span><br><span class="line">    with lcd(&apos;/home/sam/IdeaProjects/project &apos;) :</span><br><span class="line">         put(&apos; project  ~/&apos;)</span><br><span class="line"></span><br><span class="line">def myip():</span><br><span class="line">    with cd(&apos;~/&apos;):</span><br><span class="line">        run(&apos;./ip.sh&apos;)</span><br><span class="line">    #run(&quot; curl icanhazip.com | awk &apos;\&apos;&apos;&#123; print strftime(\&quot;%Y-%m-%d %H:%M:%S\&quot;,systime()) \&quot;\t\&quot; $0 &#125; &apos;\&apos;&apos; | tee -a ~/ip.txt &quot;)</span><br><span class="line"></span><br><span class="line">def cat():</span><br><span class="line">    run(&apos; cat ~/ip.txt | tail -12&apos;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def clean():</span><br><span class="line">    run(&quot;echo &apos;&apos;&gt;~/ip.txt &quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#local(&apos;pwd&apos;)                     -- 执行本地命令</span><br><span class="line">#lcd(&apos;/tmp&apos;)                      -- 切换本地目录</span><br><span class="line">#cd(&apos;/tmp&apos;)                       -- 切换远程目录</span><br><span class="line">#run(&apos;uname -a&apos;)                  -- 执行远程命令</span><br><span class="line">#sudo(&apos;/etc/init.d/nginx start&apos;)  -- 执行远程sudo，注意pty选项</span><br></pre></td></tr></table></figure></p>
+
           
         
       
@@ -894,7 +1037,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-count">35</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -964,7 +1107,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">17</span>
+                      
+                    
+                    <span class="site-state-item-count">18</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
